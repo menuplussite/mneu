@@ -119,28 +119,28 @@
         /* ----------------------------------------------------- */
         .animate-card { opacity: 0; }
 
-        /* 1. تأثير الصعود لأعلى (للمشروبات الساخنة) */
+        /* 1. تأثير الصعود لأعلى */
         .anim-fade-up.visible { animation: fadeUpAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         @keyframes fadeUpAnim { 
             from { opacity: 0; transform: translateY(60px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
 
-        /* 2. تأثير التكبير (للسحلب) */
+        /* 2. تأثير التكبير */
         .anim-scale.visible { animation: scaleAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         @keyframes scaleAnim { 
             from { opacity: 0; transform: scale(0.9); } 
             to { opacity: 1; transform: scale(1); } 
         }
 
-        /* 3. تأثير الانزلاق من اليمين (للعصائر) */
+        /* 3. تأثير الانزلاق من اليمين */
         .anim-slide-right.visible { animation: slideRightAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         @keyframes slideRightAnim { 
             from { opacity: 0; transform: translateX(60px); } 
             to { opacity: 1; transform: translateX(0); } 
         }
 
-        /* 4. تأثير القفز المرن (للصودا) */
+        /* 4. تأثير القفز المرن */
         .anim-bounce.visible { animation: bounceAnim 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         @keyframes bounceAnim { 
             0% { opacity: 0; transform: translateY(40px); } 
@@ -148,14 +148,14 @@
             100% { opacity: 1; transform: translateY(0); } 
         }
 
-        /* 5. تأثير الدوران (للميلك شيك) */
+        /* 5. تأثير الدوران */
         .anim-twist.visible { animation: twistAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         @keyframes twistAnim { 
             from { opacity: 0; transform: rotate(-4deg) translateY(40px); } 
             to { opacity: 1; transform: rotate(0) translateY(0); } 
         }
 
-        /* 6. تأثير الانبثاق (للركن المميز) */
+        /* 6. تأثير الانبثاق */
         .anim-pop.visible { animation: popAnim 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes popAnim { 
             0% { opacity: 0; transform: scale(0.8) translateY(20px); } 
@@ -178,7 +178,6 @@
         @keyframes itemFadeIn {
             to { opacity: 1; transform: translateY(0); }
         }
-
     </style>
 </head>
 <body class="font-body antialiased relative pb-24" id="main-body">
@@ -226,7 +225,7 @@
         <button onclick="document.getElementById('search-input').value=''; filterMenu();" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-extrabold text-sm shadow-lg hover:scale-105 transition-transform mt-2">عرض المنيو بالكامل</button>
     </div>
 
-    <!-- شريط التصفح للأقسام -->
+    <!-- شريط التصفح للأقسام (9 أقسام) -->
     <div class="sticky top-0 z-40 bg-[#08080a]/95 backdrop-blur-xl pt-4 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-cafe-gold/20 mb-8" id="nav-chip-container">
         <div class="flex overflow-x-auto hide-scrollbar gap-2.5 pb-1 px-1 snap-x">
             <button onclick="scrollToSection('hot-drinks', this)" class="nav-chip active snap-start flex items-center gap-2"><i class="fas fa-mug-hot"></i> ساخن</button>
@@ -234,6 +233,9 @@
             <button onclick="scrollToSection('fresh-juices', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-glass-citrus"></i> عصائر</button>
             <button onclick="scrollToSection('soda', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-bottle-water"></i> صودا</button>
             <button onclick="scrollToSection('milkshake', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-blender"></i> شيك</button>
+            <button onclick="scrollToSection('cocktails', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-martini-glass-citrus"></i> كوكتيلات</button>
+            <button onclick="scrollToSection('ice-cream', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-ice-cream"></i> آيس كريم</button>
+            <button onclick="scrollToSection('rice-pudding', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-bowl-rice"></i> حلو</button>
             <button onclick="scrollToSection('special-corner', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-star"></i> مميز</button>
         </div>
     </div>
@@ -249,7 +251,7 @@
 </footer>
 
 <script>
-    // --- بيانات المنيو كاملة ---
+    // --- بيانات المنيو كاملة (9 أقسام مدمجة) ---
     const menuData = [
         {
             id: 'hot-drinks', title: 'المشروبات الساخنة', icon: 'fa-mug-hot', img: 'https://i.pinimg.com/736x/33/7e/c0/337ec0bb236800d4153acbf975ff6810.jpg',
@@ -272,12 +274,24 @@
             items: [['ميلك شيك فانيليا', 35], ['ميلك شيك مانجا', 40], ['ميلك شيك فراولة', 40], ['ميلك شيك لوتس', 40], ['أيس بوريو', 50]]
         },
         {
-            id: 'special-corner', title: 'الركن المميز & الحلويات', icon: 'fa-star', img: 'https://i.pinimg.com/736x/96/76/23/9676236929ace4bd2a860ba7a8c1e948.jpg',
-            items: [['حمص الشام', 25], ['كنافة حليب بالقشطة', 35], ['طاجن أم علي بالقشطة', 50], ['أرز بلبن أوريو', 30], ['أرز بلبن مكسرات', 25], ['طبق بسبوسة', 25]]
+            id: 'cocktails', title: 'كوكتيلات', icon: 'fa-martini-glass-citrus', img: 'https://i.pinimg.com/736x/7f/a9/63/7fa9637a00bf54f1b48edf67ca5e78f0.jpg',
+            items: [['كوكتيل الكورنيش', 60], ['قنبلة', 60], ['فروت سالاد (سلطة فواكه)', 50]]
+        },
+        {
+            id: 'ice-cream', title: 'الآيس كريم والزبادي', icon: 'fa-ice-cream', img: 'https://i.pinimg.com/1200x/22/a7/d0/22a7d0ce7700f7169b5990609f5d458f.jpg',
+            items: [['آيس كريم ميكس 4 بولة', 25], ['آيس كريم ميكس 5 بولة', 30], ['آيس كريم فواكه', 35], ['زبادي سادة', 30], ['زبادي مانجا', 35], ['زبادي فراولة', 35]]
+        },
+        {
+            id: 'rice-pudding', title: 'أرز بلبن والحلو', icon: 'fa-bowl-rice', img: 'https://i.pinimg.com/736x/77/9e/63/779e63849edfa767274a125c1d6f21fd.jpg',
+            items: [['أرز بلبن أوريو', 30], ['أرز بلبن مكسرات', 25], ['أرز بلبن بسبوسة', 30], ['طبق بسبوسة مكسرات', 25]]
+        },
+        {
+            id: 'special-corner', title: 'الركن المميز', icon: 'fa-star', img: 'https://i.pinimg.com/736x/96/76/23/9676236929ace4bd2a860ba7a8c1e948.jpg',
+            items: [['حمص الشام', 25], ['كنافة حليب بالقشطة', 35], ['طاجن أم علي بالقشطة', 50]]
         }
     ];
 
-    // --- تعيين الأنيميشن لكل قسم ---
+    // --- تعيين الأنيميشن لكل قسم (تأثيرات متنوعة) ---
     function getAnimationClass(id) {
         switch(id) {
             case 'hot-drinks': return 'anim-fade-up';
@@ -285,12 +299,15 @@
             case 'fresh-juices': return 'anim-slide-right';
             case 'soda': return 'anim-bounce';
             case 'milkshake': return 'anim-twist';
+            case 'cocktails': return 'anim-fade-up';
+            case 'ice-cream': return 'anim-scale';
+            case 'rice-pudding': return 'anim-slide-right';
             case 'special-corner': return 'anim-pop';
             default: return 'anim-fade-up';
         }
     }
 
-    // --- نظام الـ Intersection Observer لظهور الأقسام ---
+    // --- نظام الـ Intersection Observer لظهور الأقسام بمرونة ---
     const observerOptions = {
         root: null,
         rootMargin: '0px',
@@ -301,13 +318,12 @@
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // إيقاف المراقبة بعد أول ظهور لعدم تكرار الأنيميشن
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // --- نظام البحث والريندر ---
+    // --- نظام البحث والريندر الديناميكي ---
     function renderMenu(query = '') {
         const container = document.getElementById('menu-container');
         const noResults = document.getElementById('no-results');
