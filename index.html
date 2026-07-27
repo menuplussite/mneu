@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منيو كافيه الكورنيش</title>
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
@@ -11,15 +13,15 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@500;700;800;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'cafe-black': '#0a0a0a',
-                        'cafe-dark': '#121212',
+                        'cafe-black': '#050505',
+                        'cafe-dark': '#111111',
                         'cafe-gold': '#FADB5F', 
                         'cafe-gold-dark': '#d4b73e',
                     },
@@ -34,425 +36,401 @@
 
     <style>
         body {
-            background-color: #0a0a0a;
-            color: white;
+            background-color: #08080a;
+            color: #ffffff;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #0a0a0a 70%);
+            background-image: radial-gradient(circle at 50% 0%, #151515 0%, #050505 80%);
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #FADB5F; border-radius: 10px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #08080a; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FADB5F 0%, #d4b73e 100%); border-radius: 9999px; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         .dotted-leader {
             flex-grow: 1;
-            border-bottom: 2px dotted #333;
-            margin: 0 15px;
+            border-bottom: 2px dotted rgba(255, 255, 255, 0.2);
+            margin: 0 12px;
             position: relative;
-            top: -6px;
-            opacity: 0.5;
-            transition: border-color 0.3s ease;
+            top: -4px;
+            transition: all 0.3s ease;
         }
 
-        /* تنسيق السعر للحفاظ على اللون الذهبي بعد إزالة الجافاسكريبت */
-        .price-val {
-            color: #FADB5F;
-            font-weight: bold;
-            white-space: nowrap;
+        .price-val { color: #FADB5F; font-weight: 800; font-size: 1.1rem; white-space: nowrap; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .item-name { font-weight: 700; font-size: 1.05rem; color: #f1f1f1; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+
+        /* نبض العنوان */
+        @keyframes floatGlowPulse {
+            0%, 100% { text-shadow: 0 0 12px rgba(250, 219, 95, 0.5); transform: translateY(0) scale(1); }
+            50% { text-shadow: 0 0 25px rgba(250, 219, 95, 1), 0 0 45px #FADB5F; transform: translateY(-8px) scale(1.03); }
+        }
+        .title-animated { display: inline-block; animation: floatGlowPulse 2.8s ease-in-out infinite; }
+
+        /* إعدادات الكروت الأساسية */
+        .menu-card { 
+            position: relative; 
+            border-radius: 1.25rem; 
+            z-index: 1; 
+            margin-bottom: 2.5rem; 
+            transition: all 0.5s ease; 
         }
 
-        /* حركات فتح وإغلاق القوائم */
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.6s ease-in-out, opacity 0.5s ease-in-out, margin 0.5s ease-in-out;
-            opacity: 0;
-            margin-top: 0;
+        .card-inner { 
+            background: #111; 
+            border-radius: 1.25rem; 
+            overflow: hidden; 
+            height: 100%; 
+            position: relative; 
+            border: 1px solid rgba(255,255,255,0.08); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
-        .accordion-content.open { max-height: 2500px; opacity: 1; margin-top: 1.5rem; }
+        .card-inner:hover {
+            border-color: rgba(250, 219, 95, 0.3);
+        }
+
+        /* الأكورديون (القوائم) */
+        .accordion-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease; 
+            opacity: 0; 
+        }
+        .accordion-content.open { 
+            max-height: 3000px; 
+            opacity: 1; 
+            margin-top: 1rem; 
+        }
         .accordion-icon { transition: transform 0.4s ease; }
         .accordion-header.open .accordion-icon { transform: rotate(180deg); }
 
-        /* الأنيميشن السلس للأصناف عند فتح القسم */
-        .accordion-content .menu-item {
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .accordion-content.open .menu-item {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .accordion-content .menu-item:nth-child(1) { transition-delay: 0.05s; }
-        .accordion-content .menu-item:nth-child(2) { transition-delay: 0.10s; }
-        .accordion-content .menu-item:nth-child(3) { transition-delay: 0.15s; }
-        .accordion-content .menu-item:nth-child(4) { transition-delay: 0.20s; }
-        .accordion-content .menu-item:nth-child(5) { transition-delay: 0.25s; }
-        .accordion-content .menu-item:nth-child(6) { transition-delay: 0.30s; }
-        .accordion-content .menu-item:nth-child(7) { transition-delay: 0.35s; }
-        .accordion-content .menu-item:nth-child(8) { transition-delay: 0.40s; }
-
-        .menu-card {
-            background: #121212;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 35px -5px rgba(0,0,0,0.9);
-            position: relative;
-        }
-        .menu-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, transparent, #FADB5F, transparent);
-            opacity: 0.7;
-            z-index: 20;
-        }
-
+        /* شريط التصفح */
         .nav-chip {
-            white-space: nowrap; padding: 0.4rem 1.25rem; border-radius: 9999px;
-            background: rgba(250, 219, 95, 0.05); border: 1px solid rgba(250, 219, 95, 0.2);
-            color: white; font-weight: 600; transition: all 0.3s ease; cursor: pointer; font-size: 0.9rem;
+            white-space: nowrap; padding: 0.5rem 1.2rem; border-radius: 9999px;
+            background: #1a1a1a; border: 1px solid #333;
+            color: #ccc; font-weight: 700; transition: all 0.3s ease; cursor: pointer; font-size: 0.95rem;
         }
-        .nav-chip.active, .nav-chip:hover { background: #FADB5F; color: #0a0a0a; border-color: #FADB5F; font-weight: 700; }
+        .nav-chip.active, .nav-chip:hover { 
+            background: #FADB5F; color: #000; border-color: #FADB5F; box-shadow: 0 4px 15px rgba(250, 219, 95, 0.3);
+        }
 
-        /* Social Buttons */
-        .social-btn {
-            background: rgba(250, 219, 95, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(250, 219, 95, 0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* ----------------------------------------------------- */
+        /* حركات السكرول (Animations on Scroll) للأقسام */
+        /* ----------------------------------------------------- */
+        .animate-card { opacity: 0; }
+
+        /* 1. تأثير الصعود لأعلى (للمشروبات الساخنة) */
+        .anim-fade-up.visible { animation: fadeUpAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes fadeUpAnim { 
+            from { opacity: 0; transform: translateY(60px); } 
+            to { opacity: 1; transform: translateY(0); } 
         }
-        .bg-whatsapp { background-color: #25D366 !important; color: white !important; border: none; }
-        .bg-facebook { background-color: #1877F2 !important; color: white !important; border: none; }
-        .bg-tiktok { background-color: #000000 !important; color: white !important; border: 1px solid #333; }
+
+        /* 2. تأثير التكبير (للسحلب) */
+        .anim-scale.visible { animation: scaleAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes scaleAnim { 
+            from { opacity: 0; transform: scale(0.9); } 
+            to { opacity: 1; transform: scale(1); } 
+        }
+
+        /* 3. تأثير الانزلاق من اليمين (للعصائر) */
+        .anim-slide-right.visible { animation: slideRightAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes slideRightAnim { 
+            from { opacity: 0; transform: translateX(60px); } 
+            to { opacity: 1; transform: translateX(0); } 
+        }
+
+        /* 4. تأثير القفز المرن (للصودا) */
+        .anim-bounce.visible { animation: bounceAnim 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes bounceAnim { 
+            0% { opacity: 0; transform: translateY(40px); } 
+            60% { opacity: 1; transform: translateY(-15px); } 
+            100% { opacity: 1; transform: translateY(0); } 
+        }
+
+        /* 5. تأثير الدوران (للميلك شيك) */
+        .anim-twist.visible { animation: twistAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes twistAnim { 
+            from { opacity: 0; transform: rotate(-4deg) translateY(40px); } 
+            to { opacity: 1; transform: rotate(0) translateY(0); } 
+        }
+
+        /* 6. تأثير الانبثاق (للركن المميز) */
+        .anim-pop.visible { animation: popAnim 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popAnim { 
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); } 
+            100% { opacity: 1; transform: scale(1) translateY(0); } 
+        }
+
+        /* ----------------------------------------------------- */
+        /* حركات الأصناف الداخلية (تظهر بالتتابع عند فتح القسم) */
+        /* ----------------------------------------------------- */
+        .menu-item-row { 
+            opacity: 0; 
+            transform: translateY(20px); 
+        }
         
-        /* حركة عنوان المقهى */
-        @keyframes floatGlowPulse {
-            0%, 100% { text-shadow: 0 0 10px rgba(250, 219, 95, 0.4), 0 0 20px rgba(250, 219, 95, 0.2); transform: translateY(0) scale(1); opacity: 0.85; }
-            50% { text-shadow: 0 0 20px rgba(250, 219, 95, 1), 0 0 40px #FADB5F, 0 0 60px #FADB5F; transform: translateY(-12px) scale(1.05); opacity: 1; }
+        .accordion-content.open .menu-item-row {
+            animation: itemFadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: var(--delay);
         }
-        .title-animated {
-            display: inline-block;
-            animation: floatGlowPulse 2.5s ease-in-out infinite;
+
+        @keyframes itemFadeIn {
+            to { opacity: 1; transform: translateY(0); }
         }
+
     </style>
 </head>
-<body class="font-body antialiased relative pb-24">
+<body class="font-body antialiased relative pb-24" id="main-body">
 
-    <!-- Social Links Bar -->
-    <div class="fixed bottom-6 right-6 z-[990] flex gap-3 px-4 py-2 rounded-full bg-cafe-black/80 backdrop-blur-md border border-gray-800 shadow-lg">
-        <a href="https://wa.me/201282272242" target="_blank" class="social-btn bg-whatsapp w-10 h-10 flex items-center justify-center rounded-full text-lg"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://www.facebook.com/share/19ES6UAYcN/" target="_blank" class="social-btn bg-facebook w-10 h-10 flex items-center justify-center rounded-full text-lg"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.tiktok.com/@user2700132902566" target="_blank" class="social-btn bg-tiktok w-10 h-10 flex items-center justify-center rounded-full text-lg"><i class="fab fa-tiktok"></i></a>
+<!-- أزرار التواصل الاجتماعي -->
+<div class="fixed bottom-6 right-6 z-[990] flex gap-3 px-4 py-2 rounded-full bg-cafe-black/80 backdrop-blur-md border border-gray-800 shadow-lg">
+    <a href="https://wa.me/201282272242" target="_blank" class="bg-[#25D366] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://www.facebook.com/share/19ES6UAYcN/" target="_blank" class="bg-[#1877F2] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.tiktok.com/@user2700132902566" target="_blank" class="bg-black border border-gray-700 text-white w-10 h-10 flex items-center justify-center rounded-full text-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-tiktok"></i></a>
+</div>
+
+<!-- هيدر الموقع -->
+<header class="relative pt-32 pb-24 flex flex-col items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');"></div>
+    <div class="absolute inset-0 bg-black/80"></div>
+    
+    <!-- شكل ديكوري أنيق أعلى العنوان -->
+    <div class="relative z-10 w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-600 p-0.5 mb-4 shadow-xl shadow-amber-500/30">
+        <div class="w-full h-full bg-[#0d0d10] rounded-[14px] flex items-center justify-center">
+            <i class="fas fa-coffee text-[#FADB5F] text-3xl animate-pulse"></i>
+        </div>
     </div>
 
-    <!-- الهيدر -->
-    <header class="relative pt-24 pb-20 flex flex-col items-center justify-center overflow-hidden bg-cover bg-center" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');">
-        <div class="absolute inset-0 bg-black/70"></div>
-        <h1 class="font-title text-7xl md:text-8xl text-cafe-gold text-center leading-tight relative z-10">
-            <span class="title-animated">كافيه<br>الكورنيش</span>
-        </h1>
-    </header>
+    <h1 class="font-title text-6xl md:text-8xl text-cafe-gold text-center leading-tight relative z-10 title-animated">
+        كافيه<br>الكورنيش
+    </h1>
+    <p class="relative z-10 text-gray-300 mt-4 text-lg font-bold tracking-wide flex items-center gap-2">
+        <i class="fas fa-water text-cyan-400"></i>
+        أفضل تجربة على النيل مباشرة
+        <i class="fas fa-water text-cyan-400"></i>
+    </p>
+</header>
 
-    <!-- محتوى المنيو الكامل -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-10 mt-12 mb-12">
-        <div class="sticky top-0 z-40 bg-[#0a0a0a]/95 backdrop-blur-xl pt-4 pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-cafe-gold/20 mb-2">
-            <div class="flex overflow-x-auto hide-scrollbar gap-2 pb-1 px-1 snap-x">
-                <button onclick="scrollToSection('hot-drinks', this)" class="nav-chip active snap-start">ساخن</button>
-                <button onclick="scrollToSection('sahlab', this)" class="nav-chip snap-start">سحلب</button>
-                <button onclick="scrollToSection('fresh-juices', this)" class="nav-chip snap-start">عصائر</button>
-                <button onclick="scrollToSection('soda', this)" class="nav-chip snap-start">صودا</button>
-                <button onclick="scrollToSection('milkshake', this)" class="nav-chip snap-start">ميلك شيك</button>
-                <button onclick="scrollToSection('cocktails', this)" class="nav-chip snap-start">كوكتيلات</button>
-                <button onclick="scrollToSection('ice-cream', this)" class="nav-chip snap-start">آيس كريم</button>
-                <button onclick="scrollToSection('rice-pudding', this)" class="nav-chip snap-start">حلو</button>
-                <button onclick="scrollToSection('special-corner', this)" class="nav-chip snap-start">ركن مميز</button>
-            </div>
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col mt-6 mb-12">
+    
+    <!-- شريط البحث السلس -->
+    <div class="bg-[#121216]/90 backdrop-blur-md border border-white/5 rounded-2xl p-3 mb-6 shadow-xl flex items-center">
+        <div class="relative w-full">
+            <i class="fas fa-search absolute right-4 top-3.5 text-cafe-gold text-lg"></i>
+            <input type="text" id="search-input" onkeyup="filterMenu()" placeholder="ابحث عن مشروبك أو تحليتك المفضلة..." class="w-full bg-[#1a1a1a] text-white border border-gray-700 rounded-xl pr-12 pl-4 py-3 focus:outline-none focus:border-cafe-gold transition-colors font-semibold placeholder-gray-500 shadow-inner">
         </div>
+    </div>
 
-        <!-- Section 1: Hot Drinks -->
-        <section class="menu-card rounded-2xl overflow-hidden flex flex-col" id="hot-drinks" style="scroll-margin-top: 100px;">
-            <div class="relative w-full h-72 sm:h-80 md:h-[24rem]">
-                <img src="https://i.pinimg.com/736x/33/7e/c0/337ec0bb236800d4153acbf975ff6810.jpg" alt="المشروبات الساخنة" class="absolute inset-0 w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent"></div>
-            </div>
-            <div class="p-6 pt-0 relative z-10 -mt-12">
-                <div class="accordion-header flex items-center justify-between cursor-pointer group" onclick="toggleAccordion(this)">
-                    <div class="flex items-center gap-3 bg-cafe-gold/15 backdrop-blur-md px-5 py-3 rounded-2xl border border-cafe-gold/30 shadow-lg"><i class="fas fa-mug-hot text-cafe-gold text-xl"></i><h2 class="text-xl md:text-2xl font-bold text-cafe-gold drop-shadow-md">المشروبات الساخنة</h2></div>
-                    <div class="bg-black/50 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center border border-white/10"><i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i></div>
-                </div>
-                <div class="accordion-content">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 mt-4">
-                        <div class="flex flex-col gap-4">
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">قهوة تركي</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">قهوة فرنساوي</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">قهوة بندق</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">نسكافيه بلاك</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">نسكافيه حليب</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">اسبريسو</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">أمريكانو</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">كابتشينو</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">لاتيه</span><div class="dotted-leader"></div><span class="price-val">35 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">باور</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">بريو سخن</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">هوت شوكليت</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">كاكاو</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">كاكو حليب</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">شاي</span><div class="dotted-leader"></div><span class="price-val">10 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">شاي باكيت</span><div class="dotted-leader"></div><span class="price-val">15 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">شاي حليب</span><div class="dotted-leader"></div><span class="price-val">15 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">يانسون</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">جنزبيل</span><div class="dotted-leader"></div><span class="price-val">15 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">جنزبيل حليب</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">قرفة</span><div class="dotted-leader"></div><span class="price-val">15 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">قرفة حليب</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">كركديه</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">هوت سيدر</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">ليمون (ساخن)</span><div class="dotted-leader"></div><span class="price-val">10 ج</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- رسالة عدم وجود نتائج -->
+    <div id="no-results" class="hidden py-16 text-center space-y-4 bg-[#121216] border border-white/5 rounded-3xl p-8 my-8 shadow-xl">
+        <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mx-auto">
+            <i class="fas fa-search-minus text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white">لم نجد أصناف تطابق بحثك</h3>
+        <button onclick="document.getElementById('search-input').value=''; filterMenu();" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-extrabold text-sm shadow-lg hover:scale-105 transition-transform mt-2">عرض المنيو بالكامل</button>
+    </div>
 
-        <!-- Section 2: Sahlab -->
-        <section class="menu-card rounded-2xl overflow-hidden flex flex-col" id="sahlab" style="scroll-margin-top: 100px;">
-            <div class="relative w-full h-72 sm:h-80 md:h-[24rem]">
-                <img src="https://i.pinimg.com/736x/a4/7a/8d/a47a8d0248193210063e9da35480d16b.jpg" alt="السحلب" class="absolute inset-0 w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent"></div>
-            </div>
-            <div class="p-6 pt-0 relative z-10 -mt-12">
-                <div class="accordion-header flex items-center justify-between cursor-pointer group" onclick="toggleAccordion(this)">
-                    <div class="flex items-center gap-3 bg-cafe-gold/15 backdrop-blur-md px-5 py-3 rounded-2xl border border-cafe-gold/30 shadow-lg"><i class="fas fa-mug-hot text-cafe-gold text-xl"></i><h2 class="text-xl md:text-2xl font-bold text-cafe-gold drop-shadow-md">السحلب</h2></div>
-                    <div class="bg-black/50 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center border border-white/10"><i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i></div>
-                </div>
-                <div class="accordion-content">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 mt-4">
-                        <div class="flex flex-col gap-4">
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">سحلب سادة</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">سحلب مكسرات</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">سحلب فواكه</span><div class="dotted-leader"></div><span class="price-val">40 ج</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- شريط التصفح للأقسام -->
+    <div class="sticky top-0 z-40 bg-[#08080a]/95 backdrop-blur-xl pt-4 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-cafe-gold/20 mb-8" id="nav-chip-container">
+        <div class="flex overflow-x-auto hide-scrollbar gap-2.5 pb-1 px-1 snap-x">
+            <button onclick="scrollToSection('hot-drinks', this)" class="nav-chip active snap-start flex items-center gap-2"><i class="fas fa-mug-hot"></i> ساخن</button>
+            <button onclick="scrollToSection('sahlab', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-mug-hot"></i> سحلب</button>
+            <button onclick="scrollToSection('fresh-juices', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-glass-citrus"></i> عصائر</button>
+            <button onclick="scrollToSection('soda', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-bottle-water"></i> صودا</button>
+            <button onclick="scrollToSection('milkshake', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-blender"></i> شيك</button>
+            <button onclick="scrollToSection('special-corner', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-star"></i> مميز</button>
+        </div>
+    </div>
 
-        <!-- Section 3: Fresh Juices -->
-        <section class="menu-card rounded-2xl overflow-hidden flex flex-col" id="fresh-juices" style="scroll-margin-top: 100px;">
-            <div class="relative w-full h-72 sm:h-80 md:h-[24rem]">
-                <img src="https://i.pinimg.com/736x/9a/6a/fb/9a6afb2d0b80febb7ce9d744e1f0c6f3.jpg" alt="عصائر فريش" class="absolute inset-0 w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent"></div>
-            </div>
-            <div class="p-6 pt-0 relative z-10 -mt-12">
-                <div class="accordion-header flex items-center justify-between cursor-pointer group" onclick="toggleAccordion(this)">
-                    <div class="flex items-center gap-3 bg-cafe-gold/15 backdrop-blur-md px-5 py-3 rounded-2xl border border-cafe-gold/30 shadow-lg"><i class="fas fa-glass-citrus text-cafe-gold text-xl"></i><h2 class="text-xl md:text-2xl font-bold text-cafe-gold drop-shadow-md">عصائر فريش</h2></div>
-                    <div class="bg-black/50 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center border border-white/10"><i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i></div>
-                </div>
-                <div class="accordion-content">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 mt-4">
-                        <div class="flex flex-col gap-4">
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">موز</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">بلح</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">كيوي</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">تفاح</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">مانجا</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">لمون ساقع</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">جوافة</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">بطيخ</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">فراولة</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">كنتالوب</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">دوم حليب</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">عصير كوكتيل</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">فرابتشينو</span><div class="dotted-leader"></div><span class="price-val">35 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold flex flex-col">براوة <span class="text-xs text-gray-400 font-normal mt-1">(سوبيا وقشطة)</span></span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- حاوية المنيو الديناميكية -->
+    <div id="menu-container"></div>
 
-        <!-- Section 4: Soda -->
-        <section class="menu-card rounded-2xl overflow-hidden flex flex-col" id="soda" style="scroll-margin-top: 100px;">
-            <div class="relative w-full h-72 sm:h-80 md:h-[24rem]">
-                <img src="https://i.pinimg.com/736x/8e/c8/b6/8ec8b622d6d7135bc9c53e3065e5af08.jpg" alt="الصودا" class="absolute inset-0 w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent"></div>
-            </div>
-            <div class="p-6 pt-0 relative z-10 -mt-12">
-                <div class="accordion-header flex items-center justify-between cursor-pointer group" onclick="toggleAccordion(this)">
-                    <div class="flex items-center gap-3 bg-cafe-gold/15 backdrop-blur-md px-5 py-3 rounded-2xl border border-cafe-gold/30 shadow-lg"><i class="fas fa-bottle-water text-cafe-gold text-xl"></i><h2 class="text-xl md:text-2xl font-bold text-cafe-gold drop-shadow-md">الصودا</h2></div>
-                    <div class="bg-black/50 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center border border-white/10"><i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i></div>
-                </div>
-                <div class="accordion-content">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 mt-4">
-                        <div class="flex flex-col gap-4">
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">كوكاكولا</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">فانتا</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">سفن اب</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">ستينج</span><div class="dotted-leader"></div><span class="price-val">20 ج</span></div>
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">بريل</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">فيروز</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">مياه صغيره</span><div class="dotted-leader"></div><span class="price-val">10 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">مياه كبيره</span><div class="dotted-leader"></div><span class="price-val">15 ج</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+</main>
 
-        <!-- Section 5: Milkshake -->
-        <section class="menu-card rounded-2xl overflow-hidden flex flex-col" id="milkshake" style="scroll-margin-top: 100px;">
-            <div class="relative w-full h-72 sm:h-80 md:h-[24rem]">
-                <img src="https://i.pinimg.com/736x/28/b4/c1/28b4c1c8effe5d8d086b3288441e1a90.jpg" alt="ميلك شيك" class="absolute inset-0 w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent"></div>
-            </div>
-            <div class="p-6 pt-0 relative z-10 -mt-12">
-                <div class="accordion-header flex items-center justify-between cursor-pointer group" onclick="toggleAccordion(this)">
-                    <div class="flex items-center gap-3 bg-cafe-gold/15 backdrop-blur-md px-5 py-3 rounded-2xl border border-cafe-gold/30 shadow-lg"><i class="fas fa-blender text-cafe-gold text-xl"></i><h2 class="text-xl md:text-2xl font-bold text-cafe-gold drop-shadow-md">ميلك شيك</h2></div>
-                    <div class="bg-black/50 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center border border-white/10"><i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i></div>
-                </div>
-                <div class="accordion-content flex flex-col gap-4 mt-4">
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">ميلك شيك فانيليا</span><div class="dotted-leader"></div><span class="price-val">35 ج</span></div>
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">ميلك شيك مانجا</span><div class="dotted-leader"></div><span class="price-val">40 ج</span></div>
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">ميلك شيك فراولة</span><div class="dotted-leader"></div><span class="price-val">40 ج</span></div>
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">ميلك شيك لوتس</span><div class="dotted-leader"></div><span class="price-val">40 ج</span></div>
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">أيس بوريو</span><div class="dotted-leader"></div><span class="price-val">50 ج</span></div>
-                </div>
-            </div>
-        </section>
+<footer class="text-center pb-8 pt-6 text-gray-500 font-bold border-t border-white/10 mx-4">
+    <p class="text-cafe-gold mb-2 text-lg">كورنيش النيل - مفتوح 24 ساعة <i class="fas fa-clock text-amber-400 ml-1"></i></p>
+    <p class="text-sm">© 2026 كافيه الكورنيش. جميع الحقوق محفوظة.</p>
+</footer>
 
-        <!-- Section 6: Cocktails -->
-        <section class="menu-card rounded-2xl overflow-hidden flex flex-col" id="cocktails" style="scroll-margin-top: 100px;">
-            <div class="relative w-full h-72 sm:h-80 md:h-[24rem]">
-                <img src="https://i.pinimg.com/736x/7f/a9/63/7fa9637a00bf54f1b48edf67ca5e78f0.jpg" alt="كوكتيلات" class="absolute inset-0 w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent"></div>
-            </div>
-            <div class="p-6 pt-0 relative z-10 -mt-12">
-                <div class="accordion-header flex items-center justify-between cursor-pointer group" onclick="toggleAccordion(this)">
-                    <div class="flex items-center gap-3 bg-cafe-gold/15 backdrop-blur-md px-5 py-3 rounded-2xl border border-cafe-gold/30 shadow-lg"><i class="fas fa-martini-glass-citrus text-cafe-gold text-xl"></i><h2 class="text-xl md:text-2xl font-bold text-cafe-gold drop-shadow-md">كوكتيلات</h2></div>
-                    <div class="bg-black/50 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center border border-white/10"><i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i></div>
-                </div>
-                <div class="accordion-content flex flex-col gap-4 mt-4">
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">كوكتيل الكورنيش</span><div class="dotted-leader"></div><span class="price-val">60 ج</span></div>
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">قنبلة</span><div class="dotted-leader"></div><span class="price-val">60 ج</span></div>
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">فروت سالاد (سلطة فواكه)</span><div class="dotted-leader"></div><span class="price-val">50 ج</span></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 7: Ice Cream & Yogurt -->
-        <section class="menu-card rounded-2xl overflow-hidden flex flex-col" id="ice-cream" style="scroll-margin-top: 100px;">
-            <div class="relative w-full h-72 sm:h-80 md:h-[24rem]">
-                <img src="https://i.pinimg.com/1200x/22/a7/d0/22a7d0ce7700f7169b5990609f5d458f.jpg" alt="الآيس كريم والزبادي" class="absolute inset-0 w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent"></div>
-            </div>
-            <div class="p-6 pt-0 relative z-10 -mt-12">
-                <div class="accordion-header flex items-center justify-between cursor-pointer group" onclick="toggleAccordion(this)">
-                    <div class="flex items-center gap-3 bg-cafe-gold/15 backdrop-blur-md px-5 py-3 rounded-2xl border border-cafe-gold/30 shadow-lg"><i class="fas fa-ice-cream text-cafe-gold text-xl"></i><h2 class="text-xl md:text-2xl font-bold text-cafe-gold drop-shadow-md">الآيس كريم والزبادي</h2></div>
-                    <div class="bg-black/50 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center border border-white/10"><i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i></div>
-                </div>
-                <div class="accordion-content">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mt-4">
-                        <div class="flex flex-col gap-4">
-                            <h3 class="text-gray-400 text-sm mb-1 border-b border-gray-800 pb-1">الآيس كريم</h3>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">آيس كريم ميكس 4 بولة</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">آيس كريم ميكس 5 بولة</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">آيس كريم فواكه</span><div class="dotted-leader"></div><span class="price-val">35 ج</span></div>
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <h3 class="text-gray-400 text-sm mb-1 border-b border-gray-800 pb-1">الزبادي</h3>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">زبادي سادة</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">زبادي مانجا</span><div class="dotted-leader"></div><span class="price-val">35 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">زبادي فراولة</span><div class="dotted-leader"></div><span class="price-val">35 ج</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 8: Rice Pudding & Sweets -->
-        <section class="menu-card rounded-2xl overflow-hidden flex flex-col" id="rice-pudding" style="scroll-margin-top: 100px;">
-            <div class="relative w-full h-72 sm:h-80 md:h-[24rem]">
-                <img src="https://i.pinimg.com/736x/77/9e/63/779e63849edfa767274a125c1d6f21fd.jpg" alt="أرز بلبن والحلو" class="absolute inset-0 w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent"></div>
-            </div>
-            <div class="p-6 pt-0 relative z-10 -mt-12">
-                <div class="accordion-header flex items-center justify-between cursor-pointer group" onclick="toggleAccordion(this)">
-                    <div class="flex items-center gap-3 bg-cafe-gold/15 backdrop-blur-md px-5 py-3 rounded-2xl border border-cafe-gold/30 shadow-lg"><i class="fas fa-bowl-rice text-cafe-gold text-xl"></i><h2 class="text-xl md:text-2xl font-bold text-cafe-gold drop-shadow-md">أرز بلبن والحلو</h2></div>
-                    <div class="bg-black/50 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center border border-white/10"><i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i></div>
-                </div>
-                <div class="accordion-content">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mt-4">
-                        <div class="flex flex-col gap-4">
-                            <h3 class="text-gray-400 text-sm mb-1 border-b border-gray-800 pb-1">أرز بلبن</h3>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">أرز بلبن أوريو</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">أرز بلبن مكسرات</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">أرز بلبن بسبوسة</span><div class="dotted-leader"></div><span class="price-val">30 ج</span></div>
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <h3 class="text-gray-400 text-sm mb-1 border-b border-gray-800 pb-1">الحلو</h3>
-                            <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">طبق بسبوسة مكسرات</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 9: Corner -->
-        <section class="menu-card rounded-2xl overflow-hidden flex flex-col mb-8" id="special-corner" style="scroll-margin-top: 100px;">
-            <div class="relative w-full h-72 sm:h-80 md:h-[24rem]">
-                <img src="https://i.pinimg.com/736x/96/76/23/9676236929ace4bd2a860ba7a8c1e948.jpg" alt="الركن المميز" class="absolute inset-0 w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent"></div>
-            </div>
-            <div class="p-6 pt-0 relative z-10 -mt-12">
-                <div class="accordion-header flex items-center justify-between cursor-pointer group" onclick="toggleAccordion(this)">
-                    <div class="flex items-center gap-3 bg-cafe-gold/15 backdrop-blur-md px-5 py-3 rounded-2xl border border-cafe-gold/30 shadow-lg"><i class="fas fa-star text-cafe-gold text-xl"></i><h2 class="text-xl md:text-2xl font-bold text-cafe-gold drop-shadow-md">الركن المميز</h2></div>
-                    <div class="bg-black/50 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center border border-white/10"><i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i></div>
-                </div>
-                <div class="accordion-content flex flex-col gap-4 mt-4">
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">حمص الشام</span><div class="dotted-leader"></div><span class="price-val">25 ج</span></div>
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">كنافة حليب بالقشطة</span><div class="dotted-leader"></div><span class="price-val">35 ج</span></div>
-                    <div class="menu-item flex items-center justify-between group"><span class="item-name font-semibold">طاجن أم علي بالقشطة</span><div class="dotted-leader"></div><span class="price-val">50 ج</span></div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- الفوتر المضاف (ساعات العمل وحقوق الملكية) -->
-    <footer class="text-center pb-8 pt-4 text-gray-400 flex flex-col gap-2 relative z-10">
-        <p class="font-bold text-cafe-gold text-lg font-body">كورنيش النيل - مفتوح 24 ساعة</p>
-        <p class="text-sm">© 2026 كافيه الكورنيش. جميع الحقوق محفوظة.</p>
-    </footer>
-
-    <script>
-        function toggleAccordion(headerElement) {
-            const content = headerElement.nextElementSibling;
-            const isOpen = headerElement.classList.contains('open');
-            if (!isOpen) { headerElement.classList.add('open'); content.classList.add('open'); }
-            else { headerElement.classList.remove('open'); content.classList.remove('open'); }
+<script>
+    // --- بيانات المنيو كاملة ---
+    const menuData = [
+        {
+            id: 'hot-drinks', title: 'المشروبات الساخنة', icon: 'fa-mug-hot', img: 'https://i.pinimg.com/736x/33/7e/c0/337ec0bb236800d4153acbf975ff6810.jpg',
+            items: [['قهوة تركي', 20], ['قهوة فرنساوي', 25], ['قهوة بندق', 25], ['نسكافيه بلاك', 20], ['نسكافيه حليب', 25], ['اسبريسو', 25], ['أمريكانو', 20], ['كابتشينو', 30], ['لاتيه', 35], ['باور', 30], ['بريو سخن', 30], ['هوت شوكليت', 30], ['كاكاو', 25], ['كاكو حليب', 30], ['شاي', 10], ['شاي باكيت', 15], ['شاي حليب', 15], ['يانسون', 30], ['جنزبيل', 15], ['جنزبيل حليب', 20], ['قرفة', 15], ['قرفة حليب', 20], ['كركديه', 20], ['هوت سيدر', 25], ['ليمون (ساخن)', 10]]
+        },
+        {
+            id: 'sahlab', title: 'السحلب', icon: 'fa-mug-hot', img: 'https://i.pinimg.com/736x/a4/7a/8d/a47a8d0248193210063e9da35480d16b.jpg',
+            items: [['سحلب سادة', 25], ['سحلب مكسرات', 30], ['سحلب فواكه', 40]]
+        },
+        {
+            id: 'fresh-juices', title: 'عصائر فريش', icon: 'fa-glass-citrus', img: 'https://i.pinimg.com/736x/9a/6a/fb/9a6afb2d0b80febb7ce9d744e1f0c6f3.jpg',
+            items: [['موز', 25], ['بلح', 25], ['كيوي', 30], ['تفاح', 25], ['مانجا', 30], ['لمون ساقع', 20], ['جوافة', 25], ['بطيخ', 25], ['فراولة', 30], ['كنتالوب', 25], ['دوم حليب', 25], ['عصير كوكتيل', 30], ['فرابتشينو', 35], ['براوة (سوبيا وقشطة)', 25]]
+        },
+        {
+            id: 'soda', title: 'الصودا', icon: 'fa-bottle-water', img: 'https://i.pinimg.com/736x/8e/c8/b6/8ec8b622d6d7135bc9c53e3065e5af08.jpg',
+            items: [['كوكاكولا', 20], ['فانتا', 20], ['سفن اب', 20], ['ستينج', 20], ['بريل', 25], ['فيروز', 25], ['مياه صغيره', 10], ['مياه كبيره', 15]]
+        },
+        {
+            id: 'milkshake', title: 'ميلك شيك', icon: 'fa-blender', img: 'https://i.pinimg.com/736x/28/b4/c1/28b4c1c8effe5d8d086b3288441e1a90.jpg',
+            items: [['ميلك شيك فانيليا', 35], ['ميلك شيك مانجا', 40], ['ميلك شيك فراولة', 40], ['ميلك شيك لوتس', 40], ['أيس بوريو', 50]]
+        },
+        {
+            id: 'special-corner', title: 'الركن المميز & الحلويات', icon: 'fa-star', img: 'https://i.pinimg.com/736x/96/76/23/9676236929ace4bd2a860ba7a8c1e948.jpg',
+            items: [['حمص الشام', 25], ['كنافة حليب بالقشطة', 35], ['طاجن أم علي بالقشطة', 50], ['أرز بلبن أوريو', 30], ['أرز بلبن مكسرات', 25], ['طبق بسبوسة', 25]]
         }
+    ];
 
-        function scrollToSection(id, btnElement) {
-            const section = document.getElementById(id);
-            if (section) {
-                document.querySelectorAll('.nav-chip').forEach(btn => btn.classList.remove('active'));
-                if(btnElement) btnElement.classList.add('active');
-                const header = section.querySelector('.accordion-header');
-                const content = section.querySelector('.accordion-content');
-                if (!header.classList.contains('open')) { header.classList.add('open'); content.classList.add('open'); }
-                section.scrollIntoView({ behavior: 'smooth' });
+    // --- تعيين الأنيميشن لكل قسم ---
+    function getAnimationClass(id) {
+        switch(id) {
+            case 'hot-drinks': return 'anim-fade-up';
+            case 'sahlab': return 'anim-scale';
+            case 'fresh-juices': return 'anim-slide-right';
+            case 'soda': return 'anim-bounce';
+            case 'milkshake': return 'anim-twist';
+            case 'special-corner': return 'anim-pop';
+            default: return 'anim-fade-up';
+        }
+    }
+
+    // --- نظام الـ Intersection Observer لظهور الأقسام ---
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+    };
+
+    const scrollObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // إيقاف المراقبة بعد أول ظهور لعدم تكرار الأنيميشن
+                observer.unobserve(entry.target);
             }
+        });
+    }, observerOptions);
+
+    // --- نظام البحث والريندر ---
+    function renderMenu(query = '') {
+        const container = document.getElementById('menu-container');
+        const noResults = document.getElementById('no-results');
+        const navContainer = document.getElementById('nav-chip-container');
+        let html = '';
+        let foundAny = false;
+
+        menuData.forEach(cat => {
+            // فلترة العناصر
+            const filteredItems = cat.items.filter(item => item[0].toLowerCase().includes(query));
+            const catMatches = cat.title.toLowerCase().includes(query);
+            
+            if (filteredItems.length === 0 && !catMatches && query !== '') return;
+            
+            foundAny = true;
+            const itemsToRender = query && !catMatches ? filteredItems : cat.items;
+            
+            // جعل القسم مفتوحاً وتلقائياً إذا كان هناك بحث نشط
+            const isOpen = query !== '' ? 'open border-cafe-gold' : 'border-white/10';
+            const contentOpen = query !== '' ? 'open' : '';
+            const animClass = getAnimationClass(cat.id);
+
+            html += `
+            <section class="menu-card animate-card ${animClass}" id="${cat.id}" style="scroll-margin-top: 160px;">
+                <div class="card-inner flex flex-col">
+                    <div class="relative w-full h-48 sm:h-64 overflow-hidden">
+                        <img src="${cat.img}" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#111] via-[#111]/60 to-transparent"></div>
+                    </div>
+                    
+                    <div class="p-4 sm:p-6 pt-0 relative z-10 -mt-10">
+                        <!-- عنوان الأكورديون -->
+                        <div class="accordion-header bg-[#16161b]/95 backdrop-blur-md border border-white/10 ${isOpen} rounded-xl px-5 py-4 flex items-center justify-between cursor-pointer shadow-xl transition-colors hover:border-amber-400/50" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-gradient-to-br from-amber-400 to-amber-600 text-black w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg">
+                                    <i class="fas ${cat.icon}"></i>
+                                </div>
+                                <h2 class="text-2xl font-extrabold text-white tracking-wide">${cat.title}</h2>
+                            </div>
+                            <div class="bg-black/50 w-8 h-8 rounded-full flex items-center justify-center border border-white/10">
+                                <i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- محتوى الأكورديون (الأصناف) -->
+                        <div class="accordion-content ${contentOpen}">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3 mt-5 px-2">
+                                ${itemsToRender.map((item, idx) => `
+                                    <div class="menu-item-row flex items-center justify-between py-2 group hover:bg-white/5 rounded-lg px-3 transition-colors border border-transparent hover:border-white/5" style="--delay: ${idx * 0.05}s">
+                                        <span class="item-name group-hover:text-amber-300 transition-colors">${item[0]}</span>
+                                        <div class="dotted-leader group-hover:border-amber-400/30"></div>
+                                        <span class="price-val drop-shadow-md">${item[1]} ج</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>`;
+        });
+
+        if (!foundAny) {
+            noResults.classList.remove('hidden');
+            navContainer.classList.add('hidden');
+        } else {
+            noResults.classList.add('hidden');
+            navContainer.classList.remove('hidden');
         }
-    </script>
+
+        container.innerHTML = html;
+
+        // تفعيل المراقبة لجميع الأقسام بعد الريندر
+        document.querySelectorAll('.animate-card').forEach(card => {
+            scrollObserver.observe(card);
+        });
+    }
+
+    function filterMenu() {
+        const query = document.getElementById('search-input').value.toLowerCase().trim();
+        renderMenu(query);
+    }
+
+    // --- الأكورديون والتمرير ---
+    window.toggleAccordion = function(headerElement) {
+        const content = headerElement.nextElementSibling;
+        const isOpen = headerElement.classList.contains('open');
+        
+        if (!isOpen) { 
+            headerElement.classList.add('open', 'border-cafe-gold'); 
+            headerElement.classList.remove('border-white/10');
+            content.classList.add('open'); 
+        } else {
+            headerElement.classList.remove('open', 'border-cafe-gold'); 
+            headerElement.classList.add('border-white/10');
+            content.classList.remove('open'); 
+        }
+    }
+
+    window.scrollToSection = function(id, btnElement) {
+        const section = document.getElementById(id);
+        if (section) {
+            document.querySelectorAll('.nav-chip').forEach(btn => btn.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+            
+            const header = section.querySelector('.accordion-header');
+            if (!header.classList.contains('open')) { toggleAccordion(header); }
+            
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // التشغيل الأولي
+    document.addEventListener("DOMContentLoaded", () => {
+        renderMenu();
+    });
+</script>
+
 </body>
 </html>
+
+```
