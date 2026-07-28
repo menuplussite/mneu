@@ -3,17 +3,18 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>منيو كافيه الكورنيش</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -23,11 +24,10 @@
                         'cafe-black': '#050505',
                         'cafe-dark': '#111111',
                         'cafe-gold': '#FADB5F', 
-                        'cafe-gold-dark': '#d4b73e',
                     },
                     fontFamily: {
-                        title: ['"Aref Ruqaa"', 'serif'],
-                        body: ['"Cairo"', 'sans-serif'],
+                        title: ['"Amiri"', 'serif'],
+                        body: ['"Tajawal"', 'sans-serif'],
                     }
                 }
             }
@@ -35,223 +35,260 @@
     </script>
 
     <style>
+        /* تحسينات الأداء والسرعة */
         body {
             background-color: #08080a;
             color: #ffffff;
             overflow-x: hidden;
             background-image: radial-gradient(circle at 50% 0%, #151515 0%, #050505 80%);
+            -webkit-font-smoothing: antialiased;
         }
 
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        .no-scroll { overflow: hidden; height: 100vh; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #08080a; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FADB5F 0%, #d4b73e 100%); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb { background: #FADB5F; border-radius: 10px; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         .dotted-leader {
             flex-grow: 1;
-            border-bottom: 2px dotted rgba(255, 255, 255, 0.2);
+            border-bottom: 2px dotted rgba(255, 255, 255, 0.15);
             margin: 0 12px;
             position: relative;
             top: -4px;
-            transition: all 0.3s ease;
         }
 
-        .price-val { color: #FADB5F; font-weight: 800; font-size: 1.1rem; white-space: nowrap; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-        .item-name { font-weight: 700; font-size: 1.05rem; color: #f1f1f1; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+        .price-val { color: #FADB5F; font-weight: 800; font-size: 1.1rem; white-space: nowrap; }
+        .item-name { font-weight: 700; font-size: 1.1rem; color: #f1f1f1; }
 
-        /* نبض العنوان */
-        @keyframes floatGlowPulse {
-            0%, 100% { text-shadow: 0 0 12px rgba(250, 219, 95, 0.5); transform: translateY(0) scale(1); }
-            50% { text-shadow: 0 0 25px rgba(250, 219, 95, 1), 0 0 45px #FADB5F; transform: translateY(-8px) scale(1.03); }
+        /* نبض خفيف للعنوان */
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0); opacity: 0.95; text-shadow: 0 0 10px rgba(250,219,95,0.4); }
+            50% { transform: translateY(-5px); opacity: 1; text-shadow: 0 0 20px rgba(250,219,95,0.8); }
         }
-        .title-animated { display: inline-block; animation: floatGlowPulse 2.8s ease-in-out infinite; }
+        .title-animated { display: inline-block; animation: floatPulse 3s ease-in-out infinite; will-change: transform, opacity, text-shadow; }
 
-        /* إعدادات الكروت الأساسية */
+        /* إضاءة نابضة لزر الدخول */
+        @keyframes btnPulseFast {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(250,219,95,0.4), 0 0 25px rgba(250,219,95,0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(250,219,95,0.7), 0 0 45px rgba(250,219,95,0.4); }
+        }
+        .btn-enter-animated {
+            animation: btnPulseFast 1.5s infinite;
+            will-change: transform, box-shadow;
+        }
+
+        /* كارت المنيو مع إضاءة خفيفة وسريعة */
         .menu-card { 
             position: relative; 
             border-radius: 1.25rem; 
             z-index: 1; 
-            margin-bottom: 2.5rem; 
-            transition: all 0.5s ease; 
+            margin-bottom: 2rem; 
+            padding: 1.5px;
+            overflow: hidden; 
+            transform: translateZ(0);
         }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; 
+            width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent 75%, #FADB5F 90%, #ffffff 100%);
+            animation: rotateLED 5s linear infinite;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        @keyframes rotateLED { 100% { transform: rotate(360deg); } }
 
         .card-inner { 
             background: #111; 
-            border-radius: 1.25rem; 
+            border-radius: 1.2rem; 
             overflow: hidden; 
             height: 100%; 
             position: relative; 
-            border: 1px solid rgba(255,255,255,0.08); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        }
-        .card-inner:hover {
-            border-color: rgba(250, 219, 95, 0.3);
+            z-index: 2; 
         }
 
-        /* الأكورديون (القوائم) */
         .accordion-content { 
             max-height: 0; 
             overflow: hidden; 
-            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease; 
+            transition: max-height 0.4s ease-out, opacity 0.3s ease; 
             opacity: 0; 
         }
         .accordion-content.open { 
-            max-height: 3000px; 
+            max-height: 2500px; 
             opacity: 1; 
             margin-top: 1rem; 
         }
-        .accordion-icon { transition: transform 0.4s ease; }
+        .accordion-icon { transition: transform 0.3s ease; }
         .accordion-header.open .accordion-icon { transform: rotate(180deg); }
 
-        /* شريط التصفح */
         .nav-chip {
             white-space: nowrap; padding: 0.5rem 1.2rem; border-radius: 9999px;
             background: #1a1a1a; border: 1px solid #333;
-            color: #ccc; font-weight: 700; transition: all 0.3s ease; cursor: pointer; font-size: 0.95rem;
+            color: #ccc; font-weight: 700; transition: background 0.2s, color 0.2s; cursor: pointer; font-size: 1rem;
         }
-        .nav-chip.active, .nav-chip:hover { 
-            background: #FADB5F; color: #000; border-color: #FADB5F; box-shadow: 0 4px 15px rgba(250, 219, 95, 0.3);
-        }
+        .nav-chip.active { background: #FADB5F; color: #000; border-color: #FADB5F; }
 
-        /* ----------------------------------------------------- */
-        /* حركات السكرول (Animations on Scroll) للأقسام */
-        /* ----------------------------------------------------- */
-        .animate-card { opacity: 0; }
-
-        /* 1. تأثير الصعود لأعلى */
-        .anim-fade-up.visible { animation: fadeUpAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes fadeUpAnim { 
-            from { opacity: 0; transform: translateY(60px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-
-        /* 2. تأثير التكبير */
-        .anim-scale.visible { animation: scaleAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes scaleAnim { 
-            from { opacity: 0; transform: scale(0.9); } 
-            to { opacity: 1; transform: scale(1); } 
-        }
-
-        /* 3. تأثير الانزلاق من اليمين */
-        .anim-slide-right.visible { animation: slideRightAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes slideRightAnim { 
-            from { opacity: 0; transform: translateX(60px); } 
-            to { opacity: 1; transform: translateX(0); } 
-        }
-
-        /* 4. تأثير القفز المرن */
-        .anim-bounce.visible { animation: bounceAnim 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        @keyframes bounceAnim { 
-            0% { opacity: 0; transform: translateY(40px); } 
-            60% { opacity: 1; transform: translateY(-15px); } 
-            100% { opacity: 1; transform: translateY(0); } 
-        }
-
-        /* 5. تأثير الدوران */
-        .anim-twist.visible { animation: twistAnim 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes twistAnim { 
-            from { opacity: 0; transform: rotate(-4deg) translateY(40px); } 
-            to { opacity: 1; transform: rotate(0) translateY(0); } 
-        }
-
-        /* 6. تأثير الانبثاق */
-        .anim-pop.visible { animation: popAnim 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes popAnim { 
-            0% { opacity: 0; transform: scale(0.8) translateY(20px); } 
-            100% { opacity: 1; transform: scale(1) translateY(0); } 
-        }
-
-        /* ----------------------------------------------------- */
-        /* حركات الأصناف الداخلية (تظهر بالتتابع عند فتح القسم) */
-        /* ----------------------------------------------------- */
-        .menu-item-row { 
-            opacity: 0; 
-            transform: translateY(20px); 
-        }
-        
-        .accordion-content.open .menu-item-row {
-            animation: itemFadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            animation-delay: var(--delay);
-        }
-
-        @keyframes itemFadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* حركات ظهور خفيفة */
+        .animate-card { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .animate-card.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="font-body antialiased relative pb-24" id="main-body">
+<body class="font-body antialiased relative pb-24 no-scroll" id="main-body">
+
+<!-- ================= شاشة الترحيب (Splash Screen) ================= -->
+<div id="splash-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-500 bg-[#08080a] overflow-hidden">
+    <!-- خلفية الشاشة (تم زيادة وضوح الصورة وتخفيف العتمة) -->
+    <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#08080a] via-[#08080a]/60 to-[#08080a]/80"></div>
+    
+    <div class="relative z-10 flex flex-col items-center w-full px-4">
+        
+        <!-- العنوان مع إضاءة ناعمة خلفه لا تطمس الشاشة -->
+        <div class="relative w-full text-center mb-4">
+            <!-- إضاءة مخصصة للنص فقط -->
+            <div class="absolute inset-0 bg-cafe-gold blur-[45px] opacity-25 rounded-full w-2/3 h-full mx-auto pointer-events-none"></div>
+            <!-- النص -->
+            <h1 class="font-title italic text-6xl md:text-8xl text-cafe-gold text-center leading-tight title-animated font-bold relative z-10">
+                كافيه<br>الكورنيش
+            </h1>
+        </div>
+        
+        <p class="font-title italic text-3xl md:text-4xl text-white text-center mb-16 opacity-90 tracking-wide drop-shadow-md relative z-10">
+            يُرحـــب بـكـــم
+        </p>
+        
+        <!-- زر الدخول -->
+        <button onclick="enterMenu()" class="btn-enter-animated px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold text-xl rounded-full flex items-center gap-3 relative z-10 shadow-lg cursor-pointer">
+            <span>تصفح المنيو</span>
+            <i class="fas fa-book-open"></i>
+        </button>
+    </div>
+</div>
+
+<!-- ================= مشغل الصوت المزدوج (بدون loop) ================= -->
+<audio id="bg-music" preload="auto">
+    <source src="https://www.image2url.com/r2/default/audio/1785210929096-053f34d8-53cc-4c7b-bf31-a661f6bfa7d7.mp3" type="audio/mpeg">
+    <source src="https://files.catbox.moe/wyi0kn.mp3" type="audio/mpeg">
+</audio>
 
 <!-- أزرار التواصل الاجتماعي -->
 <div class="fixed bottom-6 right-6 z-[990] flex gap-3 px-4 py-2 rounded-full bg-cafe-black/80 backdrop-blur-md border border-gray-800 shadow-lg">
-    <a href="https://wa.me/201282272242" target="_blank" class="bg-[#25D366] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://www.facebook.com/share/19ES6UAYcN/" target="_blank" class="bg-[#1877F2] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://www.tiktok.com/@user2700132902566" target="_blank" class="bg-black border border-gray-700 text-white w-10 h-10 flex items-center justify-center rounded-full text-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-tiktok"></i></a>
+    <a href="https://wa.me/201282272242" target="_blank" class="bg-[#25D366] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg hover:scale-110 transition-transform"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://www.facebook.com/share/19ES6UAYcN/" target="_blank" class="bg-[#1877F2] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg hover:scale-110 transition-transform"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.tiktok.com/@user2700132902566" target="_blank" class="bg-black border border-gray-700 text-white w-10 h-10 flex items-center justify-center rounded-full text-lg hover:scale-110 transition-transform"><i class="fab fa-tiktok"></i></a>
 </div>
 
-<!-- هيدر الموقع -->
+<!-- هيدر الموقع الداخلي -->
 <header class="relative pt-32 pb-24 flex flex-col items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');"></div>
-    <div class="absolute inset-0 bg-black/80"></div>
+    <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#08080a] via-[#08080a]/60 to-transparent"></div>
     
-    <!-- شكل ديكوري أنيق أعلى العنوان -->
-    <div class="relative z-10 w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-600 p-0.5 mb-4 shadow-xl shadow-amber-500/30">
-        <div class="w-full h-full bg-[#0d0d10] rounded-[14px] flex items-center justify-center">
-            <i class="fas fa-coffee text-[#FADB5F] text-3xl animate-pulse"></i>
-        </div>
+    <!-- العنوان الرئيسي مع إضاءة ناعمة ومناسبة -->
+    <div class="relative w-full text-center mt-6">
+        <div class="absolute inset-0 bg-cafe-gold blur-[50px] opacity-20 rounded-full w-2/3 h-full mx-auto pointer-events-none"></div>
+        <h1 class="font-title italic text-7xl md:text-8xl text-cafe-gold text-center leading-tight relative z-10 title-animated font-bold">
+            كافيه<br>الكورنيش
+        </h1>
     </div>
-
-    <h1 class="font-title text-6xl md:text-8xl text-cafe-gold text-center leading-tight relative z-10 title-animated">
-        كافيه<br>الكورنيش
-    </h1>
 </header>
 
-<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col mt-6 mb-12">
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col mt-6 mb-12 relative z-20">
     
-    <!-- شريط البحث السلس -->
-    <div class="bg-[#121216]/90 backdrop-blur-md border border-white/5 rounded-2xl p-3 mb-6 shadow-xl flex items-center">
+    <div class="bg-[#121216]/90 backdrop-blur-md border border-white/5 rounded-2xl p-2 mb-6 flex items-center shadow-lg">
         <div class="relative w-full">
             <i class="fas fa-search absolute right-4 top-3.5 text-cafe-gold text-lg"></i>
-            <input type="text" id="search-input" onkeyup="filterMenu()" placeholder="ابحث عن مشروبك أو تحليتك المفضلة..." class="w-full bg-[#1a1a1a] text-white border border-gray-700 rounded-xl pr-12 pl-4 py-3 focus:outline-none focus:border-cafe-gold transition-colors font-semibold placeholder-gray-500 shadow-inner">
+            <input type="text" id="search-input" oninput="filterMenu()" placeholder="ابحث عن مشروبك..." class="w-full bg-[#1a1a1a] text-white border-none rounded-xl pr-12 pl-4 py-3 focus:outline-none focus:ring-1 focus:ring-cafe-gold transition-shadow font-semibold placeholder-gray-500">
         </div>
     </div>
 
-    <!-- رسالة عدم وجود نتائج -->
-    <div id="no-results" class="hidden py-16 text-center space-y-4 bg-[#121216] border border-white/5 rounded-3xl p-8 my-8 shadow-xl">
-        <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mx-auto">
-            <i class="fas fa-search-minus text-2xl"></i>
-        </div>
+    <div id="no-results" class="hidden py-12 text-center space-y-4 bg-[#121216] border border-white/5 rounded-3xl p-6 my-4 shadow-lg">
         <h3 class="text-xl font-bold text-white">لم نجد أصناف تطابق بحثك</h3>
-        <button onclick="document.getElementById('search-input').value=''; filterMenu();" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-extrabold text-sm shadow-lg hover:scale-105 transition-transform mt-2">عرض المنيو بالكامل</button>
+        <button onclick="document.getElementById('search-input').value=''; filterMenu();" class="px-6 py-2 rounded-xl bg-cafe-gold text-black font-bold mt-2 hover:scale-105 transition-transform">عرض المنيو</button>
     </div>
 
-    <!-- شريط التصفح للأقسام (9 أقسام) -->
-    <div class="sticky top-0 z-40 bg-[#08080a]/95 backdrop-blur-xl pt-4 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-cafe-gold/20 mb-8" id="nav-chip-container">
-        <div class="flex overflow-x-auto hide-scrollbar gap-2.5 pb-1 px-1 snap-x">
-            <button onclick="scrollToSection('hot-drinks', this)" class="nav-chip active snap-start flex items-center gap-2"><i class="fas fa-mug-hot"></i> ساخن</button>
-            <button onclick="scrollToSection('sahlab', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-mug-hot"></i> سحلب</button>
-            <button onclick="scrollToSection('fresh-juices', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-glass-citrus"></i> عصائر</button>
-            <button onclick="scrollToSection('soda', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-bottle-water"></i> صودا</button>
-            <button onclick="scrollToSection('milkshake', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-blender"></i> شيك</button>
-            <button onclick="scrollToSection('cocktails', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-martini-glass-citrus"></i> كوكتيلات</button>
-            <button onclick="scrollToSection('ice-cream', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-ice-cream"></i> آيس كريم</button>
-            <button onclick="scrollToSection('rice-pudding', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-bowl-rice"></i> حلو</button>
-            <button onclick="scrollToSection('special-corner', this)" class="nav-chip snap-start flex items-center gap-2"><i class="fas fa-star"></i> مميز</button>
+    <div class="sticky top-0 z-40 bg-[#08080a]/95 backdrop-blur-md pt-3 pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-white/10 mb-6" id="nav-chip-container">
+        <div class="flex overflow-x-auto hide-scrollbar gap-2 pb-1 snap-x">
+            <button onclick="scrollToSection('hot-drinks', this)" class="nav-chip active snap-start flex items-center gap-1.5"><i class="fas fa-mug-hot"></i> ساخن</button>
+            <button onclick="scrollToSection('sahlab', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-mug-hot"></i> سحلب</button>
+            <button onclick="scrollToSection('fresh-juices', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-glass-citrus"></i> عصائر</button>
+            <button onclick="scrollToSection('soda', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-bottle-water"></i> صودا</button>
+            <button onclick="scrollToSection('milkshake', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-blender"></i> شيك</button>
+            <button onclick="scrollToSection('cocktails', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-martini-glass-citrus"></i> كوكتيلات</button>
+            <button onclick="scrollToSection('ice-cream', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-ice-cream"></i> آيس كريم</button>
+            <button onclick="scrollToSection('rice-pudding', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-bowl-rice"></i> حلو</button>
+            <button onclick="scrollToSection('special-corner', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-star"></i> مميز</button>
         </div>
     </div>
 
-    <!-- حاوية المنيو الديناميكية -->
     <div id="menu-container"></div>
 
 </main>
 
-<footer class="text-center pb-8 pt-6 text-gray-500 font-bold border-t border-white/10 mx-4">
+<footer class="text-center pb-8 pt-6 text-gray-500 font-bold border-t border-white/10 mx-4 relative z-10">
     <p class="text-cafe-gold mb-2 text-lg">كورنيش النيل - مفتوح 24 ساعة <i class="fas fa-clock text-amber-400 ml-1"></i></p>
-    <p class="text-sm">© 2026 كافيه الكورنيش. جميع الحقوق محفوظة.</p>
+    <p class="text-sm">© 2026 كافيه الكورنيش.</p>
 </footer>
 
 <script>
-    // --- بيانات المنيو كاملة (9 أقسام مدمجة) ---
+    // --- تهيئة متقدمة لصوت الكليك ليعمل على جميع الموبايلات بلا مشاكل ---
+    let audioCtx;
+    function playClick() {
+        try {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            // إعادة التفعيل لو كان الموبايل أوقف الصوت كإجراء حماية
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.1);
+            
+            gain.gain.setValueAtTime(1, audioCtx.currentTime); // صوت قوي وواضح
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.1);
+        } catch(e) {
+            console.log("Audio API غير مدعوم في هذا المتصفح");
+        }
+    }
+
+    // --- دالة الدخول (تشغل الكليك والموسيقى وتخفي الشاشة) ---
+    function enterMenu() {
+        // 1. تشغيل صوت الكليك فوراً
+        playClick();
+        
+        const splash = document.getElementById('splash-screen');
+        const bgMusic = document.getElementById('bg-music');
+        
+        // 2. تشغيل موسيقى الخلفية (مرة واحدة)
+        bgMusic.volume = 1.0;
+        let playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => console.log("تحذير تشغيل الموسيقى:", error));
+        }
+        
+        // 3. إخفاء شاشة الترحيب
+        splash.style.opacity = '0';
+        document.body.classList.remove('no-scroll');
+        setTimeout(() => splash.style.display = 'none', 500);
+    }
+
     const menuData = [
         {
             id: 'hot-drinks', title: 'المشروبات الساخنة', icon: 'fa-mug-hot', img: 'https://i.pinimg.com/736x/33/7e/c0/337ec0bb236800d4153acbf975ff6810.jpg',
@@ -291,39 +328,17 @@
         }
     ];
 
-    // --- تعيين الأنيميشن لكل قسم (تأثيرات متنوعة) ---
-    function getAnimationClass(id) {
-        switch(id) {
-            case 'hot-drinks': return 'anim-fade-up';
-            case 'sahlab': return 'anim-scale';
-            case 'fresh-juices': return 'anim-slide-right';
-            case 'soda': return 'anim-bounce';
-            case 'milkshake': return 'anim-twist';
-            case 'cocktails': return 'anim-fade-up';
-            case 'ice-cream': return 'anim-scale';
-            case 'rice-pudding': return 'anim-slide-right';
-            case 'special-corner': return 'anim-pop';
-            default: return 'anim-fade-up';
-        }
-    }
-
-    // --- نظام الـ Intersection Observer لظهور الأقسام بمرونة ---
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
-    const scrollObserver = new IntersectionObserver((entries, observer) => {
+    // مراقب خفيف للأداء العالي 
+    const observerOptions = { root: null, rootMargin: '50px', threshold: 0.1 };
+    const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
+                scrollObserver.unobserve(entry.target); 
             }
         });
     }, observerOptions);
 
-    // --- نظام البحث والريندر الديناميكي ---
     function renderMenu(query = '') {
         const container = document.getElementById('menu-container');
         const noResults = document.getElementById('no-results');
@@ -332,7 +347,6 @@
         let foundAny = false;
 
         menuData.forEach(cat => {
-            // فلترة العناصر
             const filteredItems = cat.items.filter(item => item[0].toLowerCase().includes(query));
             const catMatches = cat.title.toLowerCase().includes(query);
             
@@ -340,42 +354,37 @@
             
             foundAny = true;
             const itemsToRender = query && !catMatches ? filteredItems : cat.items;
-            
-            // جعل القسم مفتوحاً وتلقائياً إذا كان هناك بحث نشط
-            const isOpen = query !== '' ? 'open border-cafe-gold' : 'border-white/10';
+            const isOpen = query !== '' ? 'open border-cafe-gold' : 'border-white/5';
             const contentOpen = query !== '' ? 'open' : '';
-            const animClass = getAnimationClass(cat.id);
 
             html += `
-            <section class="menu-card animate-card ${animClass}" id="${cat.id}" style="scroll-margin-top: 160px;">
+            <section class="menu-card animate-card" id="${cat.id}" style="scroll-margin-top: 140px;">
                 <div class="card-inner flex flex-col">
-                    <div class="relative w-full h-48 sm:h-64 overflow-hidden">
-                        <img src="${cat.img}" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#111] via-[#111]/60 to-transparent"></div>
+                    <div class="relative w-full h-40 sm:h-56 overflow-hidden">
+                        <img src="${cat.img}" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#111] via-[#111]/70 to-transparent"></div>
                     </div>
                     
-                    <div class="p-4 sm:p-6 pt-0 relative z-10 -mt-10">
-                        <!-- عنوان الأكورديون -->
-                        <div class="accordion-header bg-[#16161b]/95 backdrop-blur-md border border-white/10 ${isOpen} rounded-xl px-5 py-4 flex items-center justify-between cursor-pointer shadow-xl transition-colors hover:border-amber-400/50" onclick="toggleAccordion(this)">
+                    <div class="p-4 relative z-10 -mt-8">
+                        <div class="accordion-header bg-[#16161b] border border-white/5 ${isOpen} rounded-xl px-4 py-3 flex items-center justify-between cursor-pointer transition-colors" onclick="toggleAccordion(this)">
                             <div class="flex items-center gap-3">
-                                <div class="bg-gradient-to-br from-amber-400 to-amber-600 text-black w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg">
+                                <div class="bg-gradient-to-br from-amber-400 to-amber-600 text-black w-9 h-9 rounded-lg flex items-center justify-center text-md shadow-md">
                                     <i class="fas ${cat.icon}"></i>
                                 </div>
-                                <h2 class="text-2xl font-extrabold text-white tracking-wide">${cat.title}</h2>
+                                <h2 class="text-xl font-bold font-title text-white tracking-wide">${cat.title}</h2>
                             </div>
-                            <div class="bg-black/50 w-8 h-8 rounded-full flex items-center justify-center border border-white/10">
-                                <i class="fas fa-chevron-down text-cafe-gold text-lg accordion-icon"></i>
+                            <div class="w-7 h-7 rounded-full flex items-center justify-center bg-white/5">
+                                <i class="fas fa-chevron-down text-cafe-gold text-sm accordion-icon"></i>
                             </div>
                         </div>
                         
-                        <!-- محتوى الأكورديون (الأصناف) -->
                         <div class="accordion-content ${contentOpen}">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3 mt-5 px-2">
-                                ${itemsToRender.map((item, idx) => `
-                                    <div class="menu-item-row flex items-center justify-between py-2 group hover:bg-white/5 rounded-lg px-3 transition-colors border border-transparent hover:border-white/5" style="--delay: ${idx * 0.05}s">
-                                        <span class="item-name group-hover:text-amber-300 transition-colors">${item[0]}</span>
-                                        <div class="dotted-leader group-hover:border-amber-400/30"></div>
-                                        <span class="price-val drop-shadow-md">${item[1]} ج</span>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 mt-4 px-1">
+                                ${itemsToRender.map((item) => `
+                                    <div class="flex items-center justify-between py-1.5 px-2 hover:bg-white/5 rounded-md transition-colors">
+                                        <span class="item-name">${item[0]}</span>
+                                        <div class="dotted-leader"></div>
+                                        <span class="price-val">${item[1]} ج</span>
                                     </div>
                                 `).join('')}
                             </div>
@@ -394,11 +403,7 @@
         }
 
         container.innerHTML = html;
-
-        // تفعيل المراقبة لجميع الأقسام بعد الريندر
-        document.querySelectorAll('.animate-card').forEach(card => {
-            scrollObserver.observe(card);
-        });
+        document.querySelectorAll('.animate-card').forEach(card => scrollObserver.observe(card));
     }
 
     function filterMenu() {
@@ -406,36 +411,40 @@
         renderMenu(query);
     }
 
-    // --- الأكورديون والتمرير ---
     window.toggleAccordion = function(headerElement) {
+        playClick(); // صوت الكليك يشتغل مع كل ضغطة في المنيو أيضاً
         const content = headerElement.nextElementSibling;
         const isOpen = headerElement.classList.contains('open');
         
         if (!isOpen) { 
             headerElement.classList.add('open', 'border-cafe-gold'); 
-            headerElement.classList.remove('border-white/10');
+            headerElement.classList.remove('border-white/5');
             content.classList.add('open'); 
         } else {
             headerElement.classList.remove('open', 'border-cafe-gold'); 
-            headerElement.classList.add('border-white/10');
+            headerElement.classList.add('border-white/5');
             content.classList.remove('open'); 
         }
     }
 
     window.scrollToSection = function(id, btnElement) {
+        playClick(); // صوت الكليك في أزرار الأقسام بالأعلى
         const section = document.getElementById(id);
         if (section) {
             document.querySelectorAll('.nav-chip').forEach(btn => btn.classList.remove('active'));
             if(btnElement) btnElement.classList.add('active');
             
             const header = section.querySelector('.accordion-header');
-            if (!header.classList.contains('open')) { toggleAccordion(header); }
+            if (!header.classList.contains('open')) { 
+                header.classList.add('open', 'border-cafe-gold'); 
+                header.classList.remove('border-white/5');
+                header.nextElementSibling.classList.add('open'); 
+            }
             
             section.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
-    // التشغيل الأولي
     document.addEventListener("DOMContentLoaded", () => {
         renderMenu();
     });
@@ -443,6 +452,3 @@
 
 </body>
 </html>
-
-
-```
