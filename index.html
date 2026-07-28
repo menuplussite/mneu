@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -141,19 +140,42 @@
 </head>
 <body class="font-body antialiased relative pb-24 no-scroll" id="main-body">
 
+<!-- ================= تأثير الستارة الافتتاحية عند تحميل الموقع ================= -->
+<div id="curtain-container" class="fixed inset-0 z-[100000] flex pointer-events-none overflow-hidden">
+    <!-- النصف الأيمن للستارة -->
+    <div id="curtain-right" class="w-1/2 h-full bg-[#050505] border-l-2 border-cafe-gold/40 shadow-[0_0_30px_rgba(250,219,95,0.15)] flex items-center justify-start transition-transform duration-[1500ms] ease-[cubic-bezier(0.77,0,0.175,1)] relative z-10">
+        <!-- تدرج لوني يعطي عمق للستارة -->
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent to-black/30"></div>
+        <div class="w-2 h-full bg-gradient-to-b from-transparent via-cafe-gold/30 to-transparent absolute left-0"></div>
+    </div>
+    
+    <!-- النصف الأيسر للستارة -->
+    <div id="curtain-left" class="w-1/2 h-full bg-[#050505] border-r-2 border-cafe-gold/40 shadow-[0_0_30px_rgba(250,219,95,0.15)] flex items-center justify-end transition-transform duration-[1500ms] ease-[cubic-bezier(0.77,0,0.175,1)] relative z-10">
+        <!-- تدرج لوني يعطي عمق للستارة -->
+        <div class="absolute inset-0 bg-gradient-to-l from-transparent to-black/30"></div>
+        <div class="w-2 h-full bg-gradient-to-b from-transparent via-cafe-gold/30 to-transparent absolute right-0"></div>
+    </div>
+    
+    <!-- الأيقونة في المنتصف -->
+    <div id="curtain-center-logo" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-700 ease-in-out flex flex-col items-center">
+        <div class="w-24 h-24 rounded-full bg-cafe-black border border-cafe-gold flex items-center justify-center shadow-[0_0_40px_rgba(250,219,95,0.4)] mb-4 relative overflow-hidden">
+            <div class="absolute inset-0 bg-cafe-gold opacity-10 animate-pulse"></div>
+            <i class="fas fa-coffee text-4xl text-cafe-gold relative z-10"></i>
+        </div>
+    </div>
+</div>
+
 <!-- ================= شاشة الترحيب (Splash Screen) ================= -->
 <div id="splash-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-500 bg-[#08080a] overflow-hidden">
-    <!-- خلفية الشاشة (تم زيادة وضوح الصورة وتخفيف العتمة) -->
+    <!-- خلفية الشاشة -->
     <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-[#08080a] via-[#08080a]/60 to-[#08080a]/80"></div>
     
     <div class="relative z-10 flex flex-col items-center w-full px-4">
         
-        <!-- العنوان مع إضاءة ناعمة خلفه لا تطمس الشاشة -->
+        <!-- العنوان مع إضاءة ناعمة -->
         <div class="relative w-full text-center mb-4">
-            <!-- إضاءة مخصصة للنص فقط -->
             <div class="absolute inset-0 bg-cafe-gold blur-[45px] opacity-25 rounded-full w-2/3 h-full mx-auto pointer-events-none"></div>
-            <!-- النص -->
             <h1 class="font-title italic text-6xl md:text-8xl text-cafe-gold text-center leading-tight title-animated font-bold relative z-10">
                 كافيه<br>الكورنيش
             </h1>
@@ -171,7 +193,7 @@
     </div>
 </div>
 
-<!-- ================= مشغل الصوت المزدوج (بدون loop) ================= -->
+<!-- ================= مشغل الصوت المزدوج ================= -->
 <audio id="bg-music" preload="auto">
     <source src="https://www.image2url.com/r2/default/audio/1785210929096-053f34d8-53cc-4c7b-bf31-a661f6bfa7d7.mp3" type="audio/mpeg">
     <source src="https://files.catbox.moe/wyi0kn.mp3" type="audio/mpeg">
@@ -189,7 +211,6 @@
     <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-[#08080a] via-[#08080a]/60 to-transparent"></div>
     
-    <!-- العنوان الرئيسي مع إضاءة ناعمة ومناسبة -->
     <div class="relative w-full text-center mt-6">
         <div class="absolute inset-0 bg-cafe-gold blur-[50px] opacity-20 rounded-full w-2/3 h-full mx-auto pointer-events-none"></div>
         <h1 class="font-title italic text-7xl md:text-8xl text-cafe-gold text-center leading-tight relative z-10 title-animated font-bold">
@@ -236,14 +257,41 @@
 </footer>
 
 <script>
-    // --- تهيئة متقدمة لصوت الكليك ليعمل على جميع الموبايلات بلا مشاكل ---
+    // --- تشغيل حركة الستارة عند تحميل الصفحة ---
+    window.addEventListener('load', () => {
+        // 1. إخفاء الأيقونة التي في المنتصف بنعومة
+        setTimeout(() => {
+            const centerLogo = document.getElementById('curtain-center-logo');
+            if (centerLogo) {
+                centerLogo.style.opacity = '0';
+                centerLogo.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            }
+        }, 600);
+
+        // 2. فتح الستارة (تحريك النصفين)
+        setTimeout(() => {
+            const rightCurtain = document.getElementById('curtain-right');
+            const leftCurtain = document.getElementById('curtain-left');
+            const curtainContainer = document.getElementById('curtain-container');
+            
+            if(rightCurtain) rightCurtain.style.transform = 'translateX(100vw)';
+            if(leftCurtain) leftCurtain.style.transform = 'translateX(-100vw)';
+            
+            // 3. إزالة عناصر الستارة تماماً من الـ DOM بعد انتهاء الحركة لتخفيف الموقع
+            setTimeout(() => {
+                if(curtainContainer) curtainContainer.remove();
+            }, 1600);
+            
+        }, 1100); // تفتح الستارة بعد 1.1 ثانية تقريباً
+    });
+
+    // --- تهيئة متقدمة لصوت الكليك ---
     let audioCtx;
     function playClick() {
         try {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
-            // إعادة التفعيل لو كان الموبايل أوقف الصوت كإجراء حماية
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
@@ -258,7 +306,7 @@
             osc.frequency.setValueAtTime(600, audioCtx.currentTime);
             osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.1);
             
-            gain.gain.setValueAtTime(1, audioCtx.currentTime); // صوت قوي وواضح
+            gain.gain.setValueAtTime(1, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
             
             osc.start(audioCtx.currentTime);
@@ -268,22 +316,19 @@
         }
     }
 
-    // --- دالة الدخول (تشغل الكليك والموسيقى وتخفي الشاشة) ---
+    // --- دالة الدخول ---
     function enterMenu() {
-        // 1. تشغيل صوت الكليك فوراً
         playClick();
         
         const splash = document.getElementById('splash-screen');
         const bgMusic = document.getElementById('bg-music');
         
-        // 2. تشغيل موسيقى الخلفية (مرة واحدة)
         bgMusic.volume = 1.0;
         let playPromise = bgMusic.play();
         if (playPromise !== undefined) {
             playPromise.catch(error => console.log("تحذير تشغيل الموسيقى:", error));
         }
         
-        // 3. إخفاء شاشة الترحيب
         splash.style.opacity = '0';
         document.body.classList.remove('no-scroll');
         setTimeout(() => splash.style.display = 'none', 500);
@@ -328,7 +373,6 @@
         }
     ];
 
-    // مراقب خفيف للأداء العالي 
     const observerOptions = { root: null, rootMargin: '50px', threshold: 0.1 };
     const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -412,7 +456,7 @@
     }
 
     window.toggleAccordion = function(headerElement) {
-        playClick(); // صوت الكليك يشتغل مع كل ضغطة في المنيو أيضاً
+        playClick();
         const content = headerElement.nextElementSibling;
         const isOpen = headerElement.classList.contains('open');
         
@@ -428,7 +472,7 @@
     }
 
     window.scrollToSection = function(id, btnElement) {
-        playClick(); // صوت الكليك في أزرار الأقسام بالأعلى
+        playClick();
         const section = document.getElementById(id);
         if (section) {
             document.querySelectorAll('.nav-chip').forEach(btn => btn.classList.remove('active'));
