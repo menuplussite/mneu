@@ -144,14 +144,12 @@
 <div id="curtain-container" class="fixed inset-0 z-[100000] flex pointer-events-none overflow-hidden">
     <!-- النصف الأيمن للستارة -->
     <div id="curtain-right" class="w-1/2 h-full bg-[#050505] border-l-2 border-cafe-gold/40 shadow-[0_0_30px_rgba(250,219,95,0.15)] flex items-center justify-start transition-transform duration-[1500ms] ease-[cubic-bezier(0.77,0,0.175,1)] relative z-10">
-        <!-- تدرج لوني يعطي عمق للستارة -->
         <div class="absolute inset-0 bg-gradient-to-r from-transparent to-black/30"></div>
         <div class="w-2 h-full bg-gradient-to-b from-transparent via-cafe-gold/30 to-transparent absolute left-0"></div>
     </div>
     
     <!-- النصف الأيسر للستارة -->
     <div id="curtain-left" class="w-1/2 h-full bg-[#050505] border-r-2 border-cafe-gold/40 shadow-[0_0_30px_rgba(250,219,95,0.15)] flex items-center justify-end transition-transform duration-[1500ms] ease-[cubic-bezier(0.77,0,0.175,1)] relative z-10">
-        <!-- تدرج لوني يعطي عمق للستارة -->
         <div class="absolute inset-0 bg-gradient-to-l from-transparent to-black/30"></div>
         <div class="w-2 h-full bg-gradient-to-b from-transparent via-cafe-gold/30 to-transparent absolute right-0"></div>
     </div>
@@ -257,9 +255,7 @@
 </footer>
 
 <script>
-    // --- تشغيل حركة الستارة عند تحميل الصفحة ---
     window.addEventListener('load', () => {
-        // 1. إخفاء الأيقونة التي في المنتصف بنعومة
         setTimeout(() => {
             const centerLogo = document.getElementById('curtain-center-logo');
             if (centerLogo) {
@@ -268,7 +264,6 @@
             }
         }, 600);
 
-        // 2. فتح الستارة (تحريك النصفين)
         setTimeout(() => {
             const rightCurtain = document.getElementById('curtain-right');
             const leftCurtain = document.getElementById('curtain-left');
@@ -277,15 +272,13 @@
             if(rightCurtain) rightCurtain.style.transform = 'translateX(100vw)';
             if(leftCurtain) leftCurtain.style.transform = 'translateX(-100vw)';
             
-            // 3. إزالة عناصر الستارة تماماً من الـ DOM بعد انتهاء الحركة لتخفيف الموقع
             setTimeout(() => {
                 if(curtainContainer) curtainContainer.remove();
             }, 1600);
             
-        }, 1100); // تفتح الستارة بعد 1.1 ثانية تقريباً
+        }, 1100); 
     });
 
-    // --- تهيئة متقدمة لصوت الكليك ---
     let audioCtx;
     function playClick() {
         try {
@@ -316,7 +309,6 @@
         }
     }
 
-    // --- دالة الدخول ---
     function enterMenu() {
         playClick();
         
@@ -334,10 +326,11 @@
         setTimeout(() => splash.style.display = 'none', 500);
     }
 
+    // --- تم تحديث البيانات هنا بناءً على طلبك ---
     const menuData = [
         {
             id: 'hot-drinks', title: 'المشروبات الساخنة', icon: 'fa-mug-hot', img: 'https://i.pinimg.com/736x/33/7e/c0/337ec0bb236800d4153acbf975ff6810.jpg',
-            items: [['قهوة تركي', 20], ['قهوة فرنساوي', 25], ['قهوة بندق', 25], ['نسكافيه بلاك', 20], ['نسكافيه حليب', 25], ['اسبريسو', 25], ['أمريكانو', 20], ['كابتشينو', 30], ['لاتيه', 35], ['باور', 30], ['بريو سخن', 30], ['هوت شوكليت', 30], ['كاكاو', 25], ['كاكو حليب', 30], ['شاي', 10], ['شاي باكيت', 15], ['شاي حليب', 15], ['يانسون', 30], ['جنزبيل', 15], ['جنزبيل حليب', 20], ['قرفة', 15], ['قرفة حليب', 20], ['كركديه', 20], ['هوت سيدر', 25], ['ليمون (ساخن)', 10]]
+            items: [['قهوة تركي', 20], ['قهوة فرنساوي', 25], ['قهوة بندق', 25], ['نسكافيه بلاك', 20], ['نسكافيه حليب', 25], ['إسبريسو', 25], ['أمريكانو', 20], ['كابتشينو', 30], ['لاتيه', 35], ['باور', 30], ['اوريو سخن', 30], ['هوت شوكلت', 30], ['كاكاو', 30], ['كاكاو حليب', 30], ['شاي', 10], ['شاي باكيت', 15], ['شاي حليب', 20], ['ينسون', 15], ['جنزبيل', 15], ['جنزبيل حليب', 20], ['قرفة', 15], ['قرفة حليب', 20], ['كركديه', 15], ['هوت سيدر', 25], ['لمون سخن', 15]]
         },
         {
             id: 'sahlab', title: 'السحلب', icon: 'fa-mug-hot', img: 'https://i.pinimg.com/736x/a4/7a/8d/a47a8d0248193210063e9da35480d16b.jpg',
@@ -345,7 +338,7 @@
         },
         {
             id: 'fresh-juices', title: 'عصائر فريش', icon: 'fa-glass-citrus', img: 'https://i.pinimg.com/736x/9a/6a/fb/9a6afb2d0b80febb7ce9d744e1f0c6f3.jpg',
-            items: [['موز', 25], ['بلح', 25], ['كيوي', 30], ['تفاح', 25], ['مانجا', 30], ['لمون ساقع', 20], ['جوافة', 25], ['بطيخ', 25], ['فراولة', 30], ['كنتالوب', 25], ['دوم حليب', 25], ['عصير كوكتيل', 30], ['فرابتشينو', 35], ['براوة (سوبيا وقشطة)', 25]]
+            items: [['موز', 30], ['بلح', 30], ['كيوي', 40], ['تفاح', 25], ['مانجا', 30], ['جوافة', 25], ['بطيخ', 25], ['لمون ساقع', 25], ['فراولة', 30], ['كنتالوب', 25], ['دوم حليب', 25], ['عصير كوكتيل', 30], ['فرابتشينو موكا', 35], ['براوة', 25], ['موهيتو', 30], ['كركديه ساقع', 25]]
         },
         {
             id: 'soda', title: 'الصودا', icon: 'fa-bottle-water', img: 'https://i.pinimg.com/736x/8e/c8/b6/8ec8b622d6d7135bc9c53e3065e5af08.jpg',
@@ -357,7 +350,7 @@
         },
         {
             id: 'cocktails', title: 'كوكتيلات', icon: 'fa-martini-glass-citrus', img: 'https://i.pinimg.com/736x/7f/a9/63/7fa9637a00bf54f1b48edf67ca5e78f0.jpg',
-            items: [['كوكتيل الكورنيش', 60], ['قنبلة', 60], ['فروت سالاد (سلطة فواكه)', 50]]
+            items: [['كوكتيل الكورنيش', 60], ['قنبلة', 60], ['فروت سالاد (سلطة فواكه)', 50], ['فخفخينا', 35], ['كشري', 60], ['بامبوظة', 60], ['المتدلعة', 40]]
         },
         {
             id: 'ice-cream', title: 'الآيس كريم والزبادي', icon: 'fa-ice-cream', img: 'https://i.pinimg.com/1200x/22/a7/d0/22a7d0ce7700f7169b5990609f5d458f.jpg',
@@ -365,7 +358,7 @@
         },
         {
             id: 'rice-pudding', title: 'أرز بلبن والحلو', icon: 'fa-bowl-rice', img: 'https://i.pinimg.com/736x/77/9e/63/779e63849edfa767274a125c1d6f21fd.jpg',
-            items: [['أرز بلبن أوريو', 30], ['أرز بلبن مكسرات', 25], ['أرز بلبن بسبوسة', 30], ['طبق بسبوسة مكسرات', 25]]
+            items: [['أرز بلبن أوريو', 30], ['أرز بلبن مكسرات', 25], ['أرز بلبن بسبوسة', 35], ['أرز بلبن لوتس', 35], ['طبق بسبوسة مكسرات', 25]]
         },
         {
             id: 'special-corner', title: 'الركن المميز', icon: 'fa-star', img: 'https://i.pinimg.com/736x/96/76/23/9676236929ace4bd2a860ba7a8c1e948.jpg',
