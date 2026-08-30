@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منيو كافيه الكورنيش</title>
+    <meta name="description" content="المنيو الإلكتروني لمطعم وكافيه الكورنيش - أشهى المأكولات والمشروبات">
+    <title>مطعم وكافيه الكورنيش</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -59,23 +61,35 @@
             top: -4px;
         }
 
-        .price-val { color: #FADB5F; font-weight: 800; font-size: 1.1rem; white-space: nowrap; }
-        .item-name { font-weight: 700; font-size: 1.1rem; color: #f1f1f1; }
+        .price-val { color: #FADB5F; font-weight: 800; font-size: 1.1rem; white-space: nowrap; direction: ltr; display: inline-block; }
+        .item-name { font-weight: 700; font-size: 1.1rem; color: #f1f1f1; line-height: 1.4; }
+        .item-desc { font-size: 0.85rem; color: #9ca3af; margin-top: 4px; line-height: 1.6; }
 
         /* نبض خفيف للعنوان */
         @keyframes floatPulse {
             0%, 100% { transform: translateY(0); opacity: 0.95; text-shadow: 0 0 10px rgba(250,219,95,0.4); }
             50% { transform: translateY(-5px); opacity: 1; text-shadow: 0 0 20px rgba(250,219,95,0.8); }
         }
-        .title-animated { display: inline-block; animation: floatPulse 3s ease-in-out infinite; will-change: transform, opacity, text-shadow; }
+        .title-animated { 
+            display: inline-block; 
+            animation: floatPulse 3s ease-in-out infinite; 
+            will-change: transform, opacity, text-shadow; 
+            transform: translate3d(0,0,0); /* GPU Acceleration */
+        }
 
-        /* إضاءة نابضة لزر الدخول */
+        /* إضاءة نابضة لأزرار الدخول */
         @keyframes btnPulseFast {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(250,219,95,0.4), 0 0 25px rgba(250,219,95,0.2); }
-            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(250,219,95,0.7), 0 0 45px rgba(250,219,95,0.4); }
+            0%, 100% { transform: scale(1) translate3d(0,0,0); box-shadow: 0 0 15px rgba(250,219,95,0.4), 0 0 25px rgba(250,219,95,0.2); }
+            50% { transform: scale(1.05) translate3d(0,0,0); box-shadow: 0 0 25px rgba(250,219,95,0.7), 0 0 45px rgba(250,219,95,0.4); }
         }
         .btn-enter-animated {
-            animation: btnPulseFast 1.5s infinite;
+            animation: btnPulseFast 2s infinite;
+            will-change: transform, box-shadow;
+        }
+        
+        .btn-enter-restaurant {
+            animation: btnPulseFast 2s infinite;
+            animation-delay: 1s;
             will-change: transform, box-shadow;
         }
 
@@ -87,7 +101,7 @@
             margin-bottom: 2rem; 
             padding: 1.5px;
             overflow: hidden; 
-            transform: translateZ(0);
+            transform: translateZ(0); /* Hardware acceleration */
         }
 
         .menu-card::before {
@@ -119,7 +133,7 @@
             opacity: 0; 
         }
         .accordion-content.open { 
-            max-height: 2500px; 
+            max-height: 4000px; 
             opacity: 1; 
             margin-top: 1rem; 
         }
@@ -133,6 +147,20 @@
         }
         .nav-chip.active { background: #FADB5F; color: #000; border-color: #FADB5F; }
 
+        .main-tab {
+            transition: all 0.3s ease;
+        }
+        .main-tab.active {
+            background: linear-gradient(to right, #fbbf24, #d97706);
+            color: black;
+            box-shadow: 0 0 15px rgba(250,219,95,0.4);
+        }
+        .main-tab.inactive {
+            background: #1a1a1a;
+            color: white;
+            border: 1px solid #333;
+        }
+
         /* حركات ظهور خفيفة */
         .animate-card { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .animate-card.visible { opacity: 1; transform: translateY(0); }
@@ -140,89 +168,78 @@
 </head>
 <body class="font-body antialiased relative pb-24 no-scroll" id="main-body">
 
-<!-- ================= تأثير الستارة الافتتاحية عند تحميل الموقع ================= -->
-<div id="curtain-container" class="fixed inset-0 z-[100000] flex pointer-events-none overflow-hidden">
-    <!-- النصف الأيمن للستارة -->
-    <div id="curtain-right" class="w-1/2 h-full bg-[#050505] border-l-2 border-cafe-gold/40 shadow-[0_0_30px_rgba(250,219,95,0.15)] flex items-center justify-start transition-transform duration-[1500ms] ease-[cubic-bezier(0.77,0,0.175,1)] relative z-10">
-        <div class="absolute inset-0 bg-gradient-to-r from-transparent to-black/30"></div>
-        <div class="w-2 h-full bg-gradient-to-b from-transparent via-cafe-gold/30 to-transparent absolute left-0"></div>
-    </div>
-    
-    <!-- النصف الأيسر للستارة -->
-    <div id="curtain-left" class="w-1/2 h-full bg-[#050505] border-r-2 border-cafe-gold/40 shadow-[0_0_30px_rgba(250,219,95,0.15)] flex items-center justify-end transition-transform duration-[1500ms] ease-[cubic-bezier(0.77,0,0.175,1)] relative z-10">
-        <div class="absolute inset-0 bg-gradient-to-l from-transparent to-black/30"></div>
-        <div class="w-2 h-full bg-gradient-to-b from-transparent via-cafe-gold/30 to-transparent absolute right-0"></div>
-    </div>
-    
-    <!-- الأيقونة في المنتصف -->
-    <div id="curtain-center-logo" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-700 ease-in-out flex flex-col items-center">
-        <div class="w-24 h-24 rounded-full bg-cafe-black border border-cafe-gold flex items-center justify-center shadow-[0_0_40px_rgba(250,219,95,0.4)] mb-4 relative overflow-hidden">
-            <div class="absolute inset-0 bg-cafe-gold opacity-10 animate-pulse"></div>
-            <i class="fas fa-coffee text-4xl text-cafe-gold relative z-10"></i>
-        </div>
-    </div>
-</div>
-
-<!-- ================= شاشة الترحيب (Splash Screen) ================= -->
+<!-- ================= شاشة الترحيب واختيار المنيو ================= -->
 <div id="splash-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-500 bg-[#08080a] overflow-hidden">
-    <!-- خلفية الشاشة -->
     <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[#08080a] via-[#08080a]/60 to-[#08080a]/80"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#08080a] via-[#08080a]/70 to-[#08080a]/90"></div>
     
-    <div class="relative z-10 flex flex-col items-center w-full px-4">
+    <div class="relative z-10 flex flex-col items-center w-full px-4 mt-8">
         
-        <!-- العنوان مع إضاءة ناعمة -->
-        <div class="relative w-full text-center mb-4">
-            <div class="absolute inset-0 bg-cafe-gold blur-[45px] opacity-25 rounded-full w-2/3 h-full mx-auto pointer-events-none"></div>
-            <h1 class="font-title italic text-6xl md:text-8xl text-cafe-gold text-center leading-tight title-animated font-bold relative z-10">
-                كافيه<br>الكورنيش
+        <!-- العنوان الرئيسي -->
+        <div class="relative w-full text-center mb-16">
+            <div class="absolute inset-0 bg-cafe-gold blur-[55px] opacity-25 rounded-full w-4/5 h-full mx-auto pointer-events-none"></div>
+            <h1 class="font-title italic text-6xl md:text-8xl lg:text-9xl text-cafe-gold text-center leading-tight title-animated font-bold relative z-10">
+                مطعم وكافيه<br>الكورنيش
             </h1>
         </div>
         
-        <p class="font-title italic text-3xl md:text-4xl text-white text-center mb-16 opacity-90 tracking-wide drop-shadow-md relative z-10">
-            يُرحـــب بـكـــم
-        </p>
-        
-        <!-- زر الدخول -->
-        <button onclick="enterMenu()" class="btn-enter-animated px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold text-xl rounded-full flex items-center gap-3 relative z-10 shadow-lg cursor-pointer">
-            <span>تصفح المنيو</span>
-            <i class="fas fa-book-open"></i>
-        </button>
+        <!-- أزرار الاختيار -->
+        <div class="flex flex-col sm:flex-row gap-6 w-full max-w-lg px-4 mt-8">
+            <button onclick="enterMenu('cafe')" class="btn-enter-animated flex-1 py-5 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold text-2xl rounded-2xl flex items-center justify-center gap-4 relative z-10 shadow-lg cursor-pointer">
+                <i class="fas fa-coffee text-3xl"></i>
+                <span>كافيه الكورنيش</span>
+            </button>
+            
+            <button onclick="enterMenu('restaurant')" class="btn-enter-restaurant flex-1 py-5 bg-gradient-to-r from-red-600 to-orange-500 text-white font-extrabold text-2xl rounded-2xl flex items-center justify-center gap-4 relative z-10 shadow-lg cursor-pointer">
+                <i class="fas fa-utensils text-3xl"></i>
+                <span>مطعم الكورنيش</span>
+            </button>
+        </div>
     </div>
 </div>
 
-<!-- ================= مشغل الصوت المزدوج ================= -->
-<audio id="bg-music" preload="auto">
-    <source src="https://www.image2url.com/r2/default/audio/1785210929096-053f34d8-53cc-4c7b-bf31-a661f6bfa7d7.mp3" type="audio/mpeg">
+<!-- ================= مشغل الصوت ================= -->
+<audio id="bg-music" preload="none">
+    <source src="https://www.image2url.com/r2/default/audio/1788088397123-32330d03-e9e2-4244-b805-d8222c98cade.wav">
     <source src="https://files.catbox.moe/wyi0kn.mp3" type="audio/mpeg">
 </audio>
 
 <!-- أزرار التواصل الاجتماعي -->
 <div class="fixed bottom-6 right-6 z-[990] flex gap-3 px-4 py-2 rounded-full bg-cafe-black/80 backdrop-blur-md border border-gray-800 shadow-lg">
-    <a href="https://wa.me/201282272242" target="_blank" class="bg-[#25D366] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg hover:scale-110 transition-transform"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://www.facebook.com/share/19ES6UAYcN/" target="_blank" class="bg-[#1877F2] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg hover:scale-110 transition-transform"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://www.tiktok.com/@user2700132902566" target="_blank" class="bg-black border border-gray-700 text-white w-10 h-10 flex items-center justify-center rounded-full text-lg hover:scale-110 transition-transform"><i class="fab fa-tiktok"></i></a>
+    <a href="https://wa.me/201282272242" target="_blank" aria-label="تواصل عبر الواتساب" class="bg-[#25D366] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg hover:scale-110 transition-transform"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://www.facebook.com/share/19ES6UAYcN/" target="_blank" aria-label="صفحتنا على فيسبوك" class="bg-[#1877F2] text-white w-10 h-10 flex items-center justify-center rounded-full text-lg hover:scale-110 transition-transform"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.tiktok.com/@user2700132902566" target="_blank" aria-label="حسابنا على تيك توك" class="bg-black border border-gray-700 text-white w-10 h-10 flex items-center justify-center rounded-full text-lg hover:scale-110 transition-transform"><i class="fab fa-tiktok"></i></a>
 </div>
 
 <!-- هيدر الموقع الداخلي -->
-<header class="relative pt-32 pb-24 flex flex-col items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');"></div>
+<header class="relative pt-24 pb-16 flex flex-col items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg');"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-[#08080a] via-[#08080a]/60 to-transparent"></div>
     
     <div class="relative w-full text-center mt-6">
-        <div class="absolute inset-0 bg-cafe-gold blur-[50px] opacity-20 rounded-full w-2/3 h-full mx-auto pointer-events-none"></div>
-        <h1 class="font-title italic text-7xl md:text-8xl text-cafe-gold text-center leading-tight relative z-10 title-animated font-bold">
-            كافيه<br>الكورنيش
+        <h1 id="main-title" class="font-title italic text-6xl md:text-7xl lg:text-8xl text-cafe-gold text-center leading-tight relative z-10 title-animated font-bold">
+            <!-- يتم تغييره برمجيا -->
         </h1>
     </div>
 </header>
 
-<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col mt-6 mb-12 relative z-20">
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col mt-2 mb-12 relative z-20">
     
+    <!-- تاب التبديل بين الكافيه والمطعم -->
+    <div class="flex p-1 bg-[#121216]/90 backdrop-blur-md border border-white/10 rounded-2xl mb-6 shadow-lg relative z-50">
+        <button id="tab-cafe" onclick="switchMenu('cafe')" class="main-tab flex-1 py-3 rounded-xl font-bold text-lg flex justify-center items-center gap-2">
+            <i class="fas fa-coffee"></i> الكافيه
+        </button>
+        <button id="tab-restaurant" onclick="switchMenu('restaurant')" class="main-tab flex-1 py-3 rounded-xl font-bold text-lg flex justify-center items-center gap-2">
+            <i class="fas fa-utensils"></i> المطعم
+        </button>
+    </div>
+
+    <!-- شريط البحث -->
     <div class="bg-[#121216]/90 backdrop-blur-md border border-white/5 rounded-2xl p-2 mb-6 flex items-center shadow-lg">
         <div class="relative w-full">
             <i class="fas fa-search absolute right-4 top-3.5 text-cafe-gold text-lg"></i>
-            <input type="text" id="search-input" oninput="filterMenu()" placeholder="ابحث عن مشروبك..." class="w-full bg-[#1a1a1a] text-white border-none rounded-xl pr-12 pl-4 py-3 focus:outline-none focus:ring-1 focus:ring-cafe-gold transition-shadow font-semibold placeholder-gray-500">
+            <input type="text" id="search-input" oninput="debounceFilterMenu()" placeholder="ابحث عن طلبك..." class="w-full bg-[#1a1a1a] text-white border-none rounded-xl pr-12 pl-4 py-3 focus:outline-none focus:ring-1 focus:ring-cafe-gold transition-shadow font-semibold placeholder-gray-500">
         </div>
     </div>
 
@@ -231,20 +248,14 @@
         <button onclick="document.getElementById('search-input').value=''; filterMenu();" class="px-6 py-2 rounded-xl bg-cafe-gold text-black font-bold mt-2 hover:scale-105 transition-transform">عرض المنيو</button>
     </div>
 
+    <!-- شريط الأقسام (يتغير حسب المنيو) -->
     <div class="sticky top-0 z-40 bg-[#08080a]/95 backdrop-blur-md pt-3 pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-white/10 mb-6" id="nav-chip-container">
-        <div class="flex overflow-x-auto hide-scrollbar gap-2 pb-1 snap-x">
-            <button onclick="scrollToSection('hot-drinks', this)" class="nav-chip active snap-start flex items-center gap-1.5"><i class="fas fa-mug-hot"></i> ساخن</button>
-            <button onclick="scrollToSection('sahlab', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-mug-hot"></i> سحلب</button>
-            <button onclick="scrollToSection('fresh-juices', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-glass-citrus"></i> عصائر</button>
-            <button onclick="scrollToSection('soda', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-bottle-water"></i> صودا</button>
-            <button onclick="scrollToSection('milkshake', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-blender"></i> شيك</button>
-            <button onclick="scrollToSection('cocktails', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-martini-glass-citrus"></i> كوكتيلات</button>
-            <button onclick="scrollToSection('ice-cream', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-ice-cream"></i> آيس كريم</button>
-            <button onclick="scrollToSection('rice-pudding', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-bowl-rice"></i> حلو</button>
-            <button onclick="scrollToSection('special-corner', this)" class="nav-chip snap-start flex items-center gap-1.5"><i class="fas fa-star"></i> مميز</button>
+        <div class="flex overflow-x-auto hide-scrollbar gap-2 pb-1 snap-x" id="nav-chips">
+            <!-- يتم حقن الأزرار برمجياً -->
         </div>
     </div>
 
+    <!-- حاوية الأصناف -->
     <div id="menu-container"></div>
 
 </main>
@@ -252,82 +263,17 @@
 <footer class="text-center pb-8 pt-6 text-gray-500 font-bold border-t border-white/10 mx-4 relative z-10">
     <p class="text-cafe-gold mb-1 text-lg">كورنيش النيل - مفتوح من 9 صباحاً لـ 2 صباحاً <i class="fas fa-clock text-amber-400 ml-1"></i></p>
     <p class="text-gray-300 mb-3 text-sm md:text-base">تابع الصفحة للاستمتاع بعروضنا الأسبوعية <i class="fas fa-star text-amber-400 ml-1"></i></p>
-    <p class="text-sm">© 2026 كافيه الكورنيش.</p>
+    <p class="text-sm">© 2026 مطعم وكافيه الكورنيش.</p>
 </footer>
 
 <script>
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            const centerLogo = document.getElementById('curtain-center-logo');
-            if (centerLogo) {
-                centerLogo.style.opacity = '0';
-                centerLogo.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            }
-        }, 600);
-
-        setTimeout(() => {
-            const rightCurtain = document.getElementById('curtain-right');
-            const leftCurtain = document.getElementById('curtain-left');
-            const curtainContainer = document.getElementById('curtain-container');
-            
-            if(rightCurtain) rightCurtain.style.transform = 'translateX(100vw)';
-            if(leftCurtain) leftCurtain.style.transform = 'translateX(-100vw)';
-            
-            setTimeout(() => {
-                if(curtainContainer) curtainContainer.remove();
-            }, 1600);
-            
-        }, 1100); 
-    });
-
+    // تهيئة المتغيرات
+    let currentMode = 'cafe'; // 'cafe' or 'restaurant'
     let audioCtx;
-    function playClick() {
-        try {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.1);
-            
-            gain.gain.setValueAtTime(1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            
-            osc.start(audioCtx.currentTime);
-            osc.stop(audioCtx.currentTime + 0.1);
-        } catch(e) {
-            console.log("Audio API غير مدعوم في هذا المتصفح");
-        }
-    }
+    let searchTimeout;
 
-    function enterMenu() {
-        playClick();
-        
-        const splash = document.getElementById('splash-screen');
-        const bgMusic = document.getElementById('bg-music');
-        
-        bgMusic.volume = 1.0;
-        let playPromise = bgMusic.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => console.log("تحذير تشغيل الموسيقى:", error));
-        }
-        
-        splash.style.opacity = '0';
-        document.body.classList.remove('no-scroll');
-        setTimeout(() => splash.style.display = 'none', 500);
-    }
-
-    const menuData = [
+    // بيانات المنيو الخاصة بالكافيه
+    const cafeData = [
         {
             id: 'hot-drinks', title: 'المشروبات الساخنة', icon: 'fa-mug-hot', img: 'https://i.pinimg.com/736x/33/7e/c0/337ec0bb236800d4153acbf975ff6810.jpg',
             items: [['قهوة تركي', 20], ['قهوة فرنساوي', 25], ['قهوة بندق', 25], ['نسكافيه بلاك', 20], ['نسكافيه حليب', 25], ['إسبريسو', 25], ['أمريكانو', 20], ['كابتشينو', 30], ['لاتيه', 35], ['باور', 30], ['اوريو سخن', 30], ['هوت شوكلت', 30], ['كاكاو', 30], ['كاكاو حليب', 30], ['شاي', 10], ['شاي باكيت', 15], ['شاي حليب', 20], ['ينسون', 15], ['جنزبيل', 15], ['جنزبيل حليب', 20], ['قرفة', 15], ['قرفة حليب', 20], ['كركديه', 15], ['هوت سيدر', 25], ['لمون سخن', 15]]
@@ -366,6 +312,151 @@
         }
     ];
 
+    // بيانات المنيو الخاصة بالمطعم 
+    const restaurantData = [
+        {
+            id: 'grills', title: 'قسم المشويات', icon: 'fa-fire-burner', img: 'https://res.cloudinary.com/dbahe7lxz/image/upload/v1788067734/idraaak/gb1rjqcxmtfw8jkdjhi7.png',
+            note: 'تقدم جميع طلبات المشويات مع طحينة + سلطات الحاتي + خبز',
+            items: [
+                ['كباب (كيلو: 800 ج | نص: 400 ج | ربع: 200 ج)', '-'],
+                ['كفتة (كيلو: 600 ج | نص: 300 ج | ربع: 160 ج)', '-'],
+                ['طرب (كيلو: 700 ج | نص: 350 ج | ربع: 180 ج)', '-'],
+                ['مشكل (كيلو: 700 ج | نص: 350 ج | ربع: 180 ج)', '-'],
+                ['فراخ (كيلو: 320 ج | نص: 160 ج | ربع: 85 ج)', '-'],
+                ['شيش طاووق (كيلو: 400 ج | نص: 200 ج | ربع: 110 ج)', '-'],
+                ['سجق بلدي (كيلو: 450 ج | نص: 230 ج | ربع: 120 ج)', '-']
+            ]
+        },
+        {
+            id: 'meals', title: 'قسم الوجبات', icon: 'fa-drumstick-bite', img: 'https://res.cloudinary.com/dbahe7lxz/image/upload/v1788067859/idraaak/o9ipv6yyack5sx0eak3u.png',
+            note: 'وجبات الكاتي تقدم مع: خبز + أرز بسمتي + سلطات حاتي',
+            items: [
+                ['ربع فراخ + 1/8 كفتة', 160],
+                ['1/8 كفتة + 1/8 سجق + 2 حواوشي', 200],
+                ['ربع كفتة + ربع فراخ', 199],
+                ['نص فراخ + ربع كباب', 360],
+                ['ربع شيش + ربع سجق + ربع طرب + لتر بيبسي', 399]
+            ]
+        },
+        {
+            id: 'trays', title: 'قسم الصواني', icon: 'fa-bell-concierge', img: 'https://files.catbox.moe/cwnmsi.png',
+            items: [
+                ['صينية لمة الأحباب (نص فراخ + ربع كفتة + ربع طرب + 2 حواوشي + لتر كولا)', 399],
+                ['صينية نار الحبايب (ربع شيش + 1/8 سجق + ربع كفتة + ربع كباب + 2 حواوشي + لتر بيبسي)', 550],
+                ['صينية عزومة الكبار (نص كفتة + 1/8 طرب + نص فراخ + 2 حواوشي + سلطات + أرز + لتر بيبسي)', 599],
+                ['صينية الملوك (نص كباب + نص طرب + نص شيش + نص كفتة + لتر بيبسي)', 1199],
+                ['صينية السلطان (نص كباب + ربع طرب + نص كفتة + 4 فرد حمام بالفريك + 4 أرز + 4 ريد بول)', 1599],
+                ['صينية العريس (بالحجز المسبق فقط)', '-']
+            ]
+        },
+        {
+            id: 'rice', title: 'قسم الأرز', icon: 'fa-bowl-rice', img: 'https://files.catbox.moe/lcz9gs.png',
+            items: [
+                ['أرز بسمتي كبدة', 60],
+                ['أرز بسمتي سجق', 60],
+                ['كفتة داوود باشا', 80],
+                ['أرز بسمتي (سادة)', '-']
+            ]
+        },
+        {
+            id: 'grill-pan', title: 'طاسة الجريل والطلبات الفردية', icon: 'fa-fire', img: 'https://files.catbox.moe/l1z9vv.png',
+            items: [
+                ['طلب كبدة', 75],
+                ['طلب سجق', 80],
+                ['طلب كفتة داوود باشا', 90],
+                ['مخلل علبة + سلطة حاتي', '-']
+            ]
+        }
+    ];
+
+    // صوت الكليك
+    function playClick() {
+        try {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.1);
+            gain.gain.setValueAtTime(1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.1);
+        } catch(e) { }
+    }
+
+    // الدخول من شاشة الترحيب
+    function enterMenu(mode) {
+        playClick();
+        
+        const splash = document.getElementById('splash-screen');
+        const bgMusic = document.getElementById('bg-music');
+        
+        // تشغيل الموسيقى
+        bgMusic.volume = 0.5;
+        let playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => console.log("المتصفح منع التشغيل التلقائي للصوت"));
+        }
+        
+        splash.style.opacity = '0';
+        document.body.classList.remove('no-scroll');
+        
+        setTimeout(() => {
+            splash.style.display = 'none';
+            switchMenu(mode); // تفعيل المنيو المختار
+        }, 500);
+    }
+
+    // التبديل بين الكافيه والمطعم
+    function switchMenu(mode) {
+        currentMode = mode;
+        playClick();
+
+        // تحديث مظهر التابات
+        const tabCafe = document.getElementById('tab-cafe');
+        const tabRest = document.getElementById('tab-restaurant');
+        
+        if (mode === 'cafe') {
+            tabCafe.className = 'main-tab active flex-1 py-3 rounded-xl font-bold text-lg flex justify-center items-center gap-2';
+            tabRest.className = 'main-tab inactive flex-1 py-3 rounded-xl font-bold text-lg flex justify-center items-center gap-2';
+            document.getElementById('main-title').innerHTML = 'كافيه<br>الكورنيش';
+        } else {
+            tabRest.className = 'main-tab active flex-1 py-3 rounded-xl font-bold text-lg flex justify-center items-center gap-2';
+            tabCafe.className = 'main-tab inactive flex-1 py-3 rounded-xl font-bold text-lg flex justify-center items-center gap-2';
+            document.getElementById('main-title').innerHTML = 'مطعم<br>الكورنيش';
+        }
+
+        document.getElementById('search-input').value = '';
+        renderNavChips();
+        renderMenu();
+    }
+
+    // بناء أزرار التنقل العلوية
+    function renderNavChips() {
+        const container = document.getElementById('nav-chips');
+        const data = currentMode === 'cafe' ? cafeData : restaurantData;
+        let html = '';
+        
+        data.forEach((cat, index) => {
+            const isActive = index === 0 ? 'active' : '';
+            let shortTitle = cat.title.replace('قسم ', '').replace('طاسة الجريل والطلبات الفردية', 'طاسات');
+            
+            html += `<button onclick="scrollToSection('${cat.id}', this)" class="nav-chip snap-start flex items-center gap-1.5 ${isActive}"><i class="fas ${cat.icon}"></i> ${shortTitle}</button>`;
+        });
+        
+        container.innerHTML = html;
+        document.getElementById('nav-chip-container').scrollLeft = document.body.dir === 'rtl' ? 1000 : 0;
+    }
+
+    // بناء قائمة الأصناف
     const observerOptions = { root: null, rootMargin: '50px', threshold: 0.1 };
     const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -380,10 +471,13 @@
         const container = document.getElementById('menu-container');
         const noResults = document.getElementById('no-results');
         const navContainer = document.getElementById('nav-chip-container');
+        
+        const data = currentMode === 'cafe' ? cafeData : restaurantData;
+        
         let html = '';
         let foundAny = false;
 
-        menuData.forEach(cat => {
+        data.forEach(cat => {
             const filteredItems = cat.items.filter(item => item[0].toLowerCase().includes(query));
             const catMatches = cat.title.toLowerCase().includes(query);
             
@@ -393,9 +487,12 @@
             const itemsToRender = query && !catMatches ? filteredItems : cat.items;
             const isOpen = query !== '' ? 'open border-cafe-gold' : 'border-white/5';
             const contentOpen = query !== '' ? 'open' : '';
+            
+            // إضافة ملاحظة القسم إذا وجدت
+            const noteHtml = cat.note ? `<div class="bg-amber-900/40 border border-amber-500/30 text-amber-200 text-sm px-3 py-2 rounded-lg mb-3 text-center"><i class="fas fa-info-circle mr-1"></i> ${cat.note}</div>` : '';
 
             html += `
-            <section class="menu-card animate-card" id="${cat.id}" style="scroll-margin-top: 140px;">
+            <section class="menu-card animate-card" id="${cat.id}" style="scroll-margin-top: 200px;">
                 <div class="card-inner flex flex-col">
                     <div class="relative w-full h-40 sm:h-56 overflow-hidden">
                         <img src="${cat.img}" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-center">
@@ -416,14 +513,32 @@
                         </div>
                         
                         <div class="accordion-content ${contentOpen}">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 mt-4 px-1">
-                                ${itemsToRender.map((item) => `
-                                    <div class="flex items-center justify-between py-1.5 px-2 hover:bg-white/5 rounded-md transition-colors">
-                                        <span class="item-name">${item[0]}</span>
-                                        <div class="dotted-leader"></div>
-                                        <span class="price-val">${item[1]} ج</span>
-                                    </div>
-                                `).join('')}
+                            <div class="mt-4 px-1">
+                                ${noteHtml}
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                                    ${itemsToRender.map((item) => {
+                                        let itemName = item[0];
+                                        let itemDesc = '';
+                                        if(itemName.includes('(') && itemName.includes(')')) {
+                                            const parts = itemName.split('(');
+                                            itemName = parts[0].trim();
+                                            itemDesc = parts[1].replace(')', '').trim();
+                                        }
+
+                                        return `
+                                        <div class="flex items-start justify-between py-2 px-2 hover:bg-white/5 rounded-md transition-colors w-full">
+                                            <div class="flex flex-col flex-1 pr-2">
+                                                <span class="item-name text-cafe-gold">${itemName}</span>
+                                                ${itemDesc ? `<span class="item-desc">${itemDesc}</span>` : ''}
+                                            </div>
+                                            
+                                            ${item[1] !== '-' ? `
+                                            <div class="dotted-leader hidden sm:block mt-3"></div>
+                                            <span class="price-val mt-1 ${item[1].toString().length > 6 ? 'text-sm' : ''}">${item[1]} ج</span>
+                                            ` : ''}
+                                        </div>
+                                    `}).join('')}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -441,6 +556,13 @@
 
         container.innerHTML = html;
         document.querySelectorAll('.animate-card').forEach(card => scrollObserver.observe(card));
+    }
+
+    function debounceFilterMenu() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            filterMenu();
+        }, 200); 
     }
 
     function filterMenu() {
@@ -478,13 +600,11 @@
                 header.nextElementSibling.classList.add('open'); 
             }
             
-            section.scrollIntoView({ behavior: 'smooth' });
+            const yOffset = -180; 
+            const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({top: y, behavior: 'smooth'});
         }
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        renderMenu();
-    });
 </script>
 
 </body>
