@@ -48,7 +48,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
 }
-body.no-scroll{ overflow:hidden; }
+body.no-scroll{ overflow:hidden !important; }
 ::selection{ background:#FADB5F; color:#000; }
 ::-webkit-scrollbar{ width:5px; }
 ::-webkit-scrollbar-track{ background:#050507; }
@@ -76,7 +76,7 @@ body.no-scroll{ overflow:hidden; }
 .bg-light.two{ background:#ff6b00; bottom:10%; left:-100px; }
 
 /* =========================
-   SPLASH SCREEN (الجديد كلياً)
+   SPLASH SCREEN
 ========================= */
 #splash-screen{
     position:fixed; inset:0; z-index:99999; background:#050507;
@@ -86,7 +86,7 @@ body.no-scroll{ overflow:hidden; }
 .splash-bg{
     position:absolute; inset:0; background-size:cover;
     background-position:center; opacity:.25;
-    animation: bgPan 20s linear infinite alternate; /* حركة خفيفة للخلفية */
+    animation: bgPan 20s linear infinite alternate; 
 }
 @keyframes bgPan {
     0% { transform: scale(1); }
@@ -110,14 +110,12 @@ body.no-scroll{ overflow:hidden; }
     animation: glowExplode 2s forwards 0.5s;
 }
 
-/* حركة دخول سينمائية 3D للاسم */
 @keyframes cinematicEntrance {
     0% { transform: translateZ(300px) scale(1.5); opacity: 0; filter: blur(20px); }
     50% { opacity: 1; filter: blur(0px); }
     100% { transform: translateZ(0) scale(1); opacity: 1; filter: blur(0); }
 }
 
-/* تأثير الذهب السائل بيلمع باستمرار */
 @keyframes goldShine {
     0% { background-position: -200% center; }
     100% { background-position: 200% center; }
@@ -129,32 +127,16 @@ body.no-scroll{ overflow:hidden; }
     line-height: 1.3;
     font-weight: 900;
     margin-bottom: 5px;
-    
-    /* تأثير الذهب */
-    background: linear-gradient(
-        to right, 
-        #B8860B 20%, 
-        #FFD700 40%, 
-        #FFF8DC 50%, 
-        #FFD700 60%, 
-        #B8860B 80%
-    );
+    background: linear-gradient(to right, #B8860B 20%, #FFD700 40%, #FFF8DC 50%, #FFD700 60%, #B8860B 80%);
     background-size: 200% auto;
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    
-    /* انيميشن الدخول واللمعان */
-    animation: 
-        cinematicEntrance 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
-        goldShine 4s linear infinite 1.5s;
-        
-    opacity: 0; /* يبدأ مخفي */
-    /* ظل عشان يفصل الكلمة عن الخلفية */
+    animation: cinematicEntrance 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, goldShine 4s linear infinite 1.5s;
+    opacity: 0; 
     filter: drop-shadow(0 0 15px rgba(250,219,95,0.4));
 }
 
-/* شعاع الليزر (بديل الخط القديم) */
 @keyframes laserStrike {
     0% { width: 0%; opacity: 0; box-shadow: 0 0 0 transparent; }
     50% { width: 80%; opacity: 1; height: 4px; box-shadow: 0 0 20px #FFD700, 0 0 40px #FFD700; }
@@ -166,7 +148,7 @@ body.no-scroll{ overflow:hidden; }
     margin: 30px auto 50px auto;
     border-radius: 50%;
     opacity: 0;
-    animation: laserStrike 1.5s ease-out forwards 1.2s; /* يضرب بعد الكلمة ما تثبت */
+    animation: laserStrike 1.5s ease-out forwards 1.2s; 
 }
 
 @keyframes glowExplode {
@@ -175,13 +157,12 @@ body.no-scroll{ overflow:hidden; }
     100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
 }
 
-/* تأخير ظهور الأزرار عشان التركيز يكون عالاسم الأول */
 .enter-grid{
     display:grid; grid-template-columns:repeat(2,1fr); gap:20px;
     max-width:720px; margin:auto;
     opacity: 0;
     transform: translateY(30px);
-    animation: fadeInUp 1s forwards 2s; /* يظهر بعد الليزر */
+    animation: fadeInUp 1s forwards 2s; 
 }
 @keyframes fadeInUp {
     to { opacity: 1; transform: translateY(0); }
@@ -210,13 +191,58 @@ body.no-scroll{ overflow:hidden; }
 }
 .enter-btn i{ font-size:27px; margin-left:12px; }
 .enter-btn span{ font-size:20px; font-weight:900; }
+
+/* =========================
+   OFFERS BUTTON (الزر المنفصل في الشاشة الافتتاحية)
+========================= */
+@keyframes superPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+    50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(239, 68, 68, 0.8), 0 0 50px rgba(250, 219, 95, 0.4); }
+}
+.btn-offers-splash {
+    grid-column: 1 / -1; 
+    background: linear-gradient(135deg, #a80000 0%, #ef4444 50%, #a80000 100%);
+    background-size: 200% auto;
+    border: 2px solid #FADB5F;
+    border-radius: 25px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: #fff;
+    cursor: pointer;
+    animation: superPulse 2.5s infinite, goldShine 3s linear infinite;
+    transition: 0.3s ease;
+    min-height: 85px;
+    margin-top: 10px;
+}
+.btn-offers-splash:active { transform: scale(0.95); animation: none; }
+.btn-offers-splash .offer-text { font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 24px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.btn-offers-splash .offer-icon { color: #FADB5F; font-size: 32px; filter: drop-shadow(0 0 5px rgba(250,219,95,0.8)); }
+
+.btn-offers-special {
+    width: 100%; margin-bottom: 22px;
+    background: linear-gradient(135deg, #a80000 0%, #ef4444 50%, #a80000 100%);
+    background-size: 200% auto; border: 2px solid #FADB5F; border-radius: 20px;
+    padding: 15px; display: flex; align-items: center; justify-content: center;
+    gap: 15px; color: #fff; cursor: pointer;
+    animation: superPulse 2s infinite, goldShine 3s linear infinite; transition: 0.3s ease;
+}
+.btn-offers-special:active { transform: scale(0.95); animation: none; }
+.btn-offers-special .offer-text { font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 22px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.btn-offers-special .offer-icon { color: #FADB5F; font-size: 28px; filter: drop-shadow(0 0 5px rgba(250,219,95,0.8)); }
+
 @media(max-width:600px){
     .enter-grid{ grid-template-columns:1fr; }
     .enter-btn{ min-height:75px; }
+    .btn-offers-splash { grid-column: 1; min-height: 75px; margin-top: 5px; }
+    .btn-offers-splash .offer-text { font-size: 22px; }
+    .btn-offers-splash .offer-icon { font-size: 26px; }
 }
 
 /* =========================
-   HEADER (الصفحة الداخلية)
+   HEADER
 ========================= */
 header{
     position:relative; min-height:300px; display:flex;
@@ -296,6 +322,65 @@ header{
 .main-tab:hover{ color:#fff; }
 
 /* =========================
+   OFFERS MODAL (النافذة المنبثقة)
+========================= */
+.modal-overlay {
+    position: fixed; inset: 0; z-index: 9999999;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    display: flex; justify-content: center; align-items: center;
+    padding: 20px; opacity: 0; visibility: hidden;
+    transition: 0.4s ease;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-content {
+    background: #111116; border: 2px solid rgba(250,219,95,0.4);
+    border-radius: 30px; width: 100%; max-width: 450px;
+    transform: scale(0.8) translateY(30px); opacity: 0;
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative; overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(250,219,95,0.1);
+}
+.modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
+.modal-close {
+    position: absolute; top: 15px; left: 15px; z-index: 10;
+    width: 40px; height: 40px; border-radius: 12px;
+    background: rgba(0,0,0,0.6); color: #fff;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 20px; cursor: pointer; border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.3s;
+}
+.modal-close:hover { background: #ef4444; border-color: #ef4444; }
+.modal-img-wrapper {
+    background: #050507; padding-top: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.modal-img-wrapper img {
+    max-width: 100%; max-height: 250px; object-fit: contain;
+}
+.modal-details { padding: 25px 20px 20px; text-align: center; }
+.modal-title { font-family: 'Amiri', serif; font-size: 32px; font-weight: bold; color: #FADB5F; margin: 0 0 15px 0; }
+.modal-desc { font-size: 16.5px; color: #e2e8f0; line-height: 1.9; font-weight: 700; margin-bottom: 20px; }
+.modal-desc span.highlight { color: #FADB5F; font-weight: 900; display: block; margin-top: 8px; font-size: 19px; text-shadow: 0 0 10px rgba(250,219,95,0.4); }
+.modal-delivery { color: #25D366; font-weight: 900; display: block; margin-top: 8px; font-size: 19px; text-shadow: 0 0 10px rgba(37,211,102,0.3); }
+
+/* زر الطلب واتساب في النافذة */
+.modal-wa-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: #25D366; color: #fff; padding: 12px 25px; border-radius: 15px;
+    font-weight: 900; text-decoration: none; font-family: 'Cairo', sans-serif; font-size: 18px;
+    margin-bottom: 20px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.2); transition: 0.3s ease;
+    width: 100%;
+}
+.modal-wa-btn:hover { background: #20bd5a; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4); color: #fff; }
+
+.modal-price-box {
+    display: inline-flex; align-items: center; justify-content: center; gap: 15px;
+    background: linear-gradient(135deg, #FADB5F, #D4A017);
+    padding: 10px 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(250,219,95,0.3);
+}
+.modal-price-old { text-decoration: line-through; color: #a80000; font-weight: 800; font-size: 16px; }
+.modal-price-new { color: #000; font-weight: 900; font-size: 24px; font-family: 'Cairo', sans-serif; }
+
+/* =========================
    SEARCH
 ========================= */
 .search-box{
@@ -358,48 +443,27 @@ header{
 /* =========================
    AUTO-EXPANDING FLIP CARD
 ========================= */
-.flip-card {
-    perspective: 1400px;
-    width: 100%;
-}
+.flip-card { perspective: 1400px; width: 100%; }
 .flip-inner {
-    position: relative;
-    width: 100%;
-    transform-style: preserve-3d;
+    position: relative; width: 100%; transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.flip-card.open .flip-inner {
-    transform: rotateY(180deg);
-}
+.flip-card.open .flip-inner { transform: rotateY(180deg); }
 
 .flip-front {
-    position: relative; 
-    width: 100%;
-    background: #111116;
-    border: 1px solid rgba(255,255,255,.1);
-    cursor: pointer;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: 28px;
-    overflow: hidden;
-    min-height: 250px;
-    z-index: 2;
+    position: relative; width: 100%; background: #111116;
+    border: 1px solid rgba(255,255,255,.1); cursor: pointer;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: 28px; overflow: hidden; min-height: 250px; z-index: 2;
 }
-.category-overlay, .front-content {
-    pointer-events: none;
-}
+.category-overlay, .front-content { pointer-events: none; }
 
 .flip-back {
-    position: absolute; 
-    top: 0; left: 0; width: 100%;
+    position: absolute; top: 0; left: 0; width: 100%;
     background: radial-gradient(circle at top right, rgba(250,219,95,.13), transparent 35%), #101014;
-    border: 1px solid rgba(250,219,95,.3);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: 28px;
-    transform: rotateY(180deg);
-    display: flex; 
-    flex-direction: column;
+    border: 1px solid rgba(250,219,95,.3); backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; border-radius: 28px;
+    transform: rotateY(180deg); display: flex; flex-direction: column;
 }
 
 .flip-card.open .flip-front { position: absolute; }
@@ -453,11 +517,7 @@ header{
     color:#aaa; cursor:pointer; transition:.3s ease;
 }
 .close-card:hover{ background:rgba(250,219,95,.2); color:#FADB5F; }
-
-.items-container{
-    padding:14px 18px 20px;
-}
-
+.items-container{ padding:14px 18px 20px; }
 .menu-item{
     display:flex; align-items:center; justify-content:space-between;
     gap:15px; padding:14px 12px; margin-bottom:7px; border-radius:15px;
@@ -469,15 +529,7 @@ header{
 }
 .item-info{ min-width:0; }
 .item-name{ color:#fff; font-family:'Cairo',sans-serif; font-weight:800; font-size:15.5px; }
-
-.item-description{ 
-    color:#e2e8f0; 
-    font-size:13.5px; 
-    font-weight:600; 
-    margin-top:6px; 
-    line-height:1.7; 
-}
-
+.item-description{ color:#e2e8f0; font-size:13.5px; font-weight:600; margin-top:6px; line-height:1.7; }
 .price{
     flex:none; background:linear-gradient(135deg,#FADB5F,#D4A017); color:#000;
     font-weight:900; padding:7px 11px; border-radius:10px; font-size:13px; white-space:nowrap;
@@ -490,18 +542,11 @@ header{
 .price-chip span:first-child{ color:#d1d5db; }
 .price-chip span:last-child{ color:#FADB5F; font-weight:900; }
 
-/* =========================
-   NOTE
-========================= */
 .note-banner{
     background:linear-gradient(135deg, rgba(250,219,95,.1), rgba(250,219,95,.025));
     border:1px solid rgba(250,219,95,.22); border-radius:16px;
     padding:13px 16px; color:#FADB5F; font-size:14px; font-weight:800; margin-bottom:15px;
 }
-
-/* =========================
-   NO RESULT
-========================= */
 .no-results{
     text-align:center; padding:50px 20px; border:1px solid rgba(255,255,255,.08);
     background:#111116; border-radius:25px;
@@ -529,52 +574,27 @@ header{
    SMART SCROLL ARROWS 
 ========================= */
 .scroll-arrows-container {
-    position: fixed;
-    left: 18px;
-    bottom: 18px;
-    z-index: 500;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    position: fixed; left: 18px; bottom: 18px; z-index: 500; display: flex; flex-direction: column; gap: 10px;
 }
 .scroll-arrow-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: rgba(250, 219, 95, 0.15);
-    border: 1px solid rgba(250, 219, 95, 0.5);
-    color: #FADB5F;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    opacity: 0;
-    transform: scale(0.5);
-    pointer-events: none;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(250, 219, 95, 0.15); border: 1px solid rgba(250, 219, 95, 0.5);
+    color: #FADB5F; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; cursor: pointer; backdrop-filter: blur(10px);
+    opacity: 0; transform: scale(0.5); pointer-events: none;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
-.scroll-arrow-btn.visible {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
-}
-.scroll-arrow-btn:active {
-    transform: scale(0.9);
-}
+.scroll-arrow-btn.visible { opacity: 1; transform: scale(1); pointer-events: auto; }
+.scroll-arrow-btn:active { transform: scale(0.9); }
 
 /* =========================
    FOOTER
 ========================= */
 footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; text-align:center; }
-.footer-boxes{
-    display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-bottom:25px;
-}
+.footer-boxes{ display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-bottom:25px; }
 .footer-box{
-    min-width:250px; padding:18px; background:#111116;
-    border-radius:18px; border:1px solid rgba(255,255,255,.08);
+    min-width:250px; padding:18px; background:#111116; border-radius:18px; border:1px solid rgba(255,255,255,.08);
 }
 .footer-box.gold{ border-color:rgba(250,219,95,.25); }
 .footer-box.red{ border-color:rgba(239,68,68,.25); }
@@ -582,14 +602,11 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
 .footer-box.red h4{ color:#ff755f; }
 
 /* =========================
-   ANIMATION
+   ANIMATION & MOBILE
 ========================= */
 .reveal{ opacity:0; transform:translateY(25px); animation:reveal .6s ease forwards; }
 @keyframes reveal{ to{ opacity:1; transform:translateY(0); } }
 
-/* =========================
-   MOBILE
-========================= */
 @media(max-width:600px){
     .flip-front, .flip-back{ min-height:285px; }
     .front-content{ min-height:285px; }
@@ -597,6 +614,7 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
     .category-icon{ width:62px; height:62px; border-radius:18px; }
     .social-bar{ right:10px; bottom:10px; }
     .scroll-arrows-container{ left:10px; bottom:10px; }
+    .btn-offers-special .offer-text { font-size: 19px; }
 }
 </style>
 </head>
@@ -606,7 +624,7 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
 <div class="bg-light two"></div>
 
 <!-- =========================
-     SPLASH SCREEN (التصميم السينمائي)
+     SPLASH SCREEN
 ========================= -->
 <div id="splash-screen">
     <div class="splash-bg" style="background-image:url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg')"></div>
@@ -614,11 +632,7 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
     
     <div class="splash-content">
         <div class="logo-glow"></div>
-        
-        <h1 class="cinematic-title">
-            مطعم وكافيه<br>الكورنيش
-        </h1>
-        
+        <h1 class="cinematic-title">مطعم وكافيه<br>الكورنيش</h1>
         <div class="laser-divider"></div>
         
         <div class="enter-grid">
@@ -628,6 +642,43 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
             <button onclick="enterMenu('restaurant')" class="enter-btn restaurant">
                 <i class="fas fa-utensils"></i><span>مطعم الكورنيش</span>
             </button>
+            <!-- زر العروض في الشاشة الافتتاحية برا -->
+            <button onclick="openOffersModal()" class="btn-offers-splash">
+                <i class="fas fa-fire offer-icon"></i>
+                <span class="offer-text">عروووووض الافتتاح</span>
+                <i class="fas fa-tags offer-icon" style="font-size:24px;"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- =========================
+     OFFERS MODAL (نافذة العروض)
+========================= -->
+<div id="offers-modal" class="modal-overlay" onclick="closeOffersModal(event)">
+    <div class="modal-content" id="offers-modal-content">
+        <div class="modal-close" onclick="closeOffersModal(event)"><i class="fas fa-times"></i></div>
+        <div class="modal-img-wrapper">
+            <img src="https://files.catbox.moe/sffkza.png" alt="عروض الافتتاح">
+        </div>
+        <div class="modal-details">
+            <h3 class="modal-title">صينية اللمة</h3>
+            
+            <p class="modal-desc">
+                نص فراخ ٤ حواوشي بلدى ٢ ساندوتش سجق ٢ سندوتش كبدة <br>
+                عيش +سلطة +ارز بسمتي <br>
+                <span class="highlight">بيبسي حجم عائلي مجانا</span>
+                <span class="modal-delivery"><i class="fas fa-motorcycle"></i> ديليفري مجانا</span>
+            </p>
+
+            <a href="https://wa.me/201043843865" target="_blank" class="modal-wa-btn">
+                <i class="fab fa-whatsapp" style="font-size: 24px;"></i> للطلب وتساب: 01043843865
+            </a>
+
+            <div class="modal-price-box">
+                <span class="modal-price-old">400 ج</span>
+                <span class="modal-price-new">333 ج</span>
+            </div>
         </div>
     </div>
 </div>
@@ -644,12 +695,8 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
      SMART SCROLL ARROWS
 ========================= -->
 <div class="scroll-arrows-container">
-    <button id="btnScrollUp" class="scroll-arrow-btn" onclick="scrollToTop()">
-        <i class="fas fa-chevron-up"></i>
-    </button>
-    <button id="btnScrollDown" class="scroll-arrow-btn" onclick="scrollToBottom()">
-        <i class="fas fa-chevron-down"></i>
-    </button>
+    <button id="btnScrollUp" class="scroll-arrow-btn" onclick="scrollToTop()"><i class="fas fa-chevron-up"></i></button>
+    <button id="btnScrollDown" class="scroll-arrow-btn" onclick="scrollToBottom()"><i class="fas fa-chevron-down"></i></button>
 </div>
 
 <!-- =========================
@@ -668,7 +715,6 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
     <div class="header-bg" style="background-image:url('https://cdn.phototourl.com/free/2026-06-14-6a988a66-859b-4e93-99ef-c47b09573c97.jpg')"></div>
     <div class="header-overlay"></div>
     <div class="header-content">
-        <!-- العنوان الداخلي الموحد اللون -->
         <h1 id="main-title" class="header-title">كافيه<br>الكورنيش</h1>
     </div>
 </header>
@@ -683,11 +729,17 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
         <button id="tab-cafe" onclick="switchMenu('cafe')" class="main-tab active cafe">
             <i class="fas fa-coffee"></i> الكافيه
         </button>
-        <!-- الزرار فضل أحمر زي ما طلبت -->
         <button id="tab-restaurant" onclick="switchMenu('restaurant')" class="main-tab">
             <i class="fas fa-utensils"></i> المطعم
         </button>
     </div>
+
+    <!-- زر العروض المنفصل (يظهر داخل قائمة المطعم أيضاً) -->
+    <button id="special-offers-btn" class="btn-offers-special" style="display: none;" onclick="openOffersModal()">
+        <i class="fas fa-fire offer-icon"></i>
+        <span class="offer-text">عروووووض الافتتاح</span>
+        <i class="fas fa-tags offer-icon" style="font-size:24px;"></i>
+    </button>
 
     <!-- SEARCH -->
     <div class="search-box">
@@ -756,6 +808,28 @@ function playClick(){
 }
 
 /* =========================================================
+   MODAL LOGIC
+========================================================= */
+function openOffersModal() {
+    playClick();
+    document.getElementById('offers-modal').classList.add('active');
+    // إضافة كلاس no-scroll لمنع تحريك الخلفية
+    document.body.classList.add('no-scroll');
+}
+
+function closeOffersModal(e) {
+    // إغلاق النافذة فقط لو ضغط المستخدم على العلامة (X) أو بره النافذة
+    if(e && e.target !== document.getElementById('offers-modal') && !e.target.closest('.modal-close')) return;
+    playClick();
+    document.getElementById('offers-modal').classList.remove('active');
+    
+    // لو إحنا مش في الشاشة الافتتاحية، نشيل منع التمرير
+    if (document.getElementById('splash-screen').style.display === 'none') {
+        document.body.classList.remove('no-scroll');
+    }
+}
+
+/* =========================================================
    DATA
 ========================================================= */
 const cafeData = [
@@ -817,17 +891,19 @@ function switchMenu(mode){
     const cafe = document.getElementById('tab-cafe');
     const restaurant = document.getElementById('tab-restaurant');
     const mainTitle = document.getElementById('main-title');
+    const offersBtn = document.getElementById('special-offers-btn');
 
     cafe.className = 'main-tab';
     restaurant.className = 'main-tab';
 
-    // تم توحيد الإضاءة الذهبية للإسمين مع تغيير الكلمة فقط
     if(mode === 'cafe'){
         cafe.className = 'main-tab active cafe';
         mainTitle.innerHTML = 'كافيه<br>الكورنيش';
+        offersBtn.style.display = 'none';
     } else {
         restaurant.className = 'main-tab active restaurant';
         mainTitle.innerHTML = 'مطعم<br>الكورنيش';
+        offersBtn.style.display = 'flex'; // يظهر الزر في المطعم فقط
     }
 
     document.getElementById('search-input').value = '';
@@ -867,7 +943,7 @@ function renderNav(){
    CREATE PRICE
 ========================================================= */
 function createPrice(value){
-    if(value === '-' || value === undefined){ return ''; }
+    if(!value || value === '-' || value === ''){ return ''; }
     
     if(typeof value === 'string' && value.includes('|')){
         const parts = value.split('|');
@@ -918,7 +994,7 @@ function renderMenu(query = ''){
 
     data.forEach((cat, catIndex) => {
         const filtered = cat.items.filter(item => {
-            const text = (item[0] + ' ' + item[1] + ' ' + cat.title).toLowerCase();
+            const text = (item[0] + ' ' + (item[1] || '') + ' ' + cat.title).toLowerCase();
             return text.includes(query);
         });
 
@@ -1001,7 +1077,7 @@ function renderMenu(query = ''){
         container.appendChild(section);
 
         /* =========================
-           CARD CLICK EVENTS FIX
+           CARD CLICK EVENTS
         ========================= */
         const card = section.querySelector('.flip-card');
         const frontFace = section.querySelector('.flip-front');
