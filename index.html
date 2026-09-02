@@ -193,7 +193,7 @@ body.no-scroll{ overflow:hidden !important; }
 .enter-btn span{ font-size:20px; font-weight:900; }
 
 /* =========================
-   OFFERS BUTTON (الزر المنفصل في الشاشة الافتتاحية)
+   OFFERS BUTTON
 ========================= */
 @keyframes superPulse {
     0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
@@ -322,7 +322,7 @@ header{
 .main-tab:hover{ color:#fff; }
 
 /* =========================
-   OFFERS MODAL (النافذة المنبثقة)
+   OFFERS MODAL
 ========================= */
 .modal-overlay {
     position: fixed; inset: 0; z-index: 9999999;
@@ -334,12 +334,16 @@ header{
 .modal-overlay.active { opacity: 1; visibility: visible; }
 .modal-content {
     background: #111116; border: 2px solid rgba(250,219,95,0.4);
-    border-radius: 30px; width: 100%; max-width: 450px;
+    border-radius: 25px; width: 100%; max-width: 450px;
     transform: scale(0.8) translateY(30px); opacity: 0;
     transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative; overflow: hidden;
+    position: relative; overflow-y: auto; overflow-x: hidden;
+    max-height: 85vh; /* To enable scrolling */
     box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(250,219,95,0.1);
 }
+.modal-content::-webkit-scrollbar { width: 6px; }
+.modal-content::-webkit-scrollbar-thumb { background: #FADB5F; border-radius: 10px; }
+
 .modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
 .modal-close {
     position: absolute; top: 15px; left: 15px; z-index: 10;
@@ -350,24 +354,32 @@ header{
     transition: 0.3s;
 }
 .modal-close:hover { background: #ef4444; border-color: #ef4444; }
+
 .modal-img-wrapper {
-    background: #050507; padding-top: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);
+    background: transparent; padding-top: 15px; text-align: center;
 }
 .modal-img-wrapper img {
-    max-width: 100%; max-height: 250px; object-fit: contain;
+    max-width: 100%; max-height: 220px; object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
 }
-.modal-details { padding: 25px 20px 20px; text-align: center; }
-.modal-title { font-family: 'Amiri', serif; font-size: 32px; font-weight: bold; color: #FADB5F; margin: 0 0 15px 0; }
-.modal-desc { font-size: 16.5px; color: #e2e8f0; line-height: 1.9; font-weight: 700; margin-bottom: 20px; }
-.modal-desc span.highlight { color: #FADB5F; font-weight: 900; display: block; margin-top: 8px; font-size: 19px; text-shadow: 0 0 10px rgba(250,219,95,0.4); }
-.modal-delivery { color: #25D366; font-weight: 900; display: block; margin-top: 8px; font-size: 19px; text-shadow: 0 0 10px rgba(37,211,102,0.3); }
+.modal-details { padding: 15px 20px 10px; text-align: center; }
+.modal-title { font-family: 'Amiri', serif; font-size: 28px; font-weight: bold; color: #FADB5F; margin: 0 0 10px 0; }
+.modal-desc { font-size: 15px; color: #e2e8f0; line-height: 1.8; font-weight: 700; margin-bottom: 15px; }
+.modal-desc span.highlight { color: #FADB5F; font-weight: 900; display: block; margin-top: 8px; font-size: 18px; text-shadow: 0 0 10px rgba(250,219,95,0.4); }
+.modal-delivery { color: #25D366; font-weight: 900; display: block; margin-top: 8px; font-size: 18px; text-shadow: 0 0 10px rgba(37,211,102,0.3); }
 
-/* زر الطلب واتساب في النافذة */
+.offer-divider {
+    height: 0;
+    border-bottom: 2px dashed rgba(250,219,95,0.2);
+    width: 80%;
+    margin: 15px auto;
+}
+
 .modal-wa-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     background: #25D366; color: #fff; padding: 12px 25px; border-radius: 15px;
     font-weight: 900; text-decoration: none; font-family: 'Cairo', sans-serif; font-size: 18px;
-    margin-bottom: 20px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.2); transition: 0.3s ease;
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.2); transition: 0.3s ease;
     width: 100%;
 }
 .modal-wa-btn:hover { background: #20bd5a; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4); color: #fff; }
@@ -375,10 +387,10 @@ header{
 .modal-price-box {
     display: inline-flex; align-items: center; justify-content: center; gap: 15px;
     background: linear-gradient(135deg, #FADB5F, #D4A017);
-    padding: 10px 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(250,219,95,0.3);
+    padding: 8px 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(250,219,95,0.3);
 }
-.modal-price-old { text-decoration: line-through; color: #a80000; font-weight: 800; font-size: 16px; }
-.modal-price-new { color: #000; font-weight: 900; font-size: 24px; font-family: 'Cairo', sans-serif; }
+.modal-price-old { text-decoration: line-through; color: #a80000; font-weight: 800; font-size: 15px; }
+.modal-price-new { color: #000; font-weight: 900; font-size: 22px; font-family: 'Cairo', sans-serif; }
 
 /* =========================
    SEARCH
@@ -642,7 +654,6 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
             <button onclick="enterMenu('restaurant')" class="enter-btn restaurant">
                 <i class="fas fa-utensils"></i><span>مطعم الكورنيش</span>
             </button>
-            <!-- زر العروض في الشاشة الافتتاحية برا -->
             <button onclick="openOffersModal()" class="btn-offers-splash">
                 <i class="fas fa-fire offer-icon"></i>
                 <span class="offer-text">عروووووض الافتتاح</span>
@@ -653,32 +664,63 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
 </div>
 
 <!-- =========================
-     OFFERS MODAL (نافذة العروض)
+     OFFERS MODAL
 ========================= -->
 <div id="offers-modal" class="modal-overlay" onclick="closeOffersModal(event)">
     <div class="modal-content" id="offers-modal-content">
         <div class="modal-close" onclick="closeOffersModal(event)"><i class="fas fa-times"></i></div>
-        <div class="modal-img-wrapper">
-            <img src="https://files.catbox.moe/sffkza.png" alt="عروض الافتتاح">
-        </div>
-        <div class="modal-details">
-            <h3 class="modal-title">صينية اللمة</h3>
-            
-            <p class="modal-desc">
-                نص فراخ ٤ حواوشي بلدى ٢ ساندوتش سجق ٢ سندوتش كبدة <br>
-                عيش +سلطة +ارز بسمتي <br>
-                <span class="highlight">بيبسي حجم عائلي مجانا</span>
-                <span class="modal-delivery"><i class="fas fa-motorcycle"></i> ديليفري مجانا</span>
-            </p>
+        
+        <h2 class="text-center text-yellow-400 font-black text-3xl mt-6 mb-2" style="font-family:'Amiri',serif; text-shadow: 0 0 15px rgba(250,219,95,0.5);">عروض الافتتاح 🔥</h2>
 
+        <!-- العرض الأول -->
+        <div class="offer-item">
+            <div class="modal-img-wrapper">
+                <img src="https://files.catbox.moe/sffkza.png" alt="صينية اللمة">
+            </div>
+            <div class="modal-details">
+                <h3 class="modal-title">صينية اللمة</h3>
+                
+                <p class="modal-desc">
+                    نص فراخ، ٤ حواوشي بلدى، ٢ ساندوتش سجق، ٢ سندوتش كبدة <br>
+                    عيش + سلطة + ارز بسمتي <br>
+                    <span class="highlight">بيبسي حجم عائلي مجانا</span>
+                    <span class="modal-delivery"><i class="fas fa-motorcycle"></i> ديليفري مجانا</span>
+                </p>
+
+                <div class="modal-price-box mb-2">
+                    <span class="modal-price-old">400 ج</span>
+                    <span class="modal-price-new">333 ج</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="offer-divider"></div>
+
+        <!-- العرض الثاني (الجديد) -->
+        <div class="offer-item">
+            <div class="modal-img-wrapper">
+                <img src="https://files.catbox.moe/2fvpcn.png" alt="صينية المزاجنجية">
+            </div>
+            <div class="modal-details">
+                <h3 class="modal-title">صينية المزاجنجية</h3>
+                
+                <p class="modal-desc">
+                    نصف فرخة، ربع كفتة، تمن طرب، ٢ حواوشي <br>
+                    ارز بسمتي + سلطة + عيش <br>
+                    <span class="modal-delivery"><i class="fas fa-motorcycle"></i> ديليفري مجانا</span>
+                </p>
+
+                <div class="modal-price-box mb-2">
+                    <span class="modal-price-new">399 ج</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- زر الطلب الموحد للعروض -->
+        <div style="padding: 10px 20px 25px;">
             <a href="https://wa.me/201043843865" target="_blank" class="modal-wa-btn">
                 <i class="fab fa-whatsapp" style="font-size: 24px;"></i> للطلب وتساب: 01043843865
             </a>
-
-            <div class="modal-price-box">
-                <span class="modal-price-old">400 ج</span>
-                <span class="modal-price-new">333 ج</span>
-            </div>
         </div>
     </div>
 </div>
@@ -734,7 +776,6 @@ footer{ border-top:1px solid rgba(255,255,255,.08); padding:45px 18px 100px; tex
         </button>
     </div>
 
-    <!-- زر العروض المنفصل (يظهر داخل قائمة المطعم أيضاً) -->
     <button id="special-offers-btn" class="btn-offers-special" style="display: none;" onclick="openOffersModal()">
         <i class="fas fa-fire offer-icon"></i>
         <span class="offer-text">عروووووض الافتتاح</span>
@@ -813,17 +854,14 @@ function playClick(){
 function openOffersModal() {
     playClick();
     document.getElementById('offers-modal').classList.add('active');
-    // إضافة كلاس no-scroll لمنع تحريك الخلفية
     document.body.classList.add('no-scroll');
 }
 
 function closeOffersModal(e) {
-    // إغلاق النافذة فقط لو ضغط المستخدم على العلامة (X) أو بره النافذة
     if(e && e.target !== document.getElementById('offers-modal') && !e.target.closest('.modal-close')) return;
     playClick();
     document.getElementById('offers-modal').classList.remove('active');
     
-    // لو إحنا مش في الشاشة الافتتاحية، نشيل منع التمرير
     if (document.getElementById('splash-screen').style.display === 'none') {
         document.body.classList.remove('no-scroll');
     }
@@ -845,14 +883,68 @@ const cafeData = [
 ];
 
 const restaurantData = [
-    { id:'grills', title:'المشويات', icon:'fa-fire-burner', img:'https://res.cloudinary.com/dbahe7lxz/image/upload/v1788067734/idraaak/gb1rjqcxmtfw8jkdjhi7.png', note:'جميع طلبات المشويات تقدم مع: طحينة + سلطات الحاتى + خبز طازج', items:[ ['كباب ضاني','كيلو: 800 | نصف: 400 | ربع: 200'], ['كفتة الحاتي','كيلو: 600 | نصف: 300 | ربع: 160'], ['طرب بلدي','كيلو: 700 | نصف: 350 | ربع: 180'], ['مشكل لحوم','كيلو: 700 | نصف: 350 | ربع: 180'], ['دجاج مشوي','فرخة: 320 | نصف: 160 | ربع: 85'], ['شيش طاووق','كيلو: 400 | نصف: 200 | ربع: 110'], ['سجق بلدي مشوي','كيلو: 450 | نصف: 230 | ربع: 120'] ] },
-    { id:'meals', title:'الوجبات', icon:'fa-drumstick-bite', img:'https://res.cloudinary.com/dbahe7lxz/image/upload/v1788067859/idraaak/o9ipv6yyack5sx0eak3u.png', note:'وجبات الكورنيش تقدم مع: أرز بسمتي + سلطات الحاتى + خبز', items:[ ['وجبة التوفير (ربع دجاجة + ثُمن كفتة)',160], ['وجبة الأكيلة (ثُمن كفتة + ثُمن سجق + 2 رغيف حواوشي)',199], ['وجبة الميكس (ربع كفتة + ربع دجاجة)',240], ['وجبة الكورنيش (نصف دجاجة + ربع كباب)',360], ['وجبة السوبر (ربع شيش + ربع سجق + ربع طرب + لتر بيبسي)',399] ] },
-    { id:'trays', title:'الصواني', icon:'fa-bell-concierge', img:'https://files.catbox.moe/cwnmsi.png', items:[ ['صينية المزاجنجية (نصف دجاجة، ربع كفتة، ثُمن طرب، 2 حواوشي، لتر بيبسي)',450], ['صينية نار الحبايب (ربع شيش، ثُمن سجق، ربع كفتة، ربع كباب، 2 حواوشي، لتر بيبسي)',550], ['صينية المغفلقين (نصف كفتة، ثُمن طرب، نصف دجاجة، 2 حواوشي، سلطات الحاتى، أرز، لتر بيبسي)',599], ['صينية المقاول (نصف كباب، نصف طرب، نصف شيش، نصف كفتة، 2 لتر بيبسى)',1199], ['صينية العريس - بالحجز مسبقا فقط (نصف كباب، ربع طرب، نصف كفتة، 4 فرد حمام بالفريك، أرز، سلطات الحاتى، 4 ريد بول)',1599] ] },
-    { id:'grill-pan', title:'الجريل', icon:'fa-fire', img:'https://files.catbox.moe/l1z9vv.png', items:[ ['كبدة إسكندراني',75], ['سجق بلدي',80], ['كفتة داوود باشا',90] ] },
-    { id:'rice', title:'الأرز', icon:'fa-bowl-rice', img:'https://files.catbox.moe/lcz9gs.png', items:[ ['أرز بسمتي بقطع الكبدة',60], ['أرز بسمتي بقطع السجق',60], ['أرز بسمتي بكفتة داوود باشا',70] ] },
-    { id:'sandwiches', title:'السندوتشات', icon:'fa-burger', img:'https://files.catbox.moe/1pxo9i.png', items:[ ['كبدة اسكندراني',25], ['سجق اسكندرانى',25], ['سوبر الكورنيش',35], ['حواوشي بلدى',30], ['حواوشي فراخ',40], ['حواوشي ضانى',45], ['بانيه',20], ['كفتة جريل',30], ['كفته بلدى ع الفحم',50], ['سجق ع الفحم',35] ] },
-    { id:'desserts-rest', title:'الحلو', icon:'fa-ice-cream', img:'https://files.catbox.moe/lsoigf.png', items:[ ['رز بلبن',25], ['رز بلبن بسبوسه',35], ['كشرى الكورنيش',60], ['قمبلة',60], ['سلطة فواكه',50] ] },
-    { id:'additions', title:'الاضافات', icon:'fa-plus-circle', img:'https://files.catbox.moe/fep5l4.png', items:[ ['مخلل',10], ['طحينة الحاتى',15], ['سلطة الحاتى',10], ['عيش',5] ] }
+    { id:'grills', title:'المشويات', icon:'fa-fire-burner', img:'https://res.cloudinary.com/dbahe7lxz/image/upload/v1788067734/idraaak/gb1rjqcxmtfw8jkdjhi7.png', note:'جميع طلبات المشويات تقدم مع: طحينة + سلطات الحاتى + خبز طازج', items:[ 
+        ['كباب ضاني','نصف: 450 | ربع: 225'], 
+        ['كباب عجالي','كيلو: 799 | نصف: 400 | ربع: 200'], 
+        ['كفتة الحاتي','كيلو: 600 | نصف: 300 | ربع: 160'], 
+        ['طرب بلدي','كيلو: 700 | نصف: 350 | ربع: 180'], 
+        ['مشكل كباب.سلاش.كفته','كيلو: 700 | نصف: 350 | ربع: 180'], 
+        ['دجاج مشوي','فرخة: 320 | نصف: 160 | ربع: 85'], 
+        ['شيش طاووق','كيلو: 400 | نصف: 200 | ربع: 110'], 
+        ['سجق بلدي مشوي','كيلو: 450 | نصف: 230 | ربع: 120'] 
+    ] },
+    { id:'meals', title:'الوجبات', icon:'fa-drumstick-bite', img:'https://res.cloudinary.com/dbahe7lxz/image/upload/v1788067859/idraaak/o9ipv6yyack5sx0eak3u.png', note:'وجبات الكورنيش تقدم مع: أرز بسمتي + سلطات الحاتى + خبز', items:[ 
+        ['وجبة التوفير (ربع دجاجة + ثُمن كفتة)',160], 
+        ['وجبة الأكيلة (ثُمن كفتة + ثُمن سجق + 2 رغيف حواوشي)',199], 
+        ['وجبة الميكس (ربع كفتة + ربع دجاجة)',240], 
+        ['وجبة الكورنيش (نصف دجاجة + ربع كباب)',360], 
+        ['وجبة السوبر (ربع شيش + ربع سجق + ربع طرب + لتر بيبسي)',399] 
+    ] },
+    { id:'trays', title:'الصواني', icon:'fa-bell-concierge', img:'https://files.catbox.moe/cwnmsi.png', items:[ 
+        ['صينية المزاجنجية (نصف دجاجة، ربع كفتة، ثُمن طرب، 2 حواوشي، لتر بيبسي)',450], 
+        ['صينية الكبار (ربع شيش، ثُمن سجق، ربع كفتة، ربع كباب، 2 حواوشي، لتر بيبسي)',550], 
+        ['صينية المغفلقين (نصف كفتة، ثُمن طرب، نصف دجاجة، 2 حواوشي، سلطات الحاتى، أرز، لتر بيبسي)',559], 
+        ['صينية المقاول (نصف كباب، نصف طرب، نصف شيش، نصف كفتة، 2 لتر بيبسى)',1199], 
+        ['صينية العريس - بالحجز مسبقاً فقط (نصف كباب، ربع طرب، نصف كفتة، 4 فرد حمام بالفريك، أرز، سلطات الحاتى، 4 ريد بول)',1599] 
+    ] },
+    { id:'rizo', title:'الريزو', icon:'fa-bowl-rice', img:'https://files.catbox.moe/lcz9gs.png', items:[ 
+        ['أرز بسمتي بقطع الكبدة',60], 
+        ['أرز بسمتي بقطع السجق',60], 
+        ['أرز بسمتي بكفتة جريل',70] 
+    ] },
+    { id:'grill-pan', title:'الجريل', icon:'fa-fire', img:'https://files.catbox.moe/l1z9vv.png', note:'تقدم مع _ سلطات الحاتي + عيش', items:[ 
+        ['طلب كبدة إسكندراني',75], 
+        ['طلب سجق بلدي',80], 
+        ['طلب كفتة جريل',90],
+        ['طبق ميكس جريل الكورنيش',100]
+    ] },
+    { id:'sandwiches', title:'السندوتشات', icon:'fa-burger', img:'https://files.catbox.moe/1pxo9i.png', items:[ 
+        ['كبدة اسكندراني',25], 
+        ['سجق اسكندرانى',25], 
+        ['سوبر الكورنيش',35], 
+        ['حواوشي بلدى',30], 
+        ['حواوشي فراخ',40], 
+        ['حواوشي ضانى',45], 
+        ['بانيه',20], 
+        ['استربس',35],
+        ['كفتة جريل',35], 
+        ['كفته بلدى ع الفحم',50], 
+        ['سجق ع الفحم',35] 
+    ] },
+    { id:'desserts-rest', title:'الحلو', icon:'fa-ice-cream', img:'https://files.catbox.moe/lsoigf.png', items:[ 
+        ['رز بلبن',25], 
+        ['رز بلبن بسبوسه',35], 
+        ['كشرى الكورنيش',60], 
+        ['قنبلة',60], 
+        ['سلطة فواكه',50],
+        ['ام علي',35]
+    ] },
+    { id:'additions', title:'الاضافات', icon:'fa-plus-circle', img:'https://files.catbox.moe/fep5l4.png', items:[ 
+        ['مخلل',10], 
+        ['طحينة الحاتى',15], 
+        ['سلطة الحاتى',10], 
+        ['عيش',5] 
+    ] }
 ];
 
 /* =========================================================
@@ -903,7 +995,7 @@ function switchMenu(mode){
     } else {
         restaurant.className = 'main-tab active restaurant';
         mainTitle.innerHTML = 'مطعم<br>الكورنيش';
-        offersBtn.style.display = 'flex'; // يظهر الزر في المطعم فقط
+        offersBtn.style.display = 'flex'; 
     }
 
     document.getElementById('search-input').value = '';
