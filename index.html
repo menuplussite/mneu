@@ -12,7 +12,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.pinimg.com">
 <link rel="preconnect" href="https://files.catbox.moe">
-<!-- 🚀 Preload خلفية الموقع -->
 <link rel="preload" as="image" href="https://files.catbox.moe/6n744z.jpg" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700;900&family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
@@ -83,7 +82,7 @@ body.no-scroll { overflow: hidden !important; }
 }
 
 /* =========================================
-   🎊 شرارات ذهبية
+   🎊 شرارات ذهبية (مُخففة للأداء)
    ========================================= */
 #particles-bg {
     position: fixed;
@@ -91,22 +90,22 @@ body.no-scroll { overflow: hidden !important; }
     pointer-events: none;
     z-index: 0;
     overflow: hidden;
+    contain: strict;
 }
 .gold-particle {
     position: absolute;
-    width: 4px; height: 4px;
+    width: 3px; height: 3px;
     border-radius: 50%;
     background: radial-gradient(circle, #FFF8DC, #FADB5F 60%, transparent);
-    box-shadow: 0 0 10px #FADB5F, 0 0 20px rgba(250,219,95,.5);
     animation: particleFloat linear infinite;
     opacity: 0;
+    will-change: transform, opacity;
 }
 @keyframes particleFloat {
-    0% { transform: translateY(110vh) translateX(0) scale(0.5); opacity: 0; }
-    10% { opacity: 0.9; }
-    50% { transform: translateY(55vh) translateX(30px) scale(1); opacity: 0.7; }
-    90% { opacity: 0.5; }
-    100% { transform: translateY(-10vh) translateX(-20px) scale(0.3); opacity: 0; }
+    0% { transform: translate3d(0, 110vh, 0) scale(0.5); opacity: 0; }
+    15% { opacity: 0.85; }
+    50% { transform: translate3d(20px, 55vh, 0) scale(1); opacity: 0.6; }
+    100% { transform: translate3d(-15px, -10vh, 0) scale(0.3); opacity: 0; }
 }
 
 /* =========================================
@@ -117,7 +116,7 @@ body.no-scroll { overflow: hidden !important; }
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity .35s ease, visibility .35s ease;
+    transition: opacity .3s ease, visibility .3s ease;
 }
 body.in-menu #home-fab {
     opacity: 1;
@@ -131,7 +130,7 @@ body.in-menu #scrollToTopBtn.visible {
 }
 
 /* =========================================
-   ⏳ شاشة التحميل (Loader)
+   ⏳ شاشة التحميل
    ========================================= */
 #menu-loader {
     position: fixed;
@@ -140,26 +139,22 @@ body.in-menu #scrollToTopBtn.visible {
     display: none;
     align-items: center;
     justify-content: center;
-    background: rgba(8,5,4,.92);
-    backdrop-filter: blur(8px);
+    background: rgba(8,5,4,.94);
     padding: 20px;
 }
 #menu-loader.active { display: flex; }
 
-.loader-content {
-    text-align: center;
-    animation: loaderFadeIn .35s ease;
-}
+.loader-content { text-align: center; animation: loaderFadeIn .3s ease; }
 @keyframes loaderFadeIn {
-    from { opacity: 0; transform: scale(0.9); }
+    from { opacity: 0; transform: scale(0.92); }
     to { opacity: 1; transform: scale(1); }
 }
 
 .loader-ring {
     position: relative;
-    width: 110px;
-    height: 110px;
-    margin: 0 auto 24px;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 22px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,17 +166,18 @@ body.in-menu #scrollToTopBtn.visible {
     inset: 0;
     border-radius: 50%;
     border: 3px solid transparent;
+    will-change: transform;
 }
 .loader-ring::before {
     border-top-color: #FADB5F;
     border-right-color: #D4A017;
-    animation: loaderSpin 1.1s linear infinite;
+    animation: loaderSpin 1.2s linear infinite;
 }
 .loader-ring::after {
     inset: 12px;
     border-bottom-color: #FADB5F;
     border-left-color: #D4A017;
-    animation: loaderSpin 1.5s linear infinite reverse;
+    animation: loaderSpin 1.6s linear infinite reverse;
 }
 body[data-mode="restaurant"] .loader-ring::before {
     border-top-color: #ef4444;
@@ -194,81 +190,65 @@ body[data-mode="restaurant"] .loader-ring::after {
 @keyframes loaderSpin { to { transform: rotate(360deg); } }
 
 .loader-icon {
-    font-size: 42px;
+    font-size: 40px;
     color: #FADB5F;
-    filter: drop-shadow(0 0 15px currentColor);
-    animation: loaderIconPulse 1.4s ease-in-out infinite;
+    animation: loaderIconPulse 1.5s ease-in-out infinite;
 }
-body[data-mode="restaurant"] .loader-icon {
-    color: #ef4444;
-}
+body[data-mode="restaurant"] .loader-icon { color: #ef4444; }
 @keyframes loaderIconPulse {
-    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px currentColor); }
-    50% { transform: scale(1.15); filter: drop-shadow(0 0 25px currentColor); }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
 }
 
 .loader-title {
     font-family: 'Amiri', serif;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 900;
     color: #fff;
     margin: 0 0 8px;
     letter-spacing: -0.5px;
-    text-shadow: 0 2px 10px rgba(0,0,0,.6);
 }
 .loader-sub {
     font-family: 'Tajawal', sans-serif;
     font-size: 13px;
     font-weight: 700;
     color: #c9b184;
-    margin: 0 0 22px;
-    letter-spacing: 0.5px;
+    margin: 0 0 20px;
 }
 body[data-mode="restaurant"] .loader-sub { color: #fca5a5; }
 
 .loader-progress {
-    width: 220px;
-    height: 5px;
+    width: 210px;
+    height: 4px;
     background: rgba(255,255,255,.08);
     border-radius: 99px;
     overflow: hidden;
     margin: 0 auto;
-    border: 1px solid rgba(255,255,255,.06);
 }
 .loader-bar {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, #8B6508, #D4A017, #FADB5F, #FFF8DC);
-    background-size: 200% auto;
     border-radius: 99px;
     transition: width .25s ease;
-    animation: loaderShine 1.5s linear infinite;
-    box-shadow: 0 0 15px rgba(250,219,95,.6);
 }
 body[data-mode="restaurant"] .loader-bar {
     background: linear-gradient(90deg, #7f1d1d, #dc2626, #ef4444, #fca5a5);
-    background-size: 200% auto;
-    box-shadow: 0 0 15px rgba(220,38,38,.6);
 }
-@keyframes loaderShine {
-    to { background-position: 200% center; }
-}
-
 .loader-percent {
     font-family: 'Cairo', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 900;
     color: #FADB5F;
     margin-top: 12px;
-    letter-spacing: 1px;
 }
 body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
 
 /* =========================================
    حركات عامة
    ========================================= */
-.interactive-btn { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-.interactive-btn:active { transform: scale(0.94) !important; }
+.interactive-btn { transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; cursor: pointer; }
+.interactive-btn:active { transform: scale(0.96) !important; }
 
 @keyframes goldShine {
     0% { background-position: -200% center; }
@@ -278,399 +258,100 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     background: linear-gradient(to right, #D4A017, #FFF8DC, #D4A017);
     background-size: 200% auto;
     -webkit-background-clip: text; color: transparent;
-    animation: goldShine 3s linear infinite;
+    animation: goldShine 4s linear infinite;
 }
 .text-blood-gradient {
     background: linear-gradient(to right, #ef4444, #fca5a5, #ef4444);
     background-size: 200% auto;
     -webkit-background-clip: text; color: transparent;
-    animation: goldShine 3s linear infinite;
+    animation: goldShine 4s linear infinite;
 }
-.magical-title { animation: titleZoomFloat 3.5s ease-in-out infinite; }
+.magical-title { animation: titleZoomFloat 4s ease-in-out infinite; }
 @keyframes titleZoomFloat {
-    0%, 100% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 15px rgba(212, 160, 23, 0.5)); }
-    50% { transform: scale(1.05) translateY(-8px); filter: drop-shadow(0 0 35px rgba(250, 219, 95, 0.9)); }
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.03) translateY(-5px); }
 }
 
 /* =========================================
-   🏛️ LOCATION PLAQUE
+   🌸 SPLASH GEOMETRIC MAGIC (خرافي)
    ========================================= */
-.location-plaque {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    padding: 14px 26px 14px 22px;
-    margin: 22px auto 12px;
-    border-radius: 60px 8px 60px 8px;
-    background: linear-gradient(135deg, rgba(26,18,8,.95), rgba(13,8,5,.98), rgba(26,18,8,.95));
-    border: 1.5px solid rgba(250,219,95,.4);
-    box-shadow: 0 15px 40px rgba(0,0,0,.65), 0 0 35px rgba(250,219,95,.2), inset 0 1px 0 rgba(255,248,220,.15), inset 0 -2px 8px rgba(0,0,0,.5);
-    isolation: isolate;
-    overflow: hidden;
-    animation: plaqueFloat 4s ease-in-out infinite;
-}
-@keyframes plaqueFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-.location-plaque::before {
-    content: "";
+/* وردة/نجمة دوارة خلف العنوان */
+.geo-flower {
     position: absolute;
-    inset: -4px;
-    border-radius: 64px 10px 64px 10px;
-    background: radial-gradient(ellipse at center, rgba(250,219,95,.35), transparent 75%);
-    animation: plaquePulse 2.5s ease-in-out infinite;
-    z-index: -2;
+    top: 50%;
+    left: 50%;
+    width: 480px;
+    height: 480px;
+    margin: -240px 0 0 -240px;
     pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+    will-change: transform;
 }
-@keyframes plaquePulse {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.06); }
+.geo-flower svg {
+    width: 100%;
+    height: 100%;
+    animation: geoSpin 40s linear infinite;
 }
-.location-plaque::after {
-    content: "";
+.geo-flower-inner svg {
+    animation: geoSpinRev 30s linear infinite;
+}
+.geo-flower-inner {
     position: absolute;
-    top: 0; left: -60%;
-    width: 45%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,248,220,.35), rgba(250,219,95,.2), transparent);
-    transform: skewX(-22deg);
-    animation: plaqueShine 3.5s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 2;
+    inset: 60px;
+    opacity: 0.7;
 }
-@keyframes plaqueShine {
-    0% { left: -60%; }
-    55%, 100% { left: 130%; }
-}
-.location-pin-icon {
-    position: relative;
-    width: 56px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: none;
-    z-index: 3;
-}
-.location-pin-icon::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 2px dashed rgba(250,219,95,.55);
-    animation: spinDashed 12s linear infinite;
-}
-.location-pin-icon::after {
-    content: "";
-    position: absolute;
-    inset: 6px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(250,219,95,.25), transparent 70%);
-    animation: pinGlow 2s ease-in-out infinite;
-}
-@keyframes spinDashed { to { transform: rotate(360deg); } }
-@keyframes pinGlow {
-    0%, 100% { transform: scale(0.9); opacity: 0.5; }
-    50% { transform: scale(1.15); opacity: 1; }
-}
-.location-pin-core {
-    position: relative;
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #0d0805;
-    font-size: 18px;
-    box-shadow: 0 8px 20px rgba(212,160,23,.5), inset 0 2px 0 rgba(255,255,255,.5), inset 0 -2px 6px rgba(0,0,0,.25);
-    z-index: 2;
-    animation: pinBounce 2s ease-in-out infinite;
-}
-@keyframes pinBounce {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-3px) scale(1.05); }
-}
-.pin-ripple {
-    position: absolute;
-    inset: 50%;
-    width: 20px; height: 20px;
-    margin: -10px 0 0 -10px;
-    border-radius: 50%;
-    border: 2px solid rgba(250,219,95,.6);
-    pointer-events: none;
-    animation: rippleOut 2.4s ease-out infinite;
-}
-.pin-ripple.delay { animation-delay: 1.2s; }
-@keyframes rippleOut {
-    0% { transform: scale(0.5); opacity: 1; }
-    100% { transform: scale(3.5); opacity: 0; }
-}
-.location-text-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-    z-index: 3;
-    position: relative;
-}
-.location-label {
-    font-family: 'Cairo', sans-serif;
-    font-size: 10.5px;
-    font-weight: 800;
-    color: #b8860b;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    opacity: 0.9;
-}
-.location-label::before {
-    content: "";
-    width: 16px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #D4A017);
-}
-.location-address {
-    font-family: 'Cairo', sans-serif;
-    font-size: 20px;
-    font-weight: 900;
-    background: linear-gradient(90deg, #D4A017 0%, #FADB5F 25%, #FFF8DC 50%, #FADB5F 75%, #D4A017 100%);
-    background-size: 250% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: goldShine 3.5s linear infinite;
-    text-shadow: 0 0 25px rgba(250,219,95,.4);
-    letter-spacing: -0.3px;
-    line-height: 1.15;
-}
-.plaque-sparkle {
-    position: absolute;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #FFF8DC, #FADB5F 50%, transparent 80%);
-    pointer-events: none;
-    animation: plaqueSparkle 2.5s ease-in-out infinite;
-    z-index: 4;
-}
-.plaque-sparkle.p1 { top: 6px; right: 30%; animation-delay: 0s; }
-.plaque-sparkle.p2 { bottom: 6px; left: 30%; animation-delay: 0.9s; }
-.plaque-sparkle.p3 { top: 50%; right: -3px; animation-delay: 1.7s; }
-.plaque-sparkle.p4 { top: 50%; left: -3px; animation-delay: 2.3s; }
-@keyframes plaqueSparkle {
-    0%, 100% { opacity: 0; transform: scale(0.3); box-shadow: 0 0 0 rgba(250,219,95,0); }
-    40%, 60% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 18px #FADB5F, 0 0 30px rgba(250,219,95,.8); }
-}
+@keyframes geoSpin { to { transform: rotate(360deg); } }
+@keyframes geoSpinRev { to { transform: rotate(-360deg); } }
 
-/* =========================================
-   👑 ROYAL BADGE
-   ========================================= */
-.royal-badge {
-    position: relative;
-    display: inline-flex;
-    padding: 1.5px;
-    border-radius: 6px 24px 6px 24px;
-    overflow: hidden;
-    isolation: isolate;
-    margin-bottom: 28px;
-    animation: royalFloat 4s ease-in-out infinite;
-    filter: drop-shadow(0 15px 35px rgba(0,0,0,.7)) drop-shadow(0 0 25px rgba(212,160,23,.4));
-}
-.royal-badge::before {
-    content: "";
+/* مثلثات زاوية ديكورية */
+.geo-corner {
     position: absolute;
-    width: 220%; height: 220%;
-    left: -60%; top: -60%;
-    background: conic-gradient(from 0deg,
-        #8B6508 0deg, #D4A017 40deg, #FFF8DC 80deg, #FADB5F 120deg,
-        #D4A017 160deg, #8B6508 200deg, #D4A017 240deg, #FFF8DC 280deg,
-        #FADB5F 320deg, #D4A017 360deg);
-    animation: royalSpin 4s linear infinite;
-    z-index: -1;
-}
-@keyframes royalSpin { to { transform: rotate(360deg); } }
-.royal-badge::after {
-    content: "";
-    position: absolute;
-    inset: -3px;
-    border-radius: 9px 27px 9px 27px;
-    background: radial-gradient(ellipse at center, rgba(250,219,95,.4), transparent 70%);
-    animation: royalPulse 2.5s ease-in-out infinite;
-    z-index: -2;
+    width: 90px;
+    height: 90px;
     pointer-events: none;
-}
-@keyframes royalPulse {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.08); }
-}
-@keyframes royalFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
-}
-.royal-badge-inner {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 11px;
-    padding: 12px 28px;
-    border-radius: 4.5px 22.5px 4.5px 22.5px;
-    background: linear-gradient(135deg, #1a1208 0%, #0d0805 45%, #1a1208 100%);
-    overflow: hidden;
     z-index: 1;
-    box-shadow: inset 0 1px 0 rgba(255,248,220,.15), inset 0 -1px 0 rgba(0,0,0,.6);
+    opacity: 0.6;
 }
-.royal-badge-inner::before {
-    content: "";
-    position: absolute;
-    top: 0; left: -70%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,248,220,.55), rgba(250,219,95,.35), transparent);
-    transform: skewX(-22deg);
-    animation: royalShine 3.2s ease-in-out infinite;
-    pointer-events: none;
-}
-@keyframes royalShine {
-    0% { left: -70%; }
-    55%, 100% { left: 130%; }
-}
-.royal-crown {
-    position: relative;
-    display: inline-flex;
+.geo-corner.tl { top: 20px; left: 20px; }
+.geo-corner.tr { top: 20px; right: 20px; transform: scaleX(-1); }
+.geo-corner.bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+.geo-corner.br { bottom: 20px; right: 20px; transform: scale(-1); }
+
+/* خط فاصل ماسي */
+.diamond-divider {
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 26px; height: 26px;
+    gap: 12px;
+    margin: 22px auto 26px;
+    max-width: 340px;
+    padding: 0 20px;
+}
+.diamond-divider .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(250,219,95,.5), transparent);
+}
+.diamond-divider .diamond {
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg, #FADB5F, #D4A017);
+    transform: rotate(45deg);
+    box-shadow: 0 0 12px rgba(250,219,95,.7), inset 0 1px 0 rgba(255,255,255,.6);
     flex: none;
-    color: #FADB5F;
-    font-size: 16px;
-    filter: drop-shadow(0 0 8px #FADB5F) drop-shadow(0 0 15px rgba(250,219,95,.7));
-    animation: crownGlow 2s ease-in-out infinite;
 }
-@keyframes crownGlow {
-    0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 6px #FADB5F) drop-shadow(0 0 12px rgba(250,219,95,.6)); color: #FADB5F; }
-    50% { transform: scale(1.12) rotate(-6deg); filter: drop-shadow(0 0 12px #FFF8DC) drop-shadow(0 0 25px #FADB5F); color: #FFF8DC; }
-}
-.royal-text {
-    font-family: 'Tajawal', sans-serif;
-    font-weight: 800;
-    font-size: 14px;
-    letter-spacing: 0.4px;
-    background: linear-gradient(90deg, #D4A017 0%, #FADB5F 25%, #FFF8DC 50%, #FADB5F 75%, #D4A017 100%);
-    background-size: 250% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: goldShine 3s linear infinite;
-    text-shadow: 0 0 20px rgba(250,219,95,.35);
-    white-space: nowrap;
-}
-.royal-sparkle {
-    position: absolute;
-    width: 5px; height: 5px;
-    background: radial-gradient(circle, #FFF8DC, #FADB5F 50%, transparent 80%);
-    border-radius: 50%;
-    pointer-events: none;
-    animation: sparkleFade 2.4s ease-in-out infinite;
-}
-.royal-sparkle.s1 { top: 4px; right: 18px; animation-delay: 0s; }
-.royal-sparkle.s2 { bottom: 4px; left: 22px; animation-delay: 0.8s; }
-.royal-sparkle.s3 { top: 50%; left: -3px; animation-delay: 1.6s; }
-.royal-sparkle.s4 { top: 50%; right: -3px; animation-delay: 2.2s; }
-@keyframes sparkleFade {
-    0%, 100% { opacity: 0; transform: scale(0.3); box-shadow: 0 0 0 rgba(250,219,95,0); }
-    40%, 60% { opacity: 1; transform: scale(1); box-shadow: 0 0 15px #FADB5F, 0 0 25px rgba(250,219,95,.7); }
-}
+.diamond-divider .diamond.small { width: 6px; height: 6px; opacity: 0.75; }
 
-/* =========================================
-   🎬 SCROLL REVEAL
-   ========================================= */
-.reveal-card {
-    opacity: 0;
-    transition: opacity .85s cubic-bezier(.2,.8,.2,1), transform .85s cubic-bezier(.2,.8,.2,1);
-    will-change: transform, opacity;
-}
-.reveal-from-right { transform: translateX(120px) rotate(4deg) scale(0.9); }
-.reveal-from-right.revealed { opacity: 1; transform: translateX(0) rotate(0) scale(1); }
-.reveal-from-left { transform: translateX(-120px) rotate(-4deg) scale(0.9); }
-.reveal-from-left.revealed { opacity: 1; transform: translateX(0) rotate(0) scale(1); }
-.reveal-from-bottom { transform: translateY(100px) scale(0.85); filter: blur(6px); }
-.reveal-from-bottom.revealed { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-.reveal-zoom-spin { transform: scale(0.3) rotate(-15deg); }
-.reveal-zoom-spin.revealed { opacity: 1; transform: scale(1) rotate(0); }
-.reveal-diagonal { transform: translate(90px, 70px) rotate(6deg) skewX(-4deg); }
-.reveal-diagonal.revealed { opacity: 1; transform: translate(0, 0) rotate(0) skewX(0); }
-.reveal-fold-down { transform: perspective(1000px) rotateX(-60deg) translateY(-40px); transform-origin: top center; }
-.reveal-fold-down.revealed { opacity: 1; transform: perspective(1000px) rotateX(0) translateY(0); }
-.reveal-bounce-in { transform: translateY(120px) scale(0.7); }
-.reveal-bounce-in.revealed { opacity: 1; transform: translateY(0) scale(1); transition: opacity .6s ease, transform .9s cubic-bezier(.34, 1.56, .64, 1); }
-.reveal-spin-in { transform: translateX(80px) rotate(360deg) scale(0.4); }
-.reveal-spin-in.revealed { opacity: 1; transform: translateX(0) rotate(0) scale(1); }
-
-/* =========================================
-   ✨ STAGGER MENU ITEMS
-   ========================================= */
-@keyframes itemSlideIn {
-    0% { opacity: 0; transform: translateX(30px) scale(0.9); filter: blur(4px); }
-    100% { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
-}
-.led-border-wrapper.open .menu-item {
-    animation: itemSlideIn .5s cubic-bezier(.2,.8,.2,1) backwards;
-}
-.led-border-wrapper.open .menu-item:nth-child(1) { animation-delay: 0.05s; }
-.led-border-wrapper.open .menu-item:nth-child(2) { animation-delay: 0.1s; }
-.led-border-wrapper.open .menu-item:nth-child(3) { animation-delay: 0.15s; }
-.led-border-wrapper.open .menu-item:nth-child(4) { animation-delay: 0.2s; }
-.led-border-wrapper.open .menu-item:nth-child(5) { animation-delay: 0.25s; }
-.led-border-wrapper.open .menu-item:nth-child(6) { animation-delay: 0.3s; }
-.led-border-wrapper.open .menu-item:nth-child(7) { animation-delay: 0.35s; }
-.led-border-wrapper.open .menu-item:nth-child(8) { animation-delay: 0.4s; }
-.led-border-wrapper.open .menu-item:nth-child(9) { animation-delay: 0.45s; }
-.led-border-wrapper.open .menu-item:nth-child(10) { animation-delay: 0.5s; }
-.led-border-wrapper.open .menu-item:nth-child(11) { animation-delay: 0.55s; }
-.led-border-wrapper.open .menu-item:nth-child(12) { animation-delay: 0.6s; }
-
-.led-border-wrapper.open .menu-item-name {
-    animation: nameGlow .6s cubic-bezier(.2,.8,.2,1) backwards;
-}
-@keyframes nameGlow {
-    0% { color: transparent; text-shadow: 0 0 20px #FADB5F; }
-    100% { color: #fff; text-shadow: 0 0 0; }
-}
-
-/* =========================================
-   أزرار الواجهة
-   ========================================= */
-.btn-gold {
-    background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
-    color: #000;
-    box-shadow: 0 5px 15px rgba(212, 160, 23, 0.4);
-    border: 1px solid #FDE68A;
-}
-.btn-brown-red {
-    background: linear-gradient(135deg, #991b1b 0%, #450a0a 100%);
-    color: #fff;
-    box-shadow: 0 5px 15px rgba(153, 27, 27, 0.4);
-    border: 1px solid #dc2626;
-}
-.btn-offers {
-    background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #ca8a04 100%);
-    color: #fff;
-    border: 2px solid #FADB5F;
-    animation: pulseOffer 2s infinite;
-}
-@keyframes pulseOffer {
-    0%, 100% { box-shadow: 0 0 15px rgba(220, 38, 38, 0.5); }
-    50% { box-shadow: 0 0 25px rgba(250, 204, 21, 0.8); }
-}
-
+/* بطاقة الواجهة الخرافية */
 .splash-choices {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 18px;
-    max-width: 520px;
+    max-width: 540px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 @media(max-width: 520px) { .splash-choices { gap: 12px; } }
 
@@ -680,84 +361,82 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 26px 14px 20px;
-    border-radius: 24px 6px 24px 6px;
-    background: linear-gradient(165deg, rgba(26,18,8,.92) 0%, rgba(13,8,5,.95) 55%, rgba(8,5,4,.96) 100%);
-    backdrop-filter: blur(8px);
-    border: 1.5px solid rgba(212,160,23,.35);
-    box-shadow: 0 15px 40px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.06);
+    padding: 30px 16px 22px;
+    border-radius: 18px;
+    background: linear-gradient(165deg, rgba(26,18,8,.94) 0%, rgba(13,8,5,.97) 55%, rgba(8,5,4,.98) 100%);
+    border: 1.5px solid rgba(212,160,23,.28);
+    box-shadow: 0 15px 40px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
     cursor: pointer;
     overflow: hidden;
     transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
     font-family: 'Tajawal', sans-serif;
     isolation: isolate;
+    clip-path: polygon(0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px));
 }
+/* خط مثلث علوي */
 .splash-card::before {
     content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(250,219,95,.18), transparent 65%);
-    opacity: 0.7; z-index: -1;
-    transition: opacity .35s ease;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #FADB5F, transparent);
+    border-radius: 2px;
+    z-index: 3;
 }
+/* بريق يمر */
 .splash-card::after {
     content: '';
     position: absolute;
-    top: -60%; left: -20%;
+    top: -60%; left: -30%;
     width: 40%; height: 220%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
     transform: rotate(25deg);
-    transition: left .9s ease;
+    transition: left 1s ease;
     pointer-events: none;
 }
-.splash-card:hover::after { left: 130%; }
+.splash-card:hover::after { left: 140%; }
 .splash-card:hover {
     transform: translateY(-6px);
     border-color: #FADB5F;
-    box-shadow: 0 22px 55px rgba(0,0,0,.7), 0 0 35px rgba(250,219,95,.35), inset 0 1px 0 rgba(255,255,255,.1);
+    box-shadow: 0 22px 55px rgba(0,0,0,.65), 0 0 30px rgba(250,219,95,.3);
 }
-.splash-card:hover::before { opacity: 1; }
-.splash-card.rest { border-color: rgba(220,38,38,.4); }
-.splash-card.rest::before { background: radial-gradient(circle at 50% 0%, rgba(239,68,68,.2), transparent 65%); }
+.splash-card.rest { border-color: rgba(220,38,38,.32); }
+.splash-card.rest::before { background: linear-gradient(90deg, transparent, #ef4444, transparent); }
 .splash-card.rest:hover {
     border-color: #ef4444;
-    box-shadow: 0 22px 55px rgba(0,0,0,.7), 0 0 35px rgba(220,38,38,.4), inset 0 1px 0 rgba(255,255,255,.1);
+    box-shadow: 0 22px 55px rgba(0,0,0,.65), 0 0 30px rgba(220,38,38,.35);
 }
+
 .splash-card-icon {
-    width: 76px; height: 76px;
-    border-radius: 50%;
+    width: 74px; height: 74px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
     color: #0d0805;
-    font-size: 30px;
-    box-shadow: 0 10px 25px rgba(212,160,23,.45), inset 0 2px 0 rgba(255,255,255,.5), inset 0 -3px 8px rgba(0,0,0,.2);
+    font-size: 28px;
+    box-shadow: 0 10px 25px rgba(212,160,23,.4), inset 0 2px 0 rgba(255,255,255,.5), inset 0 -3px 8px rgba(0,0,0,.2);
     position: relative;
     transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
-.splash-card-icon::before {
-    content: '';
-    position: absolute; inset: -8px;
-    border-radius: 50%;
-    border: 1px dashed rgba(250,219,95,.5);
-    animation: spinSlow 14s linear infinite;
-}
-@keyframes spinSlow { to { transform: rotate(360deg); } }
 .splash-card.rest .splash-card-icon {
     background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
     color: #fff;
-    box-shadow: 0 10px 25px rgba(220,38,38,.5), inset 0 2px 0 rgba(255,255,255,.35), inset 0 -3px 8px rgba(0,0,0,.3);
+    box-shadow: 0 10px 25px rgba(220,38,38,.45), inset 0 2px 0 rgba(255,255,255,.35);
 }
-.splash-card.rest .splash-card-icon::before { border-color: rgba(239,68,68,.55); }
-.splash-card:hover .splash-card-icon { transform: scale(1.08) rotate(-5deg); }
+.splash-card:hover .splash-card-icon { transform: scale(1.08) rotate(-4deg); }
+
 .splash-card-title {
-    margin: 0 0 6px;
+    margin: 0 0 10px;
     font-family: 'Amiri', serif;
     font-size: 22px;
     font-weight: 900;
     color: #fff;
-    text-shadow: 0 2px 8px rgba(0,0,0,.6);
     letter-spacing: -0.3px;
 }
 .splash-card-hours {
@@ -767,25 +446,25 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     font-size: 11.5px;
     font-weight: 700;
     color: #c9b184;
-    padding: 4px 11px;
+    padding: 5px 12px;
     border-radius: 999px;
     background: rgba(0,0,0,.45);
     border: 1px solid rgba(250,219,95,.15);
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
 .splash-card.rest .splash-card-hours { color: #fca5a5; border-color: rgba(239,68,68,.2); }
 .splash-card-cta {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 9px 18px;
-    border-radius: 12px 4px 12px 4px;
+    padding: 10px 22px;
+    border-radius: 999px;
     background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
     color: #0d0805;
     font-weight: 900;
     font-size: 13px;
     font-family: 'Cairo', sans-serif;
-    box-shadow: 0 6px 18px rgba(212,160,23,.4);
+    box-shadow: 0 6px 16px rgba(212,160,23,.4), inset 0 1px 0 rgba(255,255,255,.4);
     transition: all .3s ease;
 }
 .splash-card-cta i { transition: transform .35s ease; }
@@ -793,22 +472,53 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
 .splash-card.rest .splash-card-cta {
     background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
     color: #fff;
-    box-shadow: 0 6px 18px rgba(220,38,38,.45);
+    box-shadow: 0 6px 16px rgba(220,38,38,.45);
 }
+
+/* شعار العروض على شكل معين */
+.offers-hex {
+    position: relative;
+    padding: 1.5px;
+    background: linear-gradient(135deg, #FADB5F, #dc2626, #ca8a04, #FADB5F);
+    background-size: 300% 300%;
+    animation: hexBorder 4s linear infinite;
+    clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px), 0 14px);
+}
+@keyframes hexBorder {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+.offers-hex-inner {
+    background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 50%, #ca8a04 100%);
+    clip-path: polygon(13px 0, calc(100% - 13px) 0, 100% 13px, 100% calc(100% - 13px), calc(100% - 13px) 100%, 13px 100%, 0 calc(100% - 13px), 0 13px);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform .25s ease;
+}
+.offers-hex:active .offers-hex-inner { transform: scale(0.98); }
+.offers-hex-inner i { color: #fde68a; }
 
 /* =========================================
    الكارد الفخم
    ========================================= */
 .led-border-wrapper {
     position: relative;
-    margin-bottom: 26px;
+    margin-bottom: 24px;
     padding: 1.5px;
-    border-radius: 26px;
+    border-radius: 20px;
     overflow: hidden;
-    background: rgba(255,255,255,.06);
-    box-shadow: 0 20px 45px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08);
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 15px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
     isolation: isolate;
-    transition: box-shadow .35s ease;
+    transition: box-shadow .35s ease, transform .35s ease;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 400px;
 }
 .led-border-wrapper::before {
     content:"";
@@ -816,8 +526,9 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     width:180%; height:180%;
     left:-40%; top:-40%;
     background:conic-gradient(from 0deg, transparent 0deg, transparent 230deg, #D4A017 275deg, #fff8c7 300deg, #D4A017 325deg, transparent 350deg);
-    animation: premiumSpin 5s linear infinite;
+    animation: premiumSpin 6s linear infinite;
     z-index: -2;
+    will-change: transform;
 }
 .theme-rest.led-border-wrapper::before {
     background:conic-gradient(from 0deg, transparent 0deg, transparent 230deg, #dc2626 275deg, #ffd1d1 300deg, #ef4444 325deg, transparent 350deg);
@@ -827,61 +538,37 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
 .led-border-wrapper::after {
     content:"";
     position:absolute; inset:0;
-    border-radius:26px;
-    box-shadow: 0 0 0 1px rgba(255,255,255,.05), 0 0 35px rgba(212,160,23,.08);
+    border-radius:20px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.05);
     pointer-events:none; z-index:5;
 }
-.theme-rest.led-border-wrapper::after {
-    box-shadow: 0 0 0 1px rgba(255,255,255,.05), 0 0 35px rgba(220,38,38,.10);
+.led-border-wrapper:hover { 
+    box-shadow: 0 20px 50px rgba(0,0,0,.6), 0 0 25px rgba(212,160,23,.12); 
+    transform: translateY(-2px);
 }
-.led-border-wrapper:hover { box-shadow: 0 28px 55px rgba(0,0,0,.65), 0 0 30px rgba(212,160,23,.15); }
-.theme-rest.led-border-wrapper:hover { box-shadow: 0 28px 55px rgba(0,0,0,.65), 0 0 30px rgba(220,38,38,.18); }
+.theme-rest.led-border-wrapper:hover { 
+    box-shadow: 0 20px 50px rgba(0,0,0,.6), 0 0 25px rgba(220,38,38,.15); 
+}
 
 .card-inner-box {
     position: relative;
     z-index: 2;
     overflow: hidden;
     background: linear-gradient(155deg, rgba(26,18,8,.96) 0%, rgba(13,8,5,.97) 45%, rgba(8,5,4,.98) 100%);
-    backdrop-filter: blur(4px);
-    border-radius: 25px;
+    border-radius: 19px;
     height: 100%;
 }
-.card-inner-box::before,
-.card-inner-box::after {
-    content: '';
-    position: absolute;
-    width: 34px; height: 34px;
-    border: 2px solid #D4A017;
-    z-index: 6;
-    pointer-events: none;
-    opacity: 0.9;
-}
-.card-inner-box::before {
-    top: 10px; right: 10px;
-    border-bottom: none; border-left: none;
-    border-radius: 0 18px 0 0;
-    box-shadow: -2px -2px 12px rgba(250,219,95,.25);
-}
-.card-inner-box::after {
-    bottom: 10px; left: 10px;
-    border-top: none; border-right: none;
-    border-radius: 0 0 0 18px;
-    box-shadow: 2px 2px 12px rgba(250,219,95,.25);
-}
-.theme-rest .card-inner-box::before,
-.theme-rest .card-inner-box::after { border-color: #ef4444; box-shadow: -2px -2px 12px rgba(239,68,68,.25); }
 
 .card-header-img {
     position: relative;
-    height: 205px;
+    height: 200px;
     overflow: hidden;
     cursor: pointer;
     transition: height .45s ease;
     background-color: #110b08;
 }
-.led-border-wrapper.open .card-header-img { height: 175px; }
+.led-border-wrapper.open .card-header-img { height: 170px; }
 
-/* 🚀 صورة حقيقية بتتحمل فوراً */
 .card-header-img-real {
     position: absolute;
     inset: 0;
@@ -891,7 +578,9 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     object-position: center;
     display: block;
     z-index: 0;
+    transition: transform .7s ease;
 }
+.led-border-wrapper:hover .card-header-img-real { transform: scale(1.05); }
 
 .card-header-img::before {
     content: "";
@@ -905,9 +594,9 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     position: absolute;
     top: -100%; left: -80%;
     width: 45%; height: 300%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
     transform: rotate(25deg);
-    transition: left .8s ease;
+    transition: left .9s ease;
     z-index: 3;
     pointer-events: none;
 }
@@ -917,26 +606,24 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     position: absolute;
     top: 14px;
     right: 14px;
-    width: 46px;
-    height: 46px;
-    border-radius: 14px 4px 14px 4px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 5;
-    backdrop-filter: blur(12px);
     background: rgba(8,5,3,.72);
-    border: 1px solid rgba(250,219,95,.5);
-    box-shadow: 0 8px 22px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
-    transition: transform .35s ease, box-shadow .35s ease;
+    border: 1px solid rgba(250,219,95,.45);
+    box-shadow: 0 8px 20px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);
+    transition: transform .35s ease;
     pointer-events: none;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
 .card-icon-badge i {
     color: #FADB5F;
-    font-size: 19px;
-    filter: drop-shadow(0 0 8px currentColor);
+    font-size: 18px;
 }
-.theme-rest .card-icon-badge { border-color: rgba(239,68,68,.55); }
+.theme-rest .card-icon-badge { border-color: rgba(239,68,68,.5); }
 .theme-rest .card-icon-badge i { color: #ef4444; }
 
 .card-tap-hint {
@@ -950,7 +637,6 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     padding: 6px 12px;
     border-radius: 999px;
     background: rgba(0,0,0,.55);
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,.12);
     color: #fff;
     font-size: 11px;
@@ -968,8 +654,8 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     align-items: center;
     justify-content: space-between;
     gap: 14px;
-    padding: 16px 20px 16px 18px;
-    background: linear-gradient(180deg, rgba(212,160,23,.07), transparent 70%);
+    padding: 16px 20px;
+    background: linear-gradient(180deg, rgba(212,160,23,.06), transparent 70%);
     border-bottom: 1px solid rgba(255,255,255,.05);
     cursor: pointer;
 }
@@ -977,33 +663,31 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     content: '';
     position: absolute;
     top: 0; right: 20px;
-    width: 55px; height: 3px;
+    width: 50px; height: 3px;
     background: linear-gradient(90deg, #FADB5F, transparent);
     border-radius: 0 0 4px 4px;
-    box-shadow: 0 0 12px rgba(250,219,95,.5);
 }
-.theme-rest .card-info-bar::before { background: linear-gradient(90deg, #ef4444, transparent); box-shadow: 0 0 12px rgba(239,68,68,.5); }
-.theme-rest .card-info-bar { background: linear-gradient(180deg, rgba(220,38,38,.07), transparent 70%); }
+.theme-rest .card-info-bar::before { background: linear-gradient(90deg, #ef4444, transparent); }
+.theme-rest .card-info-bar { background: linear-gradient(180deg, rgba(220,38,38,.06), transparent 70%); }
 
 .card-title-main { min-width: 0; flex: 1; }
 .card-title-main h2 {
     margin: 0 0 8px;
     font-family: 'Amiri', serif;
-    font-size: 27px;
-    line-height: 1.1;
+    font-size: 26px;
+    line-height: 1.15;
     font-weight: 900;
     color: #fff;
     letter-spacing: -0.5px;
-    text-shadow: 0 2px 10px rgba(0,0,0,.5);
 }
 .card-count {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 11px;
+    padding: 4px 12px;
     border-radius: 999px;
     background: rgba(212,160,23,.1);
-    border: 1px solid rgba(212,160,23,.28);
+    border: 1px solid rgba(212,160,23,.25);
     color: #FADB5F;
     font-size: 11px;
     font-weight: 800;
@@ -1012,7 +696,7 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
 .card-count i { font-size: 10px; }
 .theme-rest .card-count {
     background: rgba(220,38,38,.1);
-    border-color: rgba(220,38,38,.28);
+    border-color: rgba(220,38,38,.25);
     color: #f87171;
 }
 
@@ -1021,30 +705,19 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 11px 16px;
-    border-radius: 14px 4px 14px 4px;
+    padding: 10px 18px;
+    border-radius: 12px;
     background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
     color: #0d0805;
     font-weight: 900;
-    font-size: 13px;
+    font-size: 12.5px;
     font-family: 'Cairo', sans-serif;
     border: 1px solid #FDE68A;
-    box-shadow: 0 6px 18px rgba(212,160,23,.4), inset 0 1px 0 rgba(255,255,255,.4);
+    box-shadow: 0 6px 16px rgba(212,160,23,.35), inset 0 1px 0 rgba(255,255,255,.4);
     cursor: pointer;
-    transition: all .3s cubic-bezier(.2,.8,.2,1);
-    position: relative;
-    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
     white-space: nowrap;
 }
-.card-open-btn::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, transparent, rgba(255,255,255,.5), transparent);
-    transform: translateX(-110%);
-    transition: transform .55s ease;
-    pointer-events: none;
-}
-.card-open-btn:hover::before { transform: translateX(110%); }
 .card-open-btn i { transition: transform .4s ease; font-size: 12px; }
 .led-border-wrapper.open .card-open-btn i { transform: rotate(180deg); }
 .card-open-btn:active { transform: scale(0.96); }
@@ -1052,13 +725,13 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
     color: #fff;
     border-color: #dc2626;
-    box-shadow: 0 6px 18px rgba(220,38,38,.45);
+    box-shadow: 0 6px 16px rgba(220,38,38,.4);
 }
 
 .category-items-wrapper {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows .55s cubic-bezier(.2,.8,.2,1);
+    transition: grid-template-rows .5s cubic-bezier(.2,.8,.2,1);
     background: linear-gradient(180deg, rgba(13,8,5,.98), rgba(8,5,4,.99));
 }
 .led-border-wrapper.open .category-items-wrapper { grid-template-rows: 1fr; }
@@ -1070,44 +743,43 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     gap: 10px;
     margin: 14px 16px 6px;
     padding: 12px 14px;
-    background: linear-gradient(135deg, rgba(212,160,23,.12), rgba(212,160,23,.03));
+    background: linear-gradient(135deg, rgba(212,160,23,.1), rgba(212,160,23,.02));
     border-right: 3px solid #D4A017;
-    border-radius: 12px 4px 12px 4px;
+    border-radius: 12px;
     font-size: 13px;
     font-weight: 800;
     color: #f5d98b;
     font-family: 'Tajawal', sans-serif;
     line-height: 1.6;
-    box-shadow: 0 4px 15px rgba(0,0,0,.3);
 }
 .card-note i {
     color: #FADB5F;
     font-size: 16px;
     margin-top: 2px;
     flex: none;
-    filter: drop-shadow(0 0 6px rgba(250,219,95,.6));
 }
 .theme-rest .card-note {
-    background: linear-gradient(135deg, rgba(220,38,38,.12), rgba(220,38,38,.03));
+    background: linear-gradient(135deg, rgba(220,38,38,.1), rgba(220,38,38,.02));
     border-right-color: #ef4444;
     color: #fca5a5;
 }
-.theme-rest .card-note i { color: #ef4444; filter: drop-shadow(0 0 6px rgba(239,68,68,.6)); }
+.theme-rest .card-note i { color: #ef4444; }
 
 .menu-item {
     position: relative;
-    border-bottom: 1px solid rgba(255,255,255,.045);
-    padding: 15px 8px !important;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    padding: 15px 10px !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
     transition: background .25s ease, transform .25s ease;
 }
+.menu-item:last-child { border-bottom: none; }
 .menu-item::before {
     content: "";
     position: absolute; right: 0;
-    top: 18%; width: 3px; height: 64%;
+    top: 20%; width: 3px; height: 60%;
     border-radius: 10px;
     background: #D4A017;
     opacity: 0; transform: scaleY(.4);
@@ -1122,7 +794,7 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     align-items: center;
     gap: 10px;
     font-weight: 700;
-    font-size: 1.125rem;
+    font-size: 1.075rem;
     color: #fff;
     font-family: 'Cairo', sans-serif;
     line-height: 1.4;
@@ -1131,32 +803,28 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     content: "✦";
     color: #D4A017;
     font-size: 10px;
-    filter: drop-shadow(0 0 5px #D4A017);
     flex: none;
 }
-.theme-rest .menu-item-name::before {
-    color: #ef4444;
-    filter: drop-shadow(0 0 5px #ef4444);
-}
+.theme-rest .menu-item-name::before { color: #ef4444; }
 
 .premium-price {
     position: relative;
-    min-width: 75px;
+    min-width: 72px;
     text-align: center;
-    padding: 7px 12px;
-    border-radius: 11px 4px 11px 4px;
-    background: linear-gradient(135deg, rgba(212,160,23,.16), rgba(212,160,23,.04));
-    border: 1px solid rgba(212,160,23,.3);
+    padding: 7px 14px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(212,160,23,.14), rgba(212,160,23,.03));
+    border: 1px solid rgba(212,160,23,.28);
     color: #FADB5F;
     font-weight: 900;
     font-family: 'Tajawal', sans-serif;
-    box-shadow: 0 5px 15px rgba(0,0,0,.25);
     flex: none;
+    font-size: 0.95rem;
 }
 .theme-rest .premium-price {
     color: #ef4444;
-    background: linear-gradient(135deg, rgba(220,38,38,.16), rgba(220,38,38,.04));
-    border-color: rgba(220,38,38,.3);
+    background: linear-gradient(135deg, rgba(220,38,38,.14), rgba(220,38,38,.03));
+    border-color: rgba(220,38,38,.28);
 }
 
 .multi-price-container {
@@ -1165,10 +833,10 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
 }
 .multi-price-tag {
     padding: 6px 12px;
-    border-radius: 8px 2px 8px 2px;
+    border-radius: 8px;
     background: #110b08;
     border: 1px solid rgba(255,255,255,0.08);
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: #d1d5db;
     font-weight: 700;
     font-family: 'Tajawal', sans-serif;
@@ -1180,13 +848,14 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     width: calc(100% - 32px);
     margin: 14px 16px;
     padding: 12px 18px;
-    border-radius: 14px 4px 14px 4px;
+    border-radius: 12px;
     background: rgba(255,255,255,.035);
     border: 1px solid rgba(255,255,255,.08);
     color: #aaa;
     font-weight: 800;
     transition: .25s ease;
     cursor: pointer;
+    font-family: 'Cairo', sans-serif;
 }
 .premium-close-btn:hover {
     color: #fff;
@@ -1201,13 +870,12 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     position: fixed; inset: 0; z-index: 999999;
     background: rgba(0,0,0,0.88);
     display: none; justify-content: center; align-items: center; padding: 15px;
-    backdrop-filter: blur(6px);
 }
 .modal-overlay.active { display: flex; }
 .modal-box {
     background: linear-gradient(165deg, #1a0f0a 0%, #0d0805 100%);
     border: 2px solid #FADB5F;
-    border-radius: 28px 8px 28px 8px;
+    border-radius: 22px;
     width: 100%; max-width: 720px; max-height: 90vh;
     overflow-y: auto; position: relative;
     box-shadow: 0 0 60px rgba(220, 38, 38, 0.35), 0 0 0 1px rgba(250,219,95,.2);
@@ -1225,15 +893,15 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     position: relative;
     background: linear-gradient(165deg, #1a0f0a, #0d0805);
     border: 1.5px solid rgba(250,219,95,.3);
-    border-radius: 22px 6px 22px 6px;
+    border-radius: 18px;
     overflow: hidden;
     transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
     box-shadow: 0 15px 40px rgba(0,0,0,.5);
 }
 .offer-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color: #FADB5F;
-    box-shadow: 0 22px 50px rgba(0,0,0,.6), 0 0 35px rgba(250,219,95,.35);
+    box-shadow: 0 22px 50px rgba(0,0,0,.6), 0 0 30px rgba(250,219,95,.3);
 }
 .offer-card-badge {
     position: absolute;
@@ -1246,13 +914,12 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     border-radius: 0 0 0 14px;
     z-index: 3;
     font-family: 'Cairo', sans-serif;
-    box-shadow: 0 4px 12px rgba(220,38,38,.5);
     letter-spacing: 0.3px;
 }
 .offer-img-wrap {
     position: relative;
     padding: 16px 16px 0;
-    background: radial-gradient(circle at 50% 30%, rgba(250,219,95,.12), transparent 70%);
+    background: radial-gradient(circle at 50% 30%, rgba(250,219,95,.1), transparent 70%);
 }
 .offer-img {
     width: 100%; height: 165px;
@@ -1290,16 +957,16 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
 }
 .offer-price {
     display: inline-block;
-    padding: 7px 20px;
+    padding: 8px 22px;
     margin: 6px 0 12px;
-    border-radius: 12px 4px 12px 4px;
+    border-radius: 12px;
     background: linear-gradient(135deg, #dc2626, #991b1b);
     color: #fff;
     font-weight: 900;
     font-size: 17px;
     font-family: 'Cairo', sans-serif;
     border: 1px solid #ef4444;
-    box-shadow: 0 6px 18px rgba(220,38,38,.5), inset 0 1px 0 rgba(255,255,255,.2);
+    box-shadow: 0 6px 18px rgba(220,38,38,.45);
     letter-spacing: -0.3px;
 }
 .offer-btn {
@@ -1309,7 +976,7 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     gap: 8px;
     width: 100%;
     padding: 12px;
-    border-radius: 12px 4px 12px 4px;
+    border-radius: 12px;
     background: linear-gradient(135deg, #25D366, #128C7E);
     color: #fff;
     font-weight: 900;
@@ -1317,14 +984,14 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     font-family: 'Cairo', sans-serif;
     border: none;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(37,211,102,.4), inset 0 1px 0 rgba(255,255,255,.25);
+    box-shadow: 0 6px 16px rgba(37,211,102,.4), inset 0 1px 0 rgba(255,255,255,.25);
     transition: all .25s ease;
 }
 .offer-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(37,211,102,.55), inset 0 1px 0 rgba(255,255,255,.25);
+    box-shadow: 0 10px 25px rgba(37,211,102,.5);
 }
-.offer-btn:active { transform: scale(0.96); }
+.offer-btn:active { transform: scale(0.97); }
 .offer-btn i { font-size: 18px; }
 
 /* زر الصفحة الرئيسية */
@@ -1337,15 +1004,14 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
     align-items: center;
     gap: 8px;
     padding: 9px 14px;
-    border-radius: 14px 4px 14px 4px;
+    border-radius: 12px;
     background: linear-gradient(135deg, rgba(13,8,5,.92), rgba(26,18,8,.92));
-    backdrop-filter: blur(12px);
-    border: 1.5px solid rgba(250,219,95,.55);
+    border: 1.5px solid rgba(250,219,95,.5);
     color: #FADB5F;
     font-weight: 900;
     font-size: 12.5px;
     font-family: 'Cairo', sans-serif;
-    box-shadow: 0 6px 20px rgba(0,0,0,.5), 0 0 15px rgba(250,219,95,.2);
+    box-shadow: 0 6px 18px rgba(0,0,0,.5);
     cursor: pointer;
     transition: all .3s cubic-bezier(.2,.8,.2,1);
     white-space: nowrap;
@@ -1353,19 +1019,16 @@ body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
 .home-fab:hover {
     transform: translateY(-2px);
     border-color: #FADB5F;
-    box-shadow: 0 8px 25px rgba(0,0,0,.6), 0 0 22px rgba(250,219,95,.45);
     color: #fff;
 }
-.home-fab:active { transform: scale(0.94); }
-.home-fab i { font-size: 14px; filter: drop-shadow(0 0 6px currentColor); }
+.home-fab:active { transform: scale(0.95); }
+.home-fab i { font-size: 14px; }
 body[data-mode="restaurant"] .home-fab {
-    border-color: rgba(220,38,38,.55);
+    border-color: rgba(220,38,38,.5);
     color: #ef4444;
-    box-shadow: 0 6px 20px rgba(0,0,0,.5), 0 0 15px rgba(220,38,38,.2);
 }
 body[data-mode="restaurant"] .home-fab:hover {
     border-color: #ef4444;
-    box-shadow: 0 8px 25px rgba(0,0,0,.6), 0 0 22px rgba(220,38,38,.5);
     color: #fff;
 }
 @media(max-width: 480px) {
@@ -1378,7 +1041,7 @@ body[data-mode="restaurant"] .home-fab:hover {
 #scrollToTopBtn.hidden-btn { opacity: 0; transform: translateY(15px); visibility: hidden; }
 
 /* =========================================
-   🔗 أيقونات التواصل في الفوتر
+   🔗 أيقونات التواصل
    ========================================= */
 .footer-socials {
     display: flex;
@@ -1392,7 +1055,7 @@ body[data-mode="restaurant"] .home-fab:hover {
 .footer-social-btn {
     width: 46px;
     height: 46px;
-    border-radius: 50%;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1409,13 +1072,13 @@ body[data-mode="restaurant"] .home-fab:hover {
 .footer-social-btn::before {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.3), transparent 60%);
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.28), transparent 60%);
     pointer-events: none;
 }
 .footer-social-btn:hover {
-    transform: translateY(-4px) scale(1.1);
+    transform: translateY(-4px) scale(1.08);
 }
-.footer-social-btn:active { transform: scale(.92); }
+.footer-social-btn:active { transform: scale(.94); }
 
 .fs-wa { background: linear-gradient(135deg, #25D366, #128C7E); }
 .fs-fb { background: linear-gradient(135deg, #1877F2, #0e5fc0); }
@@ -1424,58 +1087,302 @@ body[data-mode="restaurant"] .home-fab:hover {
     background: linear-gradient(135deg, #1a0f0a, #110b08);
     border: 2px solid #D4A017;
     color: #FADB5F;
-    box-shadow: 0 0 15px rgba(250,219,95,.5), 0 6px 16px rgba(0,0,0,.45);
+    box-shadow: 0 0 15px rgba(250,219,95,.4), 0 6px 16px rgba(0,0,0,.45);
 }
 body[data-mode="restaurant"] .fs-ph {
     border-color: #dc2626;
     color: #ef4444;
-    box-shadow: 0 0 15px rgba(220,38,38,.5), 0 6px 16px rgba(0,0,0,.45);
+    box-shadow: 0 0 15px rgba(220,38,38,.4), 0 6px 16px rgba(0,0,0,.45);
+}
+
+/* =========================================
+   🏛️ LOCATION PLAQUE
+   ========================================= */
+.location-plaque {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    margin: 22px auto 12px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(26,18,8,.95), rgba(13,8,5,.98), rgba(26,18,8,.95));
+    border: 1.5px solid rgba(250,219,95,.35);
+    box-shadow: 0 12px 30px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,248,220,.12);
+    isolation: isolate;
+    overflow: hidden;
+}
+.location-plaque::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -60%;
+    width: 45%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,248,220,.28), transparent);
+    transform: skewX(-22deg);
+    animation: plaqueShine 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 2;
+}
+@keyframes plaqueShine {
+    0% { left: -60%; }
+    55%, 100% { left: 130%; }
+}
+.location-pin-icon {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    z-index: 3;
+}
+.location-pin-icon::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(250,219,95,.5);
+    animation: spinDashed 14s linear infinite;
+}
+@keyframes spinDashed { to { transform: rotate(360deg); } }
+.location-pin-core {
+    position: relative;
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0d0805;
+    font-size: 17px;
+    box-shadow: 0 8px 20px rgba(212,160,23,.5);
+    z-index: 2;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+.pin-ripple {
+    position: absolute;
+    inset: 50%;
+    width: 20px; height: 20px;
+    margin: -10px 0 0 -10px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(250,219,95,.55);
+    pointer-events: none;
+    animation: rippleOut 2.6s ease-out infinite;
+}
+.pin-ripple.delay { animation-delay: 1.3s; }
+@keyframes rippleOut {
+    0% { transform: scale(0.5); opacity: 1; }
+    100% { transform: scale(3.2); opacity: 0; }
+}
+.location-text-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    z-index: 3;
+    position: relative;
+}
+.location-label {
+    font-family: 'Cairo', sans-serif;
+    font-size: 10.5px;
+    font-weight: 800;
+    color: #b8860b;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+.location-address {
+    font-family: 'Cairo', sans-serif;
+    font-size: 19px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #D4A017 0%, #FADB5F 25%, #FFF8DC 50%, #FADB5F 75%, #D4A017 100%);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: goldShine 4s linear infinite;
+    letter-spacing: -0.3px;
+    line-height: 1.15;
+}
+
+/* =========================================
+   SCROLL REVEAL (مُبسّط للأداء)
+   ========================================= */
+.reveal-card {
+    opacity: 0;
+    transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1);
+    will-change: transform, opacity;
+}
+.reveal-from-right { transform: translateX(60px); }
+.reveal-from-right.revealed { opacity: 1; transform: translateX(0); }
+.reveal-from-left { transform: translateX(-60px); }
+.reveal-from-left.revealed { opacity: 1; transform: translateX(0); }
+.reveal-from-bottom { transform: translateY(60px); }
+.reveal-from-bottom.revealed { opacity: 1; transform: translateY(0); }
+.reveal-zoom-spin { transform: scale(0.6); }
+.reveal-zoom-spin.revealed { opacity: 1; transform: scale(1); }
+.reveal-diagonal { transform: translate(50px, 40px); }
+.reveal-diagonal.revealed { opacity: 1; transform: translate(0, 0); }
+.reveal-fold-down { transform: translateY(-30px); }
+.reveal-fold-down.revealed { opacity: 1; transform: translateY(0); }
+.reveal-bounce-in { transform: translateY(70px) scale(0.85); }
+.reveal-bounce-in.revealed { opacity: 1; transform: translateY(0) scale(1); transition: opacity .5s ease, transform .7s cubic-bezier(.34, 1.56, .64, 1); }
+.reveal-spin-in { transform: translateX(40px) scale(0.7); }
+.reveal-spin-in.revealed { opacity: 1; transform: translateX(0) scale(1); }
+
+/* =========================================
+   ✨ STAGGER MENU ITEMS
+   ========================================= */
+@keyframes itemSlideIn {
+    0% { opacity: 0; transform: translateX(20px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+.led-border-wrapper.open .menu-item {
+    animation: itemSlideIn .4s cubic-bezier(.2,.8,.2,1) backwards;
+}
+.led-border-wrapper.open .menu-item:nth-child(1) { animation-delay: 0.03s; }
+.led-border-wrapper.open .menu-item:nth-child(2) { animation-delay: 0.06s; }
+.led-border-wrapper.open .menu-item:nth-child(3) { animation-delay: 0.09s; }
+.led-border-wrapper.open .menu-item:nth-child(4) { animation-delay: 0.12s; }
+.led-border-wrapper.open .menu-item:nth-child(5) { animation-delay: 0.15s; }
+.led-border-wrapper.open .menu-item:nth-child(6) { animation-delay: 0.18s; }
+.led-border-wrapper.open .menu-item:nth-child(7) { animation-delay: 0.21s; }
+.led-border-wrapper.open .menu-item:nth-child(8) { animation-delay: 0.24s; }
+.led-border-wrapper.open .menu-item:nth-child(9) { animation-delay: 0.27s; }
+.led-border-wrapper.open .menu-item:nth-child(10) { animation-delay: 0.3s; }
+
+/* =========================================
+   أزرار الواجهة
+   ========================================= */
+.btn-gold {
+    background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
+    color: #0d0805;
+    box-shadow: 0 4px 14px rgba(212, 160, 23, 0.35), inset 0 1px 0 rgba(255,255,255,.4);
+    border: 1px solid #FDE68A;
+}
+.btn-brown-red {
+    background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(153, 27, 27, 0.35);
+    border: 1px solid #ef4444;
+}
+
+/* =========================================
+   👑 ROYAL BADGE (احترافي)
+   ========================================= */
+.royal-badge {
+    position: relative;
+    display: inline-flex;
+    padding: 1.5px;
+    border-radius: 999px;
+    overflow: hidden;
+    isolation: isolate;
+    margin-bottom: 26px;
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,.6));
+}
+.royal-badge::before {
+    content: "";
+    position: absolute;
+    width: 220%; height: 220%;
+    left: -60%; top: -60%;
+    background: conic-gradient(from 0deg,
+        #8B6508 0deg, #D4A017 40deg, #FFF8DC 80deg, #FADB5F 120deg,
+        #D4A017 160deg, #8B6508 200deg, #D4A017 240deg, #FFF8DC 280deg,
+        #FADB5F 320deg, #D4A017 360deg);
+    animation: royalSpin 6s linear infinite;
+    z-index: -1;
+}
+@keyframes royalSpin { to { transform: rotate(360deg); } }
+.royal-badge-inner {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 26px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #1a1208 0%, #0d0805 50%, #1a1208 100%);
+    overflow: hidden;
+    z-index: 1;
+}
+.royal-crown {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    flex: none;
+    color: #FADB5F;
+    font-size: 15px;
+    animation: crownGlow 2.5s ease-in-out infinite;
+}
+@keyframes crownGlow {
+    0%, 100% { transform: scale(1); color: #FADB5F; }
+    50% { transform: scale(1.1); color: #FFF8DC; }
+}
+.royal-text {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 800;
+    font-size: 13.5px;
+    letter-spacing: 0.4px;
+    background: linear-gradient(90deg, #D4A017 0%, #FADB5F 25%, #FFF8DC 50%, #FADB5F 75%, #D4A017 100%);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: goldShine 3s linear infinite;
+    white-space: nowrap;
 }
 
 @media(max-width:640px) {
-    .led-border-wrapper { margin-bottom: 20px; border-radius: 22px; }
-    .card-inner-box { border-radius: 21px; }
-    .card-header-img { height: 180px; }
-    .led-border-wrapper.open .card-header-img { height: 155px; }
-    .card-title-main h2 { font-size: 23px; }
-    .card-icon-badge { width: 42px; height: 42px; top: 12px; right: 12px; }
-    .card-icon-badge i { font-size: 17px; }
+    .led-border-wrapper { margin-bottom: 18px; border-radius: 18px; }
+    .card-inner-box { border-radius: 17px; }
+    .card-header-img { height: 175px; }
+    .led-border-wrapper.open .card-header-img { height: 150px; }
+    .card-title-main h2 { font-size: 22px; }
+    .card-icon-badge { width: 40px; height: 40px; top: 12px; right: 12px; }
+    .card-icon-badge i { font-size: 16px; }
     .card-info-bar { padding: 14px 16px; gap: 10px; }
-    .card-open-btn { padding: 10px 13px; font-size: 12px; }
+    .card-open-btn { padding: 9px 13px; font-size: 12px; }
     .card-open-btn span { display: none; }
     .card-open-btn i { font-size: 14px; }
     .menu-item { flex-direction: column; align-items: flex-start; gap: 10px; }
     .multi-price-container { width: 100%; justify-content: flex-start; }
-    .splash-card { padding: 22px 10px 18px; border-radius: 20px 5px 20px 5px; }
-    .splash-card-icon { width: 64px; height: 64px; font-size: 24px; margin-bottom: 12px; }
+    .splash-card { padding: 24px 12px 18px; }
+    .splash-card-icon { width: 62px; height: 62px; font-size: 24px; }
     .splash-card-title { font-size: 19px; }
-    .splash-card-cta { font-size: 12px; padding: 8px 14px; }
-    .footer-social-btn { width: 42px; height: 42px; font-size: 17px; }
+    .splash-card-cta { font-size: 12px; padding: 8px 16px; }
+    .footer-social-btn { width: 42px; height: 42px; font-size: 17px; border-radius: 12px; }
 
-    .location-plaque { padding: 12px 18px 12px 16px; gap: 12px; border-radius: 50px 6px 50px 6px; }
-    .location-pin-icon { width: 46px; height: 46px; }
-    .location-pin-core { width: 32px; height: 32px; font-size: 15px; }
-    .location-address { font-size: 16px; }
-    .location-label { font-size: 9px; letter-spacing: 1px; }
+    .geo-flower { width: 320px; height: 320px; margin: -160px 0 0 -160px; opacity: 0.28; }
+    .geo-corner { width: 60px; height: 60px; }
 
-    .royal-badge-inner { padding: 10px 20px; gap: 8px; }
-    .royal-text { font-size: 12px; letter-spacing: 0.2px; }
-    .royal-crown { width: 20px; height: 20px; font-size: 14px; }
+    .location-plaque { padding: 12px 18px; gap: 12px; border-radius: 16px; }
+    .location-pin-icon { width: 44px; height: 44px; }
+    .location-pin-core { width: 32px; height: 32px; font-size: 14px; }
+    .location-address { font-size: 15.5px; }
+    .location-label { font-size: 9px; }
+
+    .royal-badge-inner { padding: 9px 18px; gap: 7px; }
+    .royal-text { font-size: 11.5px; }
+    .royal-crown { width: 18px; height: 18px; font-size: 13px; }
 
     .loader-ring { width: 90px; height: 90px; }
     .loader-icon { font-size: 34px; }
     .loader-title { font-size: 22px; }
     .loader-progress { width: 180px; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 </style>
 </head>
 <body data-mode="cafe">
 
-<!-- 🖼️ خلفية الصورة -->
 <div id="bg-image-layer"></div>
 <div id="bg-overlay-layer"></div>
-
-<!-- 🎊 شرارات ذهبية -->
 <div id="particles-bg"></div>
 
 <!-- ⏳ شاشة التحميل -->
@@ -1493,9 +1400,71 @@ body[data-mode="restaurant"] .fs-ph {
     </div>
 </div>
 
-<!-- SPLASH SCREEN -->
+<!-- ✨ SPLASH SCREEN - تصميم خرافي -->
 <div id="splash-screen" class="fixed inset-0 z-[100] flex items-center justify-center p-5 overflow-y-auto">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-[#0d0805]/60 to-[#080504]/80"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-[#0d0805]/70 to-[#080504]/90"></div>
+
+    <!-- 🌸 وردة/نجمة هندسية دوارة -->
+    <div class="geo-flower">
+        <svg viewBox="0 0 200 200" fill="none">
+            <defs>
+                <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#FADB5F"/>
+                    <stop offset="100%" stop-color="#8B6508"/>
+                </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="95" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.6"/>
+            <circle cx="100" cy="100" r="75" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
+            <circle cx="100" cy="100" r="55" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.3"/>
+            <polygon points="100,10 173,55 173,145 100,190 27,145 27,55" stroke="url(#goldGrad)" stroke-width="0.8" fill="none" opacity="0.7"/>
+            <polygon points="100,30 155,65 155,135 100,170 45,135 45,65" stroke="url(#goldGrad)" stroke-width="0.6" fill="none" opacity="0.5"/>
+            <g stroke="url(#goldGrad)" stroke-width="0.7" opacity="0.6">
+                <line x1="100" y1="5" x2="100" y2="195"/>
+                <line x1="5" y1="100" x2="195" y2="100"/>
+                <line x1="30" y1="30" x2="170" y2="170"/>
+                <line x1="170" y1="30" x2="30" y2="170"/>
+                <line x1="65" y1="10" x2="135" y2="190"/>
+                <line x1="135" y1="10" x2="65" y2="190"/>
+                <line x1="10" y1="65" x2="190" y2="135"/>
+                <line x1="10" y1="135" x2="190" y2="65"/>
+            </g>
+        </svg>
+        <div class="geo-flower-inner">
+            <svg viewBox="0 0 200 200" fill="none">
+                <g stroke="url(#goldGrad)" stroke-width="1" opacity="0.8">
+                    <polygon points="100,20 165,100 100,180 35,100" fill="none"/>
+                    <polygon points="100,40 145,100 100,160 55,100" fill="none"/>
+                    <circle cx="100" cy="100" r="8" fill="url(#goldGrad)"/>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <!-- مثلثات زاوية -->
+    <div class="geo-corner tl">
+        <svg viewBox="0 0 100 100" fill="none">
+            <polygon points="0,0 100,0 0,100" stroke="url(#goldGrad)" stroke-width="1.5" fill="none"/>
+            <polygon points="0,0 60,0 0,60" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.6"/>
+        </svg>
+    </div>
+    <div class="geo-corner tr">
+        <svg viewBox="0 0 100 100" fill="none">
+            <polygon points="0,0 100,0 0,100" stroke="url(#goldGrad)" stroke-width="1.5" fill="none"/>
+            <polygon points="0,0 60,0 0,60" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.6"/>
+        </svg>
+    </div>
+    <div class="geo-corner bl">
+        <svg viewBox="0 0 100 100" fill="none">
+            <polygon points="0,0 100,0 0,100" stroke="url(#goldGrad)" stroke-width="1.5" fill="none"/>
+            <polygon points="0,0 60,0 0,60" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.6"/>
+        </svg>
+    </div>
+    <div class="geo-corner br">
+        <svg viewBox="0 0 100 100" fill="none">
+            <polygon points="0,0 100,0 0,100" stroke="url(#goldGrad)" stroke-width="1.5" fill="none"/>
+            <polygon points="0,0 60,0 0,60" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.6"/>
+        </svg>
+    </div>
 
     <div class="relative z-10 w-full max-w-2xl text-center my-auto py-8">
 
@@ -1503,16 +1472,21 @@ body[data-mode="restaurant"] .fs-ph {
             <div class="royal-badge-inner">
                 <span class="royal-crown"><i class="fas fa-crown"></i></span>
                 <span class="royal-text">الصرح الأرقى على كورنيش النيل</span>
-                <span class="royal-sparkle s1"></span>
-                <span class="royal-sparkle s2"></span>
-                <span class="royal-sparkle s3"></span>
-                <span class="royal-sparkle s4"></span>
             </div>
         </div>
 
-        <h1 class="font-amiri text-5xl sm:text-7xl font-black text-gold-gradient leading-tight mb-7 magical-title">
+        <h1 class="font-amiri text-5xl sm:text-7xl font-black text-gold-gradient leading-tight mb-4 magical-title relative z-10">
             مطعم وكافيه<br><span class="text-white text-4xl sm:text-6xl mt-2 block">الكورنيش</span>
         </h1>
+
+        <!-- خط فاصل ماسي -->
+        <div class="diamond-divider">
+            <span class="line"></span>
+            <span class="diamond small"></span>
+            <span class="diamond"></span>
+            <span class="diamond small"></span>
+            <span class="line"></span>
+        </div>
 
         <div class="splash-choices">
             <button onclick="enterMenu('cafe')" class="splash-card interactive-btn" type="button">
@@ -1530,14 +1504,16 @@ body[data-mode="restaurant"] .fs-ph {
             </button>
         </div>
 
-        <div class="mt-5 max-w-md mx-auto">
-            <button onclick="openOffersModal()" class="btn-offers interactive-btn w-full py-4 px-4 rounded-[20px_5px_20px_5px] font-black flex items-center justify-center gap-3 cursor-pointer" type="button">
-                <i class="fas fa-fire text-yellow-300 text-2xl"></i>
-                <div class="text-center">
-                    <span class="block text-xl font-bold font-cairo">عروووووض الافتتاح 🔥</span>
-                    <span class="block text-xs text-yellow-100 font-tajawal font-bold mt-1">اضغط هنا واكتشف المفاجأة</span>
+        <div class="mt-6 max-w-md mx-auto">
+            <button onclick="openOffersModal()" class="offers-hex w-full interactive-btn" type="button">
+                <div class="offers-hex-inner">
+                    <i class="fas fa-fire text-2xl"></i>
+                    <div class="text-center">
+                        <span class="block text-lg font-bold font-cairo">عروووووض الافتتاح 🔥</span>
+                        <span class="block text-[11px] text-yellow-100 font-tajawal font-bold mt-0.5">اضغط هنا واكتشف المفاجأة</span>
+                    </div>
+                    <i class="fas fa-tags text-xl"></i>
                 </div>
-                <i class="fas fa-tags text-yellow-300 text-xl"></i>
             </button>
         </div>
     </div>
@@ -1554,7 +1530,7 @@ body[data-mode="restaurant"] .fs-ph {
     <header class="relative min-h-[250px] flex items-center justify-center overflow-hidden border-b border-yellow-900/30">
         <div class="absolute inset-0 bg-gradient-to-t from-[#080504]/95 via-[#110b08]/70 to-transparent"></div>
         <div class="relative z-10 text-center px-4 pt-12 pb-4 max-w-xl mx-auto">
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-[12px_4px_12px_4px] bg-black/60 border border-yellow-500/20 text-xs text-gray-300 mb-2 font-tajawal backdrop-blur-sm">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/60 border border-yellow-500/20 text-xs text-gray-300 mb-2 font-tajawal">
                 <span id="status-dot" class="w-2.5 h-2.5 rounded-full"></span>
                 <span id="status-text" class="font-bold text-sm font-cairo">جاري التحقق...</span>
                 <span class="text-gray-500">|</span>
@@ -1567,37 +1543,37 @@ body[data-mode="restaurant"] .fs-ph {
     </header>
 
     <main class="max-w-4xl mx-auto px-4 sm:px-5 py-5 relative z-20">
-        <div class="flex p-1.5 rounded-[20px_5px_20px_5px] bg-[#140d0a]/90 backdrop-blur-md border border-yellow-900/30 shadow-lg mb-6 relative z-30">
-            <button id="tab-cafe" onclick="switchMenu('cafe')" class="flex-1 btn-gold interactive-btn py-3 px-2 rounded-[16px_4px_16px_4px] font-black text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer font-cairo">
+        <div class="flex p-1.5 rounded-2xl bg-[#140d0a]/90 border border-yellow-900/30 shadow-lg mb-6 relative z-30">
+            <button id="tab-cafe" onclick="switchMenu('cafe')" class="flex-1 btn-gold interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer font-cairo">
                 <i class="fas fa-coffee"></i> <span>كافيه الكورنيش</span>
             </button>
-            <button id="tab-restaurant" onclick="switchMenu('restaurant')" class="flex-1 text-gray-400 interactive-btn py-3 px-2 rounded-[16px_4px_16px_4px] font-black text-sm sm:text-base flex items-center justify-center gap-2 hover:text-white cursor-pointer bg-transparent font-cairo transition-colors">
+            <button id="tab-restaurant" onclick="switchMenu('restaurant')" class="flex-1 text-gray-400 interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 hover:text-white cursor-pointer bg-transparent font-cairo transition-colors">
                 <i class="fas fa-utensils"></i> <span>مطعم الكورنيش</span>
             </button>
         </div>
 
         <div class="relative mb-6 z-30">
-            <div id="search-box" class="relative flex items-center bg-[#110b08]/90 backdrop-blur-md border border-yellow-700/30 rounded-[16px_4px_16px_4px] p-1 shadow-lg focus-within:border-yellow-400 transition-colors">
+            <div id="search-box" class="relative flex items-center bg-[#110b08]/90 border border-yellow-700/30 rounded-2xl p-1 shadow-lg focus-within:border-yellow-400 transition-colors">
                 <i class="fas fa-search text-yellow-500 px-4"></i>
                 <input id="search-input" oninput="handleSearch()" type="text" placeholder="ابحث في المنيو..." class="w-full bg-transparent border-0 outline-none text-white py-3 text-sm font-medium font-tajawal">
                 <button id="search-clear" onclick="clearSearch()" class="px-4 text-gray-500 hover:text-white hidden cursor-pointer interactive-btn"><i class="fas fa-times"></i></button>
             </div>
         </div>
 
-        <div id="sticky-nav" class="sticky top-0 z-40 py-3 mb-8 bg-[#080504]/80 backdrop-blur-md border-b border-yellow-900/30 -mx-4 px-4 sm:mx-0 sm:px-0 transition-transform">
-            <div id="category-chips" class="flex items-center gap-3 overflow-x-auto hide-scrollbar py-1"></div>
+        <div id="sticky-nav" class="sticky top-0 z-40 py-3 mb-8 bg-[#080504]/85 border-b border-yellow-900/30 -mx-4 px-4 sm:mx-0 sm:px-0">
+            <div id="category-chips" class="flex items-center gap-2.5 overflow-x-auto hide-scrollbar py-1"></div>
         </div>
 
         <div id="menu-container" class="relative z-20 opacity-100 translate-y-0"></div>
 
-        <div id="no-results" class="hidden text-center py-16 px-4 bg-[#110b08]/90 backdrop-blur-md border border-yellow-900/30 rounded-[24px_8px_24px_8px] max-w-sm mx-auto my-6 relative z-30">
+        <div id="no-results" class="hidden text-center py-16 px-4 bg-[#110b08]/90 border border-yellow-900/30 rounded-2xl max-w-sm mx-auto my-6 relative z-30">
             <i class="fas fa-search text-yellow-600 text-5xl mb-4 opacity-50"></i>
             <h3 class="font-bold text-xl text-white font-cairo">لم نجد نتائج مطابقة</h3>
             <button onclick="clearSearch()" class="mt-4 btn-gold interactive-btn px-6 py-3 rounded-xl text-sm font-black cursor-pointer font-cairo">عرض المنيو كاملة</button>
         </div>
     </main>
 
-    <footer class="mt-10 border-t border-yellow-900/30 bg-[#050302]/85 backdrop-blur-sm pt-10 pb-10 text-center text-xs text-gray-400 font-tajawal">
+    <footer class="mt-10 border-t border-yellow-900/30 bg-[#050302]/85 pt-10 pb-10 text-center text-xs text-gray-400 font-tajawal">
         <div class="flex justify-center gap-8 mb-6">
             <div class="text-right border-l border-yellow-900/30 pl-8">
                 <h4 class="text-yellow-500 font-bold text-sm mb-1.5 font-cairo"><i class="fas fa-coffee"></i> الكافيه</h4>
@@ -1620,10 +1596,6 @@ body[data-mode="restaurant"] .fs-ph {
                     <span class="location-label">موقعنا</span>
                     <span class="location-address">قفط البارود كورنيش النيل</span>
                 </div>
-                <span class="plaque-sparkle p1"></span>
-                <span class="plaque-sparkle p2"></span>
-                <span class="plaque-sparkle p3"></span>
-                <span class="plaque-sparkle p4"></span>
             </div>
         </div>
 
@@ -1649,9 +1621,9 @@ body[data-mode="restaurant"] .fs-ph {
 <!-- OFFERS MODAL -->
 <div id="offers-modal" class="modal-overlay" onclick="closeOffersModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
-        <div class="p-5 border-b border-red-900/40 flex items-center justify-between bg-gradient-to-l from-red-950/50 via-red-900/30 to-transparent rounded-t-[28px] sticky top-0 z-10 backdrop-blur-sm">
+        <div class="p-5 border-b border-red-900/40 flex items-center justify-between bg-gradient-to-l from-red-950/50 via-red-900/30 to-transparent rounded-t-[22px] sticky top-0 z-10">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-[12px_4px_12px_4px] bg-gradient-to-br from-red-600 to-red-900 border border-red-500 flex items-center justify-center shadow-[0_0_20px_rgba(220,38,38,.5)]">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-900 border border-red-500 flex items-center justify-center">
                     <i class="fas fa-fire text-yellow-300"></i>
                 </div>
                 <div>
@@ -1659,7 +1631,7 @@ body[data-mode="restaurant"] .fs-ph {
                     <p class="text-[10px] text-red-300 font-bold font-tajawal mt-1">لفترة محدودة 🔥</p>
                 </div>
             </div>
-            <button onclick="closeOffersModal()" class="w-9 h-9 rounded-[10px_3px_10px_3px] bg-black/50 border border-yellow-500/30 text-yellow-200 hover:text-white hover:border-yellow-400 flex items-center justify-center cursor-pointer interactive-btn">
+            <button onclick="closeOffersModal()" class="w-9 h-9 rounded-lg bg-black/50 border border-yellow-500/30 text-yellow-200 hover:text-white hover:border-yellow-400 flex items-center justify-center cursor-pointer interactive-btn">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -1706,7 +1678,7 @@ body[data-mode="restaurant"] .fs-ph {
     </div>
 </div>
 
-<button id="scrollToTopBtn" onclick="scrollToTop()" class="interactive-btn fixed right-4 bottom-4 z-50 w-11 h-11 rounded-full bg-black/85 border border-yellow-500 text-yellow-400 flex items-center justify-center text-lg shadow-[0_0_15px_rgba(250,219,95,0.5)] hidden-btn cursor-pointer">
+<button id="scrollToTopBtn" onclick="scrollToTop()" class="interactive-btn fixed right-4 bottom-4 z-50 w-11 h-11 rounded-xl bg-black/85 border border-yellow-500 text-yellow-400 flex items-center justify-center text-lg hidden-btn cursor-pointer">
     <i class="fas fa-arrow-up"></i>
 </button>
 
@@ -1728,14 +1700,14 @@ function playSound(type = 'click') {
             osc.type = 'sine';
             osc.frequency.setValueAtTime(600, audioCtx.currentTime);
             osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.03);
-            gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
             osc.start(); osc.stop(audioCtx.currentTime + 0.03);
         } else if (type === 'open') {
             osc.type = 'sine';
             osc.frequency.setValueAtTime(300, audioCtx.currentTime);
             osc.frequency.exponentialRampToValueAtTime(500, audioCtx.currentTime + 0.05);
-            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
             osc.start(); osc.stop(audioCtx.currentTime + 0.05);
         }
@@ -1745,32 +1717,35 @@ function playSound(type = 'click') {
 function spawnGoldParticles() {
     const container = document.getElementById('particles-bg');
     if (!container) return;
-    const PARTICLE_COUNT = 18;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const PARTICLE_COUNT = 10;
+    const frag = document.createDocumentFragment();
     for (let i = 0; i < PARTICLE_COUNT; i++) {
         const p = document.createElement('span');
         p.className = 'gold-particle';
         p.style.left = Math.random() * 100 + '%';
         p.style.bottom = '-20px';
-        const dur = 8 + Math.random() * 12;
+        const dur = 10 + Math.random() * 12;
         p.style.animationDuration = dur + 's';
         p.style.animationDelay = (Math.random() * 10) + 's';
-        const size = 2 + Math.random() * 3;
+        const size = 2 + Math.random() * 2;
         p.style.width = size + 'px';
         p.style.height = size + 'px';
-        container.appendChild(p);
+        frag.appendChild(p);
     }
+    container.appendChild(frag);
 }
 
 /* ================== البيانات ================== */
 const cafeData = [
     { id:'hot-drinks', title:'المشروبات الساخنة', icon:'fa-mug-hot', img:'https://i.pinimg.com/736x/33/7e/c0/337ec0bb236800d4153acbf975ff6810.jpg', items:[ ['قهوة تركي',20], ['قهوة فرنساوي',25], ['قهوة بندق',25], ['نسكافيه بلاك',20], ['نسكافيه حليب',25], ['إسبريسو',25], ['أمريكانو',20], ['كابتشينو',30], ['لاتيه',35], ['باور',30], ['مشروب أوريو ساخن',30], ['هوت شوكليت',30], ['كاكاو سادة',30], ['كاكاو بالحليب',30], ['شاي مغلي',10], ['شاي باكيت',15], ['شاي بالحليب',20], ['ينسون',15], ['زنجبيل سادة',15], ['زنجبيل بالحليب',20], ['قرفة سادة',15], ['قرفة بالحليب',20], ['كركديه ساخن',15], ['هوت سيدر',25], ['ليمون ساخن',15] ] },
     { id:'sahlab', title:'السحلب', icon:'fa-mug-hot', img:'https://i.pinimg.com/736x/a4/7a/8d/a47a8d0248193210063e9da35480d16b.jpg', items:[ ['سحلب سادة',25], ['سحلب مكسرات',30], ['سحلب فواكه',40] ] },
-    { id:'fresh-juices', title:'عصائر فريش', icon:'fa-glass-water', img:'https://i.pinimg.com/736x/9a/6a/fb/9a6afb2d0b80febb7ce9d744e1f0c6f3.jpg', items:[ ['موز بالحليب',30], ['بلح بالحليب',30], ['كيوي',40], ['تفاح',25], ['مانجا',30], ['جوافة',25], ['بطيخ',25], ['ليمون نعناع مثلج',25], ['فراولة',30], ['كانتالوب',25], ['دوم بالحليب',25], ['عصير كوكتيل',30], ['فرابتشينو موكا',35], ['براوة',25], ['موهيتو',30], ['كركديه مثلج',25] ] },
+    { id:'fresh-juices', title:'عصائر فريش', icon:'fa-glass-water', img:'https://i.pinimg.com/736x/9a/6a/fb/9a6afb2d0b80febb7ce9d744e1f0c6f3.jpg', items:[ ['موز',30], ['بلح',30], ['كيوي',50], ['تفاح',35], ['مانجا',35], ['جوافة',30], ['جوافة ',35], ['بطيخ',30], ['فراولة',35], ['كانتالوب',30], ['عصير كوكتيل',40], ['ليمون نعناع مثلج',25], ['دوم',25], ['فرابتشينو موكا',35], ['براوة',25], ['موهيتو',30], ['كركديه مثلج',25] ] },
     { id:'soda', title:'المشروبات الغازية', icon:'fa-bottle-water', img:'https://i.pinimg.com/736x/8e/c8/b6/8ec8b622d6d7135bc9c53e3065e5af08.jpg', items:[ ['كوكاكولا',20], ['فانتا',20], ['سفن أب',20], ['ستينج',20], ['بريل',25], ['فيروز',25], ['كانز صودا',20], ['مياه صغيرة',10], ['مياه كبيرة',15] ] },
-    { id:'milkshake', title:'ميلك شيك', icon:'fa-blender', img:'https://i.pinimg.com/736x/28/b4/c1/28b4c1c8effe5d8d086b3288441e1a90.jpg', items:[ ['ميلك شيك فانيليا',35], ['ميلك شيك مانجا',40], ['ميلك شيك فراولة',40], ['ميلك شيك لوتس',40], ['آيس بوريو',50] ] },
+    { id:'milkshake', title:'ميلك شيك', icon:'fa-blender', img:'https://i.pinimg.com/736x/28/b4/c1/28b4c1c8effe5d8d086b3288441e1a90.jpg', note:'إضافة أي نوع آيس كريم: زيادة 5 جنيه', items:[ ['ميلك شيك فانيليا',35], ['ميلك شيك مانجا',50], ['ميلك شيك فراولة',50], ['ميلك شيك لوتس',50], ['آيس أوريو',60] ] },
     { id:'cocktails', title:'كوكتيلات الكورنيش', icon:'fa-martini-glass-citrus', img:'https://i.pinimg.com/736x/7f/a9/63/7fa9637a00bf54f1b48edf67ca5e78f0.jpg', items:[ ['كوكتيل الكورنيش',60], ['قنبلة',60], ['سلطة فواكه',50], ['فخفخينا',35], ['كشري الكورنيش',60], ['بامبوظة',60], ['المتدلعة',40] ] },
     { id:'ice-cream', title:'الآيس كريم والزبادي', icon:'fa-ice-cream', img:'https://i.pinimg.com/1200x/22/a7/d0/22a7d0ce7700f7169b5990609f5d458f.jpg', items:[ ['آيس كريم ميكس (4 بولة)',25], ['آيس كريم ميكس (5 بولة)',30], ['آيس كريم بالفواكه',35], ['زبادي خلاط سادة',30], ['زبادي خلاط بالمانجا',35], ['زبادي خلاط بالفراولة',35] ] },
-    { id:'rice-pudding', title:'قسم الحلو', icon:'fa-bowl-rice', img:'https://i.pinimg.com/736x/77/9e/63/779e63849edfa767274a125c1d6f21fd.jpg', items:[ ['رز بلبن',25], ['رز بلبن بسبوسة',35], ['أرز بلبن بالأوريو',30], ['أرز بلبن بالمكسرات',25], ['أرز بلبن باللوتس',35], ['طبق بسبوسة بالمكسرات',25] ] },
+    { id:'rice-pudding', title:'قسم الحلو', icon:'fa-bowl-rice', img:'https://i.pinimg.com/736x/77/9e/63/779e63849edfa767274a125c1d6f21fd.jpg', items:[ ['رز بلبن',25], ['رز بلبن بسبوسة',35], ['أرز بلبن بالأوريو',30], ['أرز بلبن بالمكسرات',25], ['أرز بلبن باللوتس',35], ['طبق البسبوسة',30] ] },
     { id:'special-corner', title:'الركن المميز', icon:'fa-star', img:'https://i.pinimg.com/736x/96/76/23/9676236929ace4bd2a860ba7a8c1e948.jpg', items:[ ['حلبسة (حمص الشام)',25], ['كنافة بالحليب والقشطة',35], ['طاجن أم علي بالقشطة',50] ] }
 ];
 
@@ -1788,7 +1763,7 @@ const restaurantData = [
 /* ============================================
    🚀 PRELOAD + TRACK PROGRESS
    ============================================ */
-const preloadStatus = new Map(); // url → 'loading' | 'loaded' | 'error'
+const preloadStatus = new Map();
 
 function preloadImage(url) {
     if (preloadStatus.has(url)) return;
@@ -1800,7 +1775,6 @@ function preloadImage(url) {
     img.src = url;
 }
 
-// Preload everything at startup (in background)
 (function preloadAllAtStart() {
     const allUrls = new Set();
     cafeData.forEach(c => c.img && allUrls.add(c.img));
@@ -1815,7 +1789,6 @@ function waitForImages(urls, onProgress) {
         let done = 0;
         const total = urls.length;
         urls.forEach(url => {
-            // Already loaded?
             if (preloadStatus.get(url) === 'loaded' || preloadStatus.get(url) === 'error') {
                 done++;
                 onProgress && onProgress(Math.round((done/total)*100));
@@ -1823,7 +1796,6 @@ function waitForImages(urls, onProgress) {
                 return;
             }
             const img = new Image();
-            img.decoding = 'sync';
             const finish = () => {
                 preloadStatus.set(url, 'loaded');
                 done++;
@@ -1871,30 +1843,24 @@ function updateLoaderProgress(p) {
 }
 
 function hideLoader() {
-    const loader = document.getElementById('menu-loader');
-    loader.classList.remove('active');
+    document.getElementById('menu-loader').classList.remove('active');
 }
 
 /* ============================================
-   🚀 ENTER MENU WITH IMAGE PRELOAD
+   🚀 ENTER MENU
    ============================================ */
 async function enterMenu(mode) {
     playSound('click');
     const data = mode === 'cafe' ? cafeData : restaurantData;
     const urls = data.map(c => c.img).filter(Boolean);
-
-    // Are all images already loaded?
     const notReady = urls.filter(u => preloadStatus.get(u) !== 'loaded' && preloadStatus.get(u) !== 'error');
 
     if (notReady.length === 0) {
-        // All ready → enter immediately, no loader
         history.pushState({page: 'menu', mode: mode}, '', '#' + mode);
         showMenuApp(mode, true);
     } else {
-        // Show loader and wait
         showLoader(mode);
         await waitForImages(urls, updateLoaderProgress);
-        // Small delay to show 100%
         setTimeout(() => {
             hideLoader();
             history.pushState({page: 'menu', mode: mode}, '', '#' + mode);
@@ -1903,9 +1869,6 @@ async function enterMenu(mode) {
     }
 }
 
-/* ============================================
-   🔄 SWITCH BETWEEN CAFE & RESTAURANT
-   ============================================ */
 async function switchMenu(mode) {
     if(currentMode === mode) return;
     playSound('click');
@@ -1951,18 +1914,18 @@ function showMenuApp(mode, fromSplash) {
         const appContent = document.getElementById('main-app-content');
         appContent.classList.remove('hidden');
         appContent.style.opacity = 0;
-        setTimeout(() => { appContent.style.transition = 'opacity 0.4s ease'; appContent.style.opacity = 1; }, 50);
+        setTimeout(() => { appContent.style.transition = 'opacity 0.35s ease'; appContent.style.opacity = 1; }, 30);
         document.body.classList.remove('no-scroll');
         updateMenuUI();
     } else {
         const container = document.getElementById('menu-container');
         container.style.opacity = 0;
-        container.style.transform = 'translateY(15px)';
+        container.style.transform = 'translateY(12px)';
         setTimeout(() => {
             updateMenuUI();
             container.style.opacity = 1;
             container.style.transform = 'translateY(0)';
-        }, 250);
+        }, 200);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1987,11 +1950,11 @@ function checkOpenStatus() {
     const dot = document.getElementById('status-dot');
     const text = document.getElementById('status-text');
     if (isOpen) {
-        dot.className = 'w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_12px_#34d399,0_0_20px_#34d399] animate-pulse';
-        text.className = 'font-bold text-sm font-cairo text-emerald-400 drop-shadow-[0_0_8px_#34d399]';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400';
+        text.className = 'font-bold text-sm font-cairo text-emerald-400';
         text.innerText = 'مفتوح الآن';
     } else {
-        dot.className = 'w-3 h-3 rounded-full bg-red-800/50';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-red-800/50';
         text.className = 'font-bold text-sm font-cairo text-red-700';
         text.innerText = 'مغلق الآن';
     }
@@ -2006,15 +1969,15 @@ function updateMenuUI() {
     const searchBox = document.getElementById('search-box');
 
     if (mode === 'cafe') {
-        tabCafe.className = 'flex-1 btn-gold interactive-btn py-3 px-2 rounded-[16px_4px_16px_4px] font-black text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer font-cairo';
-        tabRest.className = 'flex-1 text-gray-400 interactive-btn py-3 px-2 rounded-[16px_4px_16px_4px] font-black text-sm sm:text-base flex items-center justify-center gap-2 hover:text-white cursor-pointer bg-transparent font-cairo transition-colors';
+        tabCafe.className = 'flex-1 btn-gold interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer font-cairo';
+        tabRest.className = 'flex-1 text-gray-400 interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 hover:text-white cursor-pointer bg-transparent font-cairo transition-colors';
         title.innerHTML = '<span class="text-white">كافيه</span><br><span class="text-gold-gradient">الكورنيش</span>';
-        searchBox.className = 'relative flex items-center bg-[#110b08]/90 backdrop-blur-md border border-yellow-700/30 rounded-[16px_4px_16px_4px] p-1 shadow-lg focus-within:border-yellow-400 transition-colors';
+        searchBox.className = 'relative flex items-center bg-[#110b08]/90 border border-yellow-700/30 rounded-2xl p-1 shadow-lg focus-within:border-yellow-400 transition-colors';
     } else {
-        tabRest.className = 'flex-1 btn-brown-red interactive-btn py-3 px-2 rounded-[16px_4px_16px_4px] font-black text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer font-cairo';
-        tabCafe.className = 'flex-1 text-gray-400 interactive-btn py-3 px-2 rounded-[16px_4px_16px_4px] font-black text-sm sm:text-base flex items-center justify-center gap-2 hover:text-white cursor-pointer bg-transparent font-cairo transition-colors';
+        tabRest.className = 'flex-1 btn-brown-red interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer font-cairo';
+        tabCafe.className = 'flex-1 text-gray-400 interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 hover:text-white cursor-pointer bg-transparent font-cairo transition-colors';
         title.innerHTML = '<span class="text-white">مطعم</span><br><span class="text-blood-gradient">الكورنيش</span>';
-        searchBox.className = 'relative flex items-center bg-[#110b08]/90 backdrop-blur-md border border-red-800/40 rounded-[16px_4px_16px_4px] p-1 shadow-lg focus-within:border-red-500 transition-colors';
+        searchBox.className = 'relative flex items-center bg-[#110b08]/90 border border-red-800/40 rounded-2xl p-1 shadow-lg focus-within:border-red-500 transition-colors';
     }
 
     updateContactLinks(mode);
@@ -2088,7 +2051,7 @@ function setupCardRevealObserver() {
                 cardRevealObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal-card').forEach(el => cardRevealObserver.observe(el));
 }
 
@@ -2097,14 +2060,16 @@ function renderChips() {
     const container = document.getElementById('category-chips');
     container.innerHTML = '';
     const isRest = currentMode === 'restaurant';
+    const frag = document.createDocumentFragment();
     data.forEach(cat => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `interactive-btn flex-none px-4 py-2.5 rounded-[12px_4px_12px_4px] bg-[#1a0f0a]/90 backdrop-blur-md border ${isRest ? 'border-red-900/40' : 'border-yellow-900/40'} text-gray-300 hover:text-white text-sm font-bold whitespace-nowrap cursor-pointer transition-all font-tajawal shadow-sm`;
+        btn.className = `interactive-btn flex-none px-4 py-2 rounded-full bg-[#1a0f0a]/90 border ${isRest ? 'border-red-900/40' : 'border-yellow-900/40'} text-gray-300 hover:text-white text-[13px] font-bold whitespace-nowrap cursor-pointer transition-all font-tajawal`;
         btn.innerHTML = `<i class="fas ${cat.icon} ${isRest ? 'text-red-500' : 'text-yellow-500'} ml-1.5"></i> ${cat.title}`;
         btn.onclick = () => toggleCategory(`cat-${cat.id}`, true);
-        container.appendChild(btn);
+        frag.appendChild(btn);
     });
+    container.appendChild(frag);
 }
 
 const REVEAL_STYLES = [
@@ -2120,6 +2085,7 @@ function renderMenu(filter = '') {
     let matches = 0;
     const isRest = currentMode === 'restaurant';
     const themeClass = isRest ? 'theme-rest' : 'theme-cafe';
+    const frag = document.createDocumentFragment();
 
     data.forEach((cat, index) => {
         const filteredItems = cat.items.filter(item => {
@@ -2134,12 +2100,12 @@ function renderMenu(filter = '') {
         const card = document.createElement('div');
         card.id = cardId;
         card.className = `led-border-wrapper ${themeClass} ${isOpenClass} reveal-card ${revealStyle}`;
-        card.style.transitionDelay = ((index % 3) * 0.08) + 's';
+        card.style.transitionDelay = ((index % 3) * 0.06) + 's';
 
         card.innerHTML = `
             <div class="card-inner-box">
                 <div class="card-header-img">
-                    <img src="${cat.img}" alt="${cat.title}" class="card-header-img-real" loading="eager" decoding="sync" fetchpriority="high" onerror="this.style.display='none'">
+                    <img src="${cat.img}" alt="${cat.title}" class="card-header-img-real" loading="eager" decoding="async" fetchpriority="high" onerror="this.style.display='none'">
                     <div class="card-icon-badge"><i class="fas ${cat.icon}"></i></div>
                     <div class="card-tap-hint" style="${isOpenClass ? 'opacity:0' : ''}">
                         <i class="fas fa-hand-pointer"></i> اضغط للعرض
@@ -2185,8 +2151,9 @@ function renderMenu(filter = '') {
                 </div>
             </div>
         `;
-        container.appendChild(card);
+        frag.appendChild(card);
     });
+    container.appendChild(frag);
     noResults.classList.toggle('hidden', matches > 0);
     setupMenuDelegation();
     requestAnimationFrame(() => setupCardRevealObserver());
@@ -2216,7 +2183,7 @@ window.addEventListener('scroll', () => {
     const btn = document.getElementById('scrollToTopBtn');
     if (window.scrollY > 400) { btn.classList.remove('hidden-btn'); btn.classList.add('visible'); }
     else { btn.classList.add('hidden-btn'); btn.classList.remove('visible'); }
-});
+}, { passive: true });
 function scrollToTop() { playSound('click'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 window.onload = () => {
@@ -2224,7 +2191,6 @@ window.onload = () => {
     document.body.classList.remove('in-menu');
     const hash = location.hash.replace('#','');
     if (hash === 'cafe' || hash === 'restaurant') {
-        // Wait for images then show menu
         enterMenu(hash);
     } else {
         history.replaceState({page:'splash'}, '', location.pathname);
