@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://files.catbox.moe">
 <link rel="preload" as="image" href="https://files.catbox.moe/6n744z.jpg" fetchpriority="high">
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700;900&family=Cairo:wght@600;800;900&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700;900&family=Cairo:wght@600;800;900&family=Tajawal:wght@500;700;800;900&family=Lalezar&family=Reem+Kufi:wght@600;700;800;900&display=swap" rel="stylesheet">
 
 <script>
 tailwind.config = {
@@ -21,6 +21,8 @@ tailwind.config = {
             'amiri': ['Amiri', 'serif'],
             'cairo': ['Cairo', 'sans-serif'],
             'tajawal': ['Tajawal', 'sans-serif'],
+            'lalezar': ['Lalezar', 'sans-serif'],
+            'reem': ['Reem Kufi', 'sans-serif'],
         }
     }}
 }
@@ -73,44 +75,368 @@ body[data-mode="restaurant"] .loader-percent{color:#ef4444}
 .text-gold-gradient{background:linear-gradient(to right,#D4A017,#FFF8DC,#D4A017);background-size:200% auto;-webkit-background-clip:text;color:transparent;animation:goldShine 4s linear infinite}
 .text-blood-gradient{background:linear-gradient(to right,#ef4444,#fca5a5,#ef4444);background-size:200% auto;-webkit-background-clip:text;color:transparent;animation:goldShine 4s linear infinite}
 
-.diamond-divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:22px auto 26px;max-width:340px;padding:0 20px}
+.diamond-divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:12px auto 22px;max-width:340px;padding:0 20px}
 .diamond-divider .line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(250,219,95,.5),transparent)}
-.diamond-divider .diamond{width:10px;height:10px;background:linear-gradient(135deg,#FADB5F,#D4A017);transform:rotate(45deg);box-shadow:0 0 12px rgba(250,219,95,.7);flex:none}
-.diamond-divider .diamond.small{width:6px;height:6px;opacity:.75}
+.diamond-divider .diamond{width:12px;height:12px;background:linear-gradient(135deg,#FADB5F,#D4A017);transform:rotate(45deg);box-shadow:0 0 10px rgba(250,219,95,.6);flex:none}
+.diamond-divider .diamond.small{width:7px;height:7px;opacity:.7}
 
-.splash-choices{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:540px;margin:0 auto;position:relative;z-index:2}
-@media(max-width:520px){.splash-choices{gap:12px}}
+/* ==========================================================
+   LIGHT LUXURIOUS SPLASH SCREEN
+   ========================================================== */
 
-.splash-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:28px 16px 22px;border-radius:18px;background:linear-gradient(165deg,rgba(26,18,8,.94) 0%,rgba(13,8,5,.97) 55%,rgba(8,5,4,.98) 100%);border:1.5px solid rgba(212,160,23,.28);box-shadow:0 15px 40px rgba(0,0,0,.6);cursor:pointer;overflow:hidden;transition:transform .3s,border-color .3s;font-family:'Tajawal',sans-serif;clip-path:polygon(0 12px,12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px))}
-.splash-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,#FADB5F,transparent);border-radius:2px}
-.splash-card:hover{transform:translateY(-5px);border-color:#FADB5F}
-.splash-card.rest{border-color:rgba(220,38,38,.32)}
-.splash-card.rest::before{background:linear-gradient(90deg,transparent,#ef4444,transparent)}
-.splash-card.rest:hover{border-color:#ef4444}
+#splash-screen{padding:14px}
+.splash-inner{position:relative;z-index:10;width:100%;max-width:680px;margin:auto;padding:8px 0;text-align:center}
+.splash-inner > *{opacity:0;animation:artIn .8s cubic-bezier(.2,.9,.2,1) forwards}
+.splash-inner > *:nth-child(1){animation-delay:.08s}
+.splash-inner > *:nth-child(2){animation-delay:.28s}
+.splash-inner > *:nth-child(3){animation-delay:.48s}
+.splash-inner > *:nth-child(4){animation-delay:.68s}
+@keyframes artIn{0%{opacity:0;transform:translateY(24px) scale(.96)}100%{opacity:1;transform:translateY(0) scale(1)}}
 
-.splash-card-icon{width:70px;height:70px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:linear-gradient(135deg,#FADB5F 0%,#D4A017 100%);color:#0d0805;font-size:26px;box-shadow:0 10px 25px rgba(212,160,23,.4);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);transition:transform .3s}
-.splash-card.rest .splash-card-icon{background:linear-gradient(135deg,#ef4444 0%,#991b1b 100%);color:#fff}
-.splash-card:hover .splash-card-icon{transform:scale(1.08) rotate(-4deg)}
+/* ===== TITLE FRAME — LIGHTER ===== */
+.title-frame{
+    position:relative;
+    padding:38px 22px 34px;
+    margin:0 auto 22px;
+    max-width:660px;
+    border-radius:26px;
+    background:linear-gradient(165deg,rgba(24,16,8,.9) 0%,rgba(13,8,5,.94) 50%,rgba(24,16,8,.9) 100%);
+    overflow:hidden;
+    isolation:isolate;
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.55),
+        0 0 60px rgba(250,219,95,.1);
+    border:1px solid rgba(250,219,95,.22);
+}
 
-.splash-card-title{margin:0 0 10px;font-family:'Amiri',serif;font-size:21px;font-weight:900;color:#fff}
-.splash-card-hours{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#c9b184;padding:5px 12px;border-radius:999px;background:rgba(0,0,0,.45);border:1px solid rgba(250,219,95,.15);margin-bottom:14px}
-.splash-card.rest .splash-card-hours{color:#fca5a5;border-color:rgba(239,68,68,.2)}
-.splash-card-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;background:linear-gradient(135deg,#FADB5F 0%,#D4A017 100%);color:#0d0805;font-weight:900;font-size:13px;font-family:'Cairo',sans-serif;box-shadow:0 6px 16px rgba(212,160,23,.4)}
-.splash-card.rest .splash-card-cta{background:linear-gradient(135deg,#ef4444 0%,#991b1b 100%);color:#fff}
+/* Light rotating border - much thinner */
+.title-frame::before{
+    content:"";position:absolute;
+    width:220%;height:220%;
+    left:-60%;top:-60%;
+    background:conic-gradient(from 0deg,
+        transparent 0deg, transparent 220deg,
+        #D4A017 260deg, #FADB5F 295deg, #D4A017 335deg,
+        transparent 360deg);
+    animation:frameSpin 10s linear infinite;
+    z-index:-2;
+    opacity:.65;
+}
+@keyframes frameSpin{to{transform:rotate(360deg)}}
+.title-frame::after{
+    content:"";position:absolute;inset:1.5px;
+    border-radius:24px;
+    background:linear-gradient(165deg,rgba(24,16,8,.98) 0%,rgba(10,6,3,.99) 50%,rgba(24,16,8,.98) 100%);
+    z-index:-1;
+    pointer-events:none;
+}
 
-/* OFFERS BUTTONS ON SPLASH */
-.offers-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:540px;margin:22px auto 0;padding:0 4px}
-@media(max-width:520px){.offers-row{grid-template-columns:1fr;gap:10px}}
-.offer-trigger{position:relative;padding:1.5px;border-radius:16px;background:linear-gradient(135deg,#FADB5F,#dc2626,#ca8a04,#FADB5F);background-size:300% 300%;animation:hexBorder 5s linear infinite;cursor:pointer;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px)}
-.offer-trigger.gold-only{background:linear-gradient(135deg,#D4A017,#FADB5F,#8B6508,#D4A017);background-size:300% 300%}
-@keyframes hexBorder{0%{background-position:0% 50%}100%{background-position:300% 50%}}
-.offer-trigger-inner{background:linear-gradient(135deg,#7f1d1d 0%,#dc2626 50%,#ca8a04 100%);clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0 calc(100% - 11px),0 11px);padding:14px 16px;display:flex;align-items:center;justify-content:center;gap:10px;color:#fff;font-weight:900;transition:transform .2s}
-.offer-trigger.gold-only .offer-trigger-inner{background:linear-gradient(135deg,#1a1208 0%,#8B6508 50%,#D4A017 100%)}
-.offer-trigger:active .offer-trigger-inner{transform:scale(.98)}
-.offer-trigger-inner i{color:#fde68a;font-size:20px}
-.offer-trigger.gold-only .offer-trigger-inner i{color:#FADB5F}
-.offer-trigger-title{display:block;font-family:'Cairo',sans-serif;font-size:15px;line-height:1.2}
-.offer-trigger-sub{display:block;font-size:10.5px;font-weight:700;margin-top:3px;color:#ffe4a3;font-family:'Tajawal',sans-serif}
+/* Corner ornaments — slightly lighter */
+.corner{position:absolute;width:32px;height:32px;pointer-events:none;z-index:3}
+.corner::before,.corner::after{content:"";position:absolute;background:#FADB5F;box-shadow:0 0 8px rgba(250,219,95,.6)}
+.corner::before{width:100%;height:2px;top:0}
+.corner::after{width:2px;height:100%;top:0}
+.corner.tl{top:11px;left:11px}
+.corner.tr{top:11px;right:11px}
+.corner.tr::before{right:0;left:auto}
+.corner.tr::after{right:0;left:auto}
+.corner.bl{bottom:11px;left:11px}
+.corner.bl::before{bottom:0;top:auto}
+.corner.bl::after{bottom:0;top:auto}
+.corner.br{bottom:11px;right:11px}
+.corner.br::before{bottom:0;top:auto;right:0;left:auto}
+.corner.br::after{bottom:0;top:auto;right:0;left:auto}
+.corner .dot{
+    position:absolute;width:7px;height:7px;border-radius:50%;
+    background:#FFF8DC;box-shadow:0 0 10px rgba(250,219,95,.9)
+}
+.corner.tl .dot{top:-2px;left:-2px}
+.corner.tr .dot{top:-2px;right:-2px}
+.corner.bl .dot{bottom:-2px;left:-2px}
+.corner.br .dot{bottom:-2px;right:-2px}
+
+/* Removed frame-glow pulse — lighter */
+
+/* ============ TAGLINE — LIGHTER ============ */
+.tag-art{
+    display:inline-block;
+    font-family:'Reem Kufi', sans-serif;
+    font-size:19px;
+    font-weight:800;
+    letter-spacing:4px;
+    color:#FFF8DC;
+    padding:10px 22px;
+    border-radius:999px;
+    background:linear-gradient(135deg,rgba(250,219,95,.14),rgba(212,160,23,.05));
+    border:1px solid rgba(250,219,95,.4);
+    margin-bottom:22px;
+    position:relative;
+    z-index:2;
+    box-shadow:0 4px 16px rgba(250,219,95,.18);
+    text-shadow:0 0 10px rgba(250,219,95,.6);
+    line-height:1.4
+}
+.tag-art::before,.tag-art::after{
+    content:'';position:absolute;top:50%;width:28px;height:1.5px;
+    background:linear-gradient(90deg,transparent,#FADB5F)
+}
+.tag-art::before{right:100%;margin-right:12px;transform:translateY(-50%)}
+.tag-art::after{left:100%;margin-left:12px;background:linear-gradient(270deg,transparent,#FADB5F);transform:translateY(-50%)}
+
+/* ==========================================================
+   MAIN TITLE — LIGHTER SHADOWS, KEPT COLORS
+   ========================================================== */
+.title-art{position:relative;z-index:2;margin:0}
+
+/* Line 1: مطعم وكافيه */
+.title-art .line1{
+    font-family:'Lalezar', sans-serif;
+    font-size:78px;
+    font-weight:400;
+    line-height:1;
+    display:block;
+    margin:0 0 4px;
+    letter-spacing:2px;
+    background:linear-gradient(180deg,
+        #FFFFFF 0%,
+        #FFF4C2 25%,
+        #FADB5F 55%,
+        #D4A017 85%,
+        #8B6508 100%);
+    background-size:100% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:
+        drop-shadow(0 2px 10px rgba(250,219,95,.35))
+        drop-shadow(0 3px 6px rgba(0,0,0,.5));
+}
+
+/* Line 2: الكورنيش */
+.title-art .line2{
+    font-family:'Reem Kufi', sans-serif;
+    font-size:128px;
+    font-weight:900;
+    line-height:.9;
+    display:block;
+    letter-spacing:-2px;
+    background:linear-gradient(100deg,
+        #8B6508 0%,
+        #D4A017 15%,
+        #FADB5F 30%,
+        #FFF8DC 45%,
+        #FADB5F 60%,
+        #D4A017 75%,
+        #8B6508 90%,
+        #D4A017 100%);
+    background-size:300% auto;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:line2Shine 8s linear infinite;
+    filter:
+        drop-shadow(0 2px 14px rgba(250,219,95,.45))
+        drop-shadow(0 4px 10px rgba(0,0,0,.5));
+}
+@keyframes line2Shine{
+    0%{background-position:0% center}
+    100%{background-position:300% center}
+}
+
+.title-art .subtitle{
+    display:block;
+    font-family:'Cairo', sans-serif;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:5px;
+    color:#c9b184;
+    margin-top:12px;
+    opacity:.75
+}
+
+/* ===== BUTTONS — LIGHTER ===== */
+.shape-btn{
+    position:relative;padding:2px;border:none;cursor:pointer;
+    display:block;width:100%;
+    background:linear-gradient(135deg,#FADB5F,#D4A017,#FFF8DC,#D4A017,#FADB5F);
+    background-size:300% 300%;
+    animation:shapeShine 8s linear infinite;
+    transition:transform .3s cubic-bezier(.2,.9,.2,1),filter .3s;
+    font-family:'Tajawal',sans-serif;
+    -webkit-appearance:none;appearance:none
+}
+.shape-btn:hover{transform:translateY(-3px) scale(1.02)}
+.shape-btn:active{transform:translateY(-1px) scale(.99)}
+@keyframes shapeShine{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+
+.shape-inner{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:linear-gradient(165deg,#1a0f08 0%,#0d0605 70%,#0a0503 100%);
+    color:#fff;height:100%;width:100%;gap:8px;
+    font-family:'Tajawal',sans-serif;
+    position:relative;overflow:hidden;
+}
+.shape-inner::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle at 50% 0%,rgba(250,219,95,.1),transparent 55%)
+}
+.icon-circle{
+    width:58px;height:58px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 30% 30%,rgba(250,219,95,.24),rgba(212,160,23,.05));
+    border:1.5px solid rgba(250,219,95,.45);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 14px rgba(212,160,23,.25);
+    position:relative;z-index:1
+}
+.icon-circle i{color:#FADB5F;font-size:24px}
+.shape-inner .ttl{font-family:'Amiri',serif;font-size:19px;font-weight:900;color:#fff;line-height:1.15;position:relative;z-index:1}
+.shape-inner .sub{font-size:11px;font-weight:700;color:#c9b184;font-family:'Cairo',sans-serif;letter-spacing:.5px;position:relative;z-index:1}
+.shape-inner .cta{
+    display:inline-flex;align-items:center;gap:6px;margin-top:6px;
+    padding:7px 16px;border-radius:999px;font-family:'Cairo',sans-serif;
+    font-size:11.5px;font-weight:900;position:relative;z-index:1;
+    background:linear-gradient(135deg,#FADB5F,#D4A017);color:#0d0805
+}
+.shape-inner .cta i{color:#0d0805;font-size:10px;filter:none}
+
+/* ===== Choices ===== */
+.choices-art{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 18px;align-items:center}
+
+.shape-buoy{aspect-ratio:1;border-radius:50%}
+.shape-buoy .shape-inner{border-radius:50%;padding:28px 16px}
+
+.shape-pear{
+    aspect-ratio:1 / 1.08;
+    border-radius:50% 50% 45% 45% / 40% 40% 60% 60%;
+    background:linear-gradient(135deg,#ef4444,#991b1b,#fca5a5,#991b1b,#ef4444);
+    background-size:300% 300%
+}
+.shape-pear .shape-inner{
+    border-radius:50% 50% 45% 45% / 40% 40% 60% 60%;
+    background:linear-gradient(165deg,#1a0808 0%,#0d0404 70%,#0a0303 100%);
+    padding:28px 16px 36px
+}
+.shape-pear .shape-inner::before{background:radial-gradient(circle at 50% 0%,rgba(239,68,68,.12),transparent 55%)}
+.shape-pear .icon-circle{
+    background:radial-gradient(circle at 30% 30%,rgba(239,68,68,.28),rgba(153,27,27,.05));
+    border-color:rgba(239,68,68,.45);
+    box-shadow:0 0 14px rgba(220,38,38,.28)
+}
+.shape-pear .icon-circle i{color:#ef4444}
+.shape-pear .cta{background:linear-gradient(135deg,#ef4444,#991b1b);color:#fff}
+
+/* ===== Offers ===== */
+.offers-art{display:flex;flex-direction:column;gap:10px}
+.offer-pill{
+    position:relative;padding:2px;border:none;cursor:pointer;
+    display:block;width:100%;
+    border-radius:999px;
+    background:linear-gradient(135deg,#ef4444,#ca8a04,#fca5a5,#ca8a04,#ef4444);
+    background-size:300% 300%;
+    animation:shapeShine 8s linear infinite;
+    transition:transform .3s cubic-bezier(.2,.9,.2,1),filter .3s;
+    font-family:'Tajawal',sans-serif;
+    -webkit-appearance:none;appearance:none
+}
+.offer-pill.main-shape{background:linear-gradient(135deg,#8B6508,#FADB5F,#FFF8DC,#FADB5F,#8B6508);background-size:300% 300%}
+.offer-pill:hover{transform:translateY(-2px) scale(1.01)}
+.offer-pill:active{transform:translateY(-1px) scale(1)}
+
+.offer-pill-inner{
+    display:flex;flex-direction:row;align-items:center;gap:12px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#2a0a0a 0%,#150505 100%);
+    color:#fff;padding:14px 22px;
+    font-family:'Tajawal',sans-serif;
+    position:relative;overflow:hidden;text-align:right
+}
+.offer-pill.main-shape .offer-pill-inner{background:linear-gradient(135deg,#1a1208 0%,#0d0804 100%)}
+.offer-pill-inner::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle at 80% 50%,rgba(250,219,95,.1),transparent 60%)
+}
+
+.offer-pill .pill-icon{
+    width:40px;height:40px;border-radius:50%;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 30% 30%,rgba(250,219,95,.24),rgba(212,160,23,.05));
+    border:1.5px solid rgba(250,219,95,.35);
+    box-shadow:0 0 12px rgba(212,160,23,.22);
+    position:relative;z-index:1
+}
+.offer-pill .pill-icon i{color:#fde68a;font-size:17px}
+.offer-pill.main-shape .pill-icon i{color:#FADB5F}
+
+.offer-pill .txt-block{display:flex;flex-direction:column;gap:2px;align-items:flex-start;flex:1;min-width:0;position:relative;z-index:1}
+.offer-pill .txt-block .ttl{font-family:'Cairo',sans-serif;font-size:14.5px;font-weight:900;color:#fff}
+.offer-pill .txt-block .sub{font-size:11px;font-weight:700;color:#fca5a5}
+.offer-pill.main-shape .txt-block .sub{color:#c9b184}
+
+.offer-pill .arrow-ic{color:#ef4444;font-size:14px;opacity:.7;transition:all .3s;position:relative;z-index:1}
+.offer-pill.main-shape .arrow-ic{color:#FADB5F}
+.offer-pill:hover .arrow-ic{opacity:1;transform:translateX(-4px)}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+    .title-art .line1{font-size:64px}
+    .title-art .line2{font-size:104px}
+}
+@media(max-width:640px){
+    .title-frame{padding:28px 12px 26px;border-radius:22px;max-width:100%}
+    .title-frame::after{border-radius:20px;inset:1.5px}
+    .corner{width:24px;height:24px}
+    .corner.tl,.corner.tr{top:8px}
+    .corner.tl,.corner.bl{left:8px}
+    .corner.tr,.corner.br{right:8px}
+    .corner.bl,.corner.br{bottom:8px}
+    .corner .dot{width:6px;height:6px}
+
+    .tag-art{font-size:15px;padding:9px 18px;letter-spacing:2.5px;margin-bottom:18px}
+    .tag-art::before,.tag-art::after{width:20px;margin:0 8px!important}
+    .tag-art::before{margin-right:8px}
+    .tag-art::after{margin-left:8px}
+
+    .title-art .line1{font-size:52px;letter-spacing:1px}
+    .title-art .line2{font-size:84px;letter-spacing:-1px}
+    .title-art .subtitle{font-size:10.5px;letter-spacing:3.5px}
+
+    .diamond-divider{margin:8px auto 18px;max-width:300px}
+    .choices-art{gap:10px;margin-bottom:14px}
+    .shape-buoy .shape-inner{padding:20px 10px}
+    .shape-pear .shape-inner{padding:20px 10px 26px}
+    .icon-circle{width:46px;height:46px}
+    .icon-circle i{font-size:20px}
+    .shape-inner .ttl{font-size:14.5px}
+    .shape-inner .sub{font-size:9.5px}
+    .shape-inner .cta{padding:5px 12px;font-size:10px;margin-top:4px}
+    .offer-pill-inner{padding:12px 18px;gap:10px}
+    .offer-pill .pill-icon{width:34px;height:34px}
+    .offer-pill .pill-icon i{font-size:14px}
+    .offer-pill .txt-block .ttl{font-size:13px}
+    .offer-pill .txt-block .sub{font-size:10px}
+}
+@media(max-width:430px){
+    .title-frame{padding:22px 10px 20px;border-radius:18px}
+    .title-frame::after{border-radius:17px}
+    .corner{width:18px;height:18px}
+    .corner.tl,.corner.tr{top:6px}
+    .corner.tl,.corner.bl{left:6px}
+    .corner.tr,.corner.br{right:6px}
+    .corner.bl,.corner.br{bottom:6px}
+
+    .tag-art{font-size:12.5px;padding:7px 14px;letter-spacing:2px;margin-bottom:14px;border-radius:14px}
+    .tag-art::before,.tag-art::after{width:14px}
+    .tag-art::before{margin-right:6px}
+    .tag-art::after{margin-left:6px}
+
+    .title-art .line1{font-size:42px;letter-spacing:.5px}
+    .title-art .line2{font-size:68px;letter-spacing:-1px}
+    .title-art .subtitle{font-size:9.5px;letter-spacing:2.5px;margin-top:9px}
+
+    .shape-inner .ttl{font-size:13px}
+}
+@media(max-width:360px){
+    .title-art .line1{font-size:34px}
+    .title-art .line2{font-size:56px}
+    .tag-art{font-size:11px;letter-spacing:1.5px;padding:6px 10px}
+    .shape-inner .cta{display:none}
+}
 
 /* CARDS */
 .led-border-wrapper{position:relative;margin-bottom:22px;padding:1.5px;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.05);box-shadow:0 15px 40px rgba(0,0,0,.5);isolation:isolate;transition:box-shadow .3s,transform .3s}
@@ -204,7 +530,6 @@ body[data-mode="restaurant"] .loader-percent{color:#ef4444}
 .offers-footer{padding:14px 20px 20px;text-align:center;font-size:12px;font-weight:800;color:#c9b184;border-top:1px dashed rgba(250,219,95,.15);margin-top:4px}
 .offers-footer i{color:#FADB5F;margin-left:4px}
 
-/* OCTOBER SPECIFIC */
 .october-hero{position:relative;padding:18px 20px 16px;text-align:center;background:linear-gradient(135deg,rgba(127,29,29,.75),rgba(202,138,4,.4),rgba(127,29,29,.75));background-size:200% 100%;animation:octFlow 6s ease-in-out infinite;border-bottom:1px solid rgba(250,219,95,.25);overflow:hidden}
 @keyframes octFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .october-flags{font-size:24px;margin-bottom:4px;display:inline-block}
@@ -222,7 +547,6 @@ body[data-mode="restaurant"] .loader-percent{color:#ef4444}
     .oct-free-badge{font-size:11.5px;padding:7px 13px}
 }
 
-/* UI */
 .home-fab{position:fixed;top:14px;left:14px;z-index:60;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(13,8,5,.92),rgba(26,18,8,.92));border:1.5px solid rgba(250,219,95,.5);color:#FADB5F;font-weight:900;font-size:12.5px;font-family:'Cairo',sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.5);cursor:pointer;transition:transform .25s,border-color .25s;white-space:nowrap}
 .home-fab:hover{transform:translateY(-2px);border-color:#FADB5F;color:#fff}
 .home-fab i{font-size:14px}
@@ -265,18 +589,6 @@ body[data-mode="restaurant"] .fs-ph{border-color:#dc2626;color:#ef4444;box-shado
 .btn-gold{background:linear-gradient(135deg,#FADB5F 0%,#D4A017 100%);color:#0d0805;box-shadow:0 4px 14px rgba(212,160,23,.35);border:1px solid #FDE68A}
 .btn-brown-red{background:linear-gradient(135deg,#dc2626 0%,#7f1d1d 100%);color:#fff;box-shadow:0 4px 14px rgba(153,27,27,.35);border:1px solid #ef4444}
 
-.royal-badge{position:relative;display:inline-flex;padding:1.5px;border-radius:999px;overflow:hidden;isolation:isolate;margin-bottom:24px;filter:drop-shadow(0 12px 28px rgba(0,0,0,.6))}
-.royal-badge::before{content:"";position:absolute;width:220%;height:220%;left:-60%;top:-60%;background:conic-gradient(from 0deg,#8B6508 0deg,#D4A017 40deg,#FFF8DC 80deg,#FADB5F 120deg,#D4A017 160deg,#8B6508 200deg,#D4A017 240deg,#FFF8DC 280deg,#FADB5F 320deg,#D4A017 360deg);animation:royalSpin 6s linear infinite;z-index:-1}
-@keyframes royalSpin{to{transform:rotate(360deg)}}
-.royal-badge-inner{position:relative;display:inline-flex;align-items:center;gap:10px;padding:11px 26px;border-radius:999px;background:linear-gradient(135deg,#1a1208 0%,#0d0805 50%,#1a1208 100%);z-index:1}
-.royal-crown{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;color:#FADB5F;font-size:15px}
-.royal-text{font-weight:800;font-size:13.5px;background:linear-gradient(90deg,#D4A017 0%,#FADB5F 25%,#FFF8DC 50%,#FADB5F 75%,#D4A017 100%);background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:goldShine 3s linear infinite;white-space:nowrap}
-@media(max-width:640px){
-    .royal-badge-inner{padding:9px 18px;gap:7px}
-    .royal-text{font-size:11.5px}
-    .royal-crown{width:18px;height:18px;font-size:13px}
-}
-
 .reveal-card{opacity:0;transform:translateY(30px);transition:opacity .5s ease,transform .5s ease}
 .reveal-card.revealed{opacity:1;transform:translateY(0)}
 
@@ -294,10 +606,6 @@ body[data-mode="restaurant"] .fs-ph{border-color:#dc2626;color:#ef4444;box-shado
     .card-open-btn i{font-size:14px}
     .menu-item{flex-direction:column;align-items:flex-start;gap:10px}
     .multi-price-container{width:100%;justify-content:flex-start}
-    .splash-card{padding:22px 12px 18px}
-    .splash-card-icon{width:60px;height:60px;font-size:22px}
-    .splash-card-title{font-size:19px}
-    .splash-card-cta{font-size:12px;padding:8px 16px}
     .footer-social-btn{width:42px;height:42px;font-size:17px;border-radius:12px}
     .offer-img{height:155px}
     .offer-title{font-size:22px}
@@ -328,20 +636,27 @@ body[data-mode="restaurant"] .fs-ph{border-color:#dc2626;color:#ef4444;box-shado
     </div>
 </div>
 
-<div id="splash-screen" class="fixed inset-0 z-[100] flex items-center justify-center p-5 overflow-y-auto">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-[#0d0805]/70 to-[#080504]/90"></div>
+<!-- ============== LIGHT LUXURIOUS SPLASH SCREEN ============== -->
+<div id="splash-screen" class="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-[#0d0805]/85 to-[#080504]/97"></div>
 
-    <div class="relative z-10 w-full max-w-2xl text-center my-auto py-8">
-        <div class="royal-badge">
-            <div class="royal-badge-inner">
-                <span class="royal-crown"><i class="fas fa-crown"></i></span>
-                <span class="royal-text">الصرح الأرقى على كورنيش النيل</span>
+    <div class="splash-inner">
+
+        <!-- ===== TITLE FRAME ===== -->
+        <div class="title-frame">
+            <div class="corner tl"><span class="dot"></span></div>
+            <div class="corner tr"><span class="dot"></span></div>
+            <div class="corner bl"><span class="dot"></span></div>
+            <div class="corner br"><span class="dot"></span></div>
+
+            <span class="tag-art">الصرح الأرقى على كورنيش النيل</span>
+
+            <div class="title-art">
+                <span class="line1">مطعم وكافيه</span>
+                <span class="line2">الكورنيش</span>
+                <span class="subtitle">RESTAURANT & CAFE</span>
             </div>
         </div>
-
-        <h1 class="font-amiri text-5xl sm:text-7xl font-black text-gold-gradient leading-tight mb-4 relative z-10">
-            مطعم وكافيه<br><span class="text-white text-4xl sm:text-6xl mt-2 block">الكورنيش</span>
-        </h1>
 
         <div class="diamond-divider">
             <span class="line"></span>
@@ -351,41 +666,48 @@ body[data-mode="restaurant"] .fs-ph{border-color:#dc2626;color:#ef4444;box-shado
             <span class="line"></span>
         </div>
 
-        <div class="splash-choices">
-            <button onclick="enterMenu('cafe')" class="splash-card interactive-btn" type="button">
-                <div class="splash-card-icon"><i class="fas fa-coffee"></i></div>
-                <h3 class="splash-card-title">كافيه الكورنيش</h3>
-                <div class="splash-card-hours"><i class="far fa-clock"></i> من 9 ص إلى 2 ص</div>
-                <span class="splash-card-cta">ادخل الآن <i class="fas fa-arrow-left"></i></span>
-            </button>
-
-            <button onclick="enterMenu('restaurant')" class="splash-card rest interactive-btn" type="button">
-                <div class="splash-card-icon"><i class="fas fa-utensils"></i></div>
-                <h3 class="splash-card-title">مطعم الكورنيش</h3>
-                <div class="splash-card-hours"><i class="far fa-clock"></i> من 2 م إلى 1 ص</div>
-                <span class="splash-card-cta">ادخل الآن <i class="fas fa-arrow-left"></i></span>
-            </button>
-        </div>
-
-        <!-- OFFERS: 2 SEPARATE BUTTONS -->
-        <div class="offers-row">
-            <button onclick="openOctoberModal()" class="offer-trigger interactive-btn" type="button">
-                <div class="offer-trigger-inner">
-                    <i class="fas fa-fire"></i>
-                    <div class="text-center">
-                        <span class="offer-trigger-title">🎉 عروض أكتوبر 🇪🇬</span>
-                        <span class="offer-trigger-sub">عروض حصرية بمناسبة الاحتفالات</span>
-                    </div>
+        <!-- Choices -->
+        <div class="choices-art">
+            <button onclick="enterMenu('cafe')" class="shape-btn shape-buoy interactive-btn" type="button">
+                <div class="shape-inner">
+                    <div class="icon-circle"><i class="fas fa-coffee"></i></div>
+                    <span class="ttl">كافيه الكورنيش</span>
+                    <span class="sub">9 ص — 2 ص</span>
+                    <span class="cta">دخول <i class="fas fa-arrow-left"></i></span>
                 </div>
             </button>
 
-            <button onclick="openMainOffersModal()" class="offer-trigger gold-only interactive-btn" type="button">
-                <div class="offer-trigger-inner">
-                    <i class="fas fa-tags"></i>
-                    <div class="text-center">
-                        <span class="offer-trigger-title">عروض مطعم الكورنيش</span>
-                        <span class="offer-trigger-sub">( الافتتاح )</span>
+            <button onclick="enterMenu('restaurant')" class="shape-btn shape-pear interactive-btn" type="button">
+                <div class="shape-inner">
+                    <div class="icon-circle"><i class="fas fa-utensils"></i></div>
+                    <span class="ttl">مطعم الكورنيش</span>
+                    <span class="sub">2 م — 1 ص</span>
+                    <span class="cta">دخول <i class="fas fa-arrow-left"></i></span>
+                </div>
+            </button>
+        </div>
+
+        <!-- Offers -->
+        <div class="offers-art">
+            <button onclick="openOctoberModal()" class="offer-pill interactive-btn" type="button">
+                <div class="offer-pill-inner">
+                    <div class="pill-icon"><i class="fas fa-fire"></i></div>
+                    <div class="txt-block">
+                        <span class="ttl">🎉 عروض أكتوبر 🇪🇬</span>
+                        <span class="sub">عروض حصرية بمناسبة الاحتفالات</span>
                     </div>
+                    <i class="fas fa-chevron-left arrow-ic"></i>
+                </div>
+            </button>
+
+            <button onclick="openMainOffersModal()" class="offer-pill main-shape interactive-btn" type="button">
+                <div class="offer-pill-inner">
+                    <div class="pill-icon"><i class="fas fa-tags"></i></div>
+                    <div class="txt-block">
+                        <span class="ttl">عروض مطعم الكورنيش</span>
+                        <span class="sub">( الافتتاح )</span>
+                    </div>
+                    <i class="fas fa-chevron-left arrow-ic"></i>
                 </div>
             </button>
         </div>
@@ -506,7 +828,6 @@ body[data-mode="restaurant"] .fs-ph{border-color:#dc2626;color:#ef4444;box-shado
         </div>
 
         <div class="offers-grid" style="grid-template-columns:1fr;max-width:660px;margin:0 auto;">
-            <!-- العرض الأول: احتفالات أكتوبر -->
             <div class="offer-card">
                 <div class="oct-badge"><i class="fas fa-star"></i> عرض أكتوبر الأقوى</div>
                 <div class="offer-delivery-badge"><i class="fas fa-truck-fast"></i> توصيل مجاني</div>
@@ -533,7 +854,6 @@ body[data-mode="restaurant"] .fs-ph{border-color:#dc2626;color:#ef4444;box-shado
                 </div>
             </div>
 
-            <!-- العرض الثاني: وجبة تميم -->
             <div class="offer-card">
                 <div class="offer-card-badge" style="background:linear-gradient(135deg,#ca8a04,#854d0e)">👑 عرض مميز</div>
                 <div class="offer-delivery-badge"><i class="fas fa-truck-fast"></i> توصيل مجاني</div>
@@ -583,7 +903,6 @@ body[data-mode="restaurant"] .fs-ph{border-color:#dc2626;color:#ef4444;box-shado
         </div>
 
         <div class="offers-grid">
-            <!-- صينية البركة -->
             <div class="offer-card">
                 <div class="offer-card-badge">⭐ الأكثر طلباً</div>
                 <div class="offer-img-wrap">
@@ -606,7 +925,6 @@ body[data-mode="restaurant"] .fs-ph{border-color:#dc2626;color:#ef4444;box-shado
                 </div>
             </div>
 
-            <!-- عرض الخميس -->
             <div class="offer-card">
                 <div class="offer-card-badge" style="background:linear-gradient(135deg,#ca8a04,#854d0e)">🌟 عرض مميز</div>
                 <div class="offer-img-wrap">
@@ -671,7 +989,6 @@ function playSound(type='click'){
     }catch(e){}
 }
 
-/* ================== البيانات ================== */
 const cafeData = [
     { id:'hot-drinks', title:'المشروبات الساخنة', icon:'fa-mug-hot', img:'https://i.pinimg.com/736x/33/7e/c0/337ec0bb236800d4153acbf975ff6810.jpg', items:[ ['قهوة تركي',20], ['قهوة فرنساوي',25], ['قهوة بندق',25], ['نسكافيه بلاك',20], ['نسكافيه حليب',25], ['إسبريسو',25], ['أمريكانو',20], ['كابتشينو',30], ['لاتيه',35], ['باور',30], ['مشروب أوريو ساخن',30], ['هوت شوكليت',30], ['كاكاو سادة',30], ['كاكاو بالحليب',30], ['شاي مغلي',10], ['شاي باكيت',15], ['شاي بالحليب',20], ['ينسون',15], ['زنجبيل سادة',15], ['زنجبيل بالحليب',20], ['قرفة سادة',15], ['قرفة بالحليب',20], ['كركديه ساخن',15], ['هوت سيدر',25], ['ليمون ساخن',15] ] },
     { id:'sahlab', title:'السحلب', icon:'fa-mug-hot', img:'https://i.pinimg.com/736x/a4/7a/8d/a47a8d0248193210063e9da35480d16b.jpg', items:[ ['سحلب سادة',25], ['سحلب مكسرات',30], ['سحلب فواكه',40] ] },
@@ -697,7 +1014,6 @@ const restaurantData = [
     { id:'additions', title:'الاضافات', icon:'fa-plus-circle', img:'https://files.catbox.moe/fep5l4.png', items:[ ['مخلل',10], ['طحينة الحاتى',15], ['سلطة الحاتى',10], ['عيش',5] ] }
 ];
 
-/* ================== PRELOAD ================== */
 const preloadStatus = new Map();
 function preloadImage(url){
     if(preloadStatus.has(url)) return;
@@ -739,7 +1055,6 @@ function waitForImages(urls,onProgress){
     });
 }
 
-/* ================== LOADER ================== */
 function showLoader(mode){
     const loader = document.getElementById('menu-loader');
     const icon = document.getElementById('loader-icon');
@@ -769,7 +1084,6 @@ function updateLoaderProgress(p){
 }
 function hideLoader(){ document.getElementById('menu-loader').classList.remove('active'); }
 
-/* ================== NAV ================== */
 async function enterMenu(mode){
     playSound('click');
     const data = mode==='cafe' ? cafeData : restaurantData;
@@ -1069,7 +1383,6 @@ function clearSearch(){
     renderMenu();
 }
 
-/* ============ OFFERS MODALS ============ */
 function openOctoberModal(){
     playSound('open');
     document.getElementById('october-modal').classList.add('active');
