@@ -10,1372 +10,306 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://i.pinimg.com">
 <link rel="preconnect" href="https://files.catbox.moe">
 <link rel="preload" as="image" href="https://files.catbox.moe/6n744z.jpg" fetchpriority="high">
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700;900&family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700;900&family=Cairo:wght@600;800;900&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
 
 <script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: {
-                    gold: { 300: '#FDE68A', 400: '#FADB5F', 500: '#D4A017', 600: '#B8860B', 700: '#8B6508' },
-                    brown: { 800: '#3E2723', 900: '#1a110a', 950: '#0d0805' },
-                    blood: { 600: '#dc2626', 700: '#b91c1c', 800: '#991b1b', 900: '#7f1d1d' }
-                },
-                fontFamily: {
-                    'amiri': ['Amiri', 'serif'],
-                    'cairo': ['Cairo', 'sans-serif'],
-                    'tajawal': ['Tajawal', 'sans-serif'],
-                }
-            }
+tailwind.config = {
+    theme: { extend: {
+        fontFamily: {
+            'amiri': ['Amiri', 'serif'],
+            'cairo': ['Cairo', 'sans-serif'],
+            'tajawal': ['Tajawal', 'sans-serif'],
         }
-    }
+    }}
+}
 </script>
 
 <style>
-/* =========================================
-   BASE + 🖼️ الخلفية
-   ========================================= */
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; touch-action: manipulation; }
-body {
-    margin: 0;
-    background-color: #080504;
-    color: #ffffff;
-    font-family: 'Tajawal', sans-serif;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    position: relative;
-}
-body.no-scroll { overflow: hidden !important; }
-::selection { background: #FADB5F; color: #000; }
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #080504; }
-::-webkit-scrollbar-thumb { background: #D4A017; border-radius: 20px; }
-.hide-scrollbar::-webkit-scrollbar { display: none; }
-.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:#080504;color:#fff;font-family:'Tajawal',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.no-scroll{overflow:hidden!important}
+::selection{background:#FADB5F;color:#000}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#080504}
+::-webkit-scrollbar-thumb{background:#D4A017;border-radius:20px}
+.hide-scrollbar::-webkit-scrollbar{display:none}
+.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
 
-#bg-image-layer {
-    position: fixed;
-    inset: 0;
-    z-index: -2;
-    background-image: url('https://files.catbox.moe/6n744z.jpg');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    filter: brightness(0.85) saturate(1.05);
-    pointer-events: none;
-}
-#bg-overlay-layer {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background:
-        radial-gradient(ellipse at center, rgba(8,5,4,.25) 0%, rgba(8,5,4,.65) 70%, rgba(8,5,4,.85) 100%);
-    pointer-events: none;
-}
-@media(max-width: 768px) {
-    #bg-image-layer { background-attachment: scroll; }
-}
+#bg-image-layer{position:fixed;inset:0;z-index:-2;background:url('https://files.catbox.moe/6n744z.jpg') center/cover no-repeat;filter:brightness(.85) saturate(1.05);pointer-events:none}
+#bg-overlay-layer{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at center,rgba(8,5,4,.25) 0%,rgba(8,5,4,.65) 70%,rgba(8,5,4,.85) 100%);pointer-events:none}
 
-/* =========================================
-   🎊 شرارات ذهبية (مُخففة للأداء)
-   ========================================= */
-#particles-bg {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-    contain: strict;
-}
-.gold-particle {
-    position: absolute;
-    width: 3px; height: 3px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #FFF8DC, #FADB5F 60%, transparent);
-    animation: particleFloat linear infinite;
-    opacity: 0;
-    will-change: transform, opacity;
-}
-@keyframes particleFloat {
-    0% { transform: translate3d(0, 110vh, 0) scale(0.5); opacity: 0; }
-    15% { opacity: 0.85; }
-    50% { transform: translate3d(20px, 55vh, 0) scale(1); opacity: 0.6; }
-    100% { transform: translate3d(-15px, -10vh, 0) scale(0.3); opacity: 0; }
-}
+#home-fab,#scrollToTopBtn{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s,visibility .3s}
+body.in-menu #home-fab{opacity:1;visibility:visible;pointer-events:auto}
+body.in-menu #scrollToTopBtn.visible{opacity:1;visibility:visible;pointer-events:auto}
 
-/* =========================================
-   🚫 إخفاء الأزرار العائمة في الصفحة الرئيسية
-   ========================================= */
-#home-fab,
-#scrollToTopBtn {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity .3s ease, visibility .3s ease;
-}
-body.in-menu #home-fab {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-body.in-menu #scrollToTopBtn.visible {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
+#menu-loader{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(8,5,4,.94);padding:20px}
+#menu-loader.active{display:flex}
+.loader-content{text-align:center}
+.loader-ring{position:relative;width:90px;height:90px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center}
+.loader-ring::before,.loader-ring::after{content:'';position:absolute;inset:0;border-radius:50%;border:3px solid transparent}
+.loader-ring::before{border-top-color:#FADB5F;border-right-color:#D4A017;animation:loaderSpin 1.2s linear infinite}
+.loader-ring::after{inset:12px;border-bottom-color:#FADB5F;border-left-color:#D4A017;animation:loaderSpin 1.6s linear infinite reverse}
+body[data-mode="restaurant"] .loader-ring::before{border-top-color:#ef4444;border-right-color:#991b1b}
+body[data-mode="restaurant"] .loader-ring::after{border-bottom-color:#ef4444;border-left-color:#991b1b}
+@keyframes loaderSpin{to{transform:rotate(360deg)}}
+.loader-icon{font-size:36px;color:#FADB5F}
+body[data-mode="restaurant"] .loader-icon{color:#ef4444}
+.loader-title{font-family:'Amiri',serif;font-size:22px;font-weight:900;color:#fff;margin:0 0 6px}
+.loader-sub{font-size:13px;font-weight:700;color:#c9b184;margin:0 0 18px}
+body[data-mode="restaurant"] .loader-sub{color:#fca5a5}
+.loader-progress{width:200px;height:4px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin:0 auto}
+.loader-bar{height:100%;width:0;background:linear-gradient(90deg,#8B6508,#D4A017,#FADB5F,#FFF8DC);border-radius:99px;transition:width .25s}
+body[data-mode="restaurant"] .loader-bar{background:linear-gradient(90deg,#7f1d1d,#dc2626,#ef4444,#fca5a5)}
+.loader-percent{font-family:'Cairo',sans-serif;font-size:12px;font-weight:900;color:#FADB5F;margin-top:10px}
+body[data-mode="restaurant"] .loader-percent{color:#ef4444}
 
-/* =========================================
-   ⏳ شاشة التحميل
-   ========================================= */
-#menu-loader {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(8,5,4,.94);
-    padding: 20px;
-}
-#menu-loader.active { display: flex; }
+.interactive-btn{transition:transform .2s ease;cursor:pointer}
+.interactive-btn:active{transform:scale(.96)!important}
 
-.loader-content { text-align: center; animation: loaderFadeIn .3s ease; }
-@keyframes loaderFadeIn {
-    from { opacity: 0; transform: scale(0.92); }
-    to { opacity: 1; transform: scale(1); }
-}
+@keyframes goldShine{0%{background-position:-200% center}100%{background-position:200% center}}
+.text-gold-gradient{background:linear-gradient(to right,#D4A017,#FFF8DC,#D4A017);background-size:200% auto;-webkit-background-clip:text;color:transparent;animation:goldShine 4s linear infinite}
+.text-blood-gradient{background:linear-gradient(to right,#ef4444,#fca5a5,#ef4444);background-size:200% auto;-webkit-background-clip:text;color:transparent;animation:goldShine 4s linear infinite}
 
-.loader-ring {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.loader-ring::before,
-.loader-ring::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    will-change: transform;
-}
-.loader-ring::before {
-    border-top-color: #FADB5F;
-    border-right-color: #D4A017;
-    animation: loaderSpin 1.2s linear infinite;
-}
-.loader-ring::after {
-    inset: 12px;
-    border-bottom-color: #FADB5F;
-    border-left-color: #D4A017;
-    animation: loaderSpin 1.6s linear infinite reverse;
-}
-body[data-mode="restaurant"] .loader-ring::before {
-    border-top-color: #ef4444;
-    border-right-color: #991b1b;
-}
-body[data-mode="restaurant"] .loader-ring::after {
-    border-bottom-color: #ef4444;
-    border-left-color: #991b1b;
-}
-@keyframes loaderSpin { to { transform: rotate(360deg); } }
+.diamond-divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:22px auto 26px;max-width:340px;padding:0 20px}
+.diamond-divider .line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(250,219,95,.5),transparent)}
+.diamond-divider .diamond{width:10px;height:10px;background:linear-gradient(135deg,#FADB5F,#D4A017);transform:rotate(45deg);box-shadow:0 0 12px rgba(250,219,95,.7);flex:none}
+.diamond-divider .diamond.small{width:6px;height:6px;opacity:.75}
 
-.loader-icon {
-    font-size: 40px;
-    color: #FADB5F;
-    animation: loaderIconPulse 1.5s ease-in-out infinite;
-}
-body[data-mode="restaurant"] .loader-icon { color: #ef4444; }
-@keyframes loaderIconPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.12); }
-}
+.splash-choices{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:540px;margin:0 auto;position:relative;z-index:2}
+@media(max-width:520px){.splash-choices{gap:12px}}
 
-.loader-title {
-    font-family: 'Amiri', serif;
-    font-size: 24px;
-    font-weight: 900;
-    color: #fff;
-    margin: 0 0 8px;
-    letter-spacing: -0.5px;
-}
-.loader-sub {
-    font-family: 'Tajawal', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: #c9b184;
-    margin: 0 0 20px;
-}
-body[data-mode="restaurant"] .loader-sub { color: #fca5a5; }
+.splash-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:28px 16px 22px;border-radius:18px;background:linear-gradient(165deg,rgba(26,18,8,.94) 0%,rgba(13,8,5,.97) 55%,rgba(8,5,4,.98) 100%);border:1.5px solid rgba(212,160,23,.28);box-shadow:0 15px 40px rgba(0,0,0,.6);cursor:pointer;overflow:hidden;transition:transform .3s,border-color .3s;font-family:'Tajawal',sans-serif;clip-path:polygon(0 12px,12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px))}
+.splash-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,#FADB5F,transparent);border-radius:2px}
+.splash-card:hover{transform:translateY(-5px);border-color:#FADB5F}
+.splash-card.rest{border-color:rgba(220,38,38,.32)}
+.splash-card.rest::before{background:linear-gradient(90deg,transparent,#ef4444,transparent)}
+.splash-card.rest:hover{border-color:#ef4444}
 
-.loader-progress {
-    width: 210px;
-    height: 4px;
-    background: rgba(255,255,255,.08);
-    border-radius: 99px;
-    overflow: hidden;
-    margin: 0 auto;
-}
-.loader-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #8B6508, #D4A017, #FADB5F, #FFF8DC);
-    border-radius: 99px;
-    transition: width .25s ease;
-}
-body[data-mode="restaurant"] .loader-bar {
-    background: linear-gradient(90deg, #7f1d1d, #dc2626, #ef4444, #fca5a5);
-}
-.loader-percent {
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px;
-    font-weight: 900;
-    color: #FADB5F;
-    margin-top: 12px;
-}
-body[data-mode="restaurant"] .loader-percent { color: #ef4444; }
+.splash-card-icon{width:70px;height:70px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:linear-gradient(135deg,#FADB5F 0%,#D4A017 100%);color:#0d0805;font-size:26px;box-shadow:0 10px 25px rgba(212,160,23,.4);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);transition:transform .3s}
+.splash-card.rest .splash-card-icon{background:linear-gradient(135deg,#ef4444 0%,#991b1b 100%);color:#fff}
+.splash-card:hover .splash-card-icon{transform:scale(1.08) rotate(-4deg)}
 
-/* =========================================
-   حركات عامة
-   ========================================= */
-.interactive-btn { transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; cursor: pointer; }
-.interactive-btn:active { transform: scale(0.96) !important; }
+.splash-card-title{margin:0 0 10px;font-family:'Amiri',serif;font-size:21px;font-weight:900;color:#fff}
+.splash-card-hours{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#c9b184;padding:5px 12px;border-radius:999px;background:rgba(0,0,0,.45);border:1px solid rgba(250,219,95,.15);margin-bottom:14px}
+.splash-card.rest .splash-card-hours{color:#fca5a5;border-color:rgba(239,68,68,.2)}
+.splash-card-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;background:linear-gradient(135deg,#FADB5F 0%,#D4A017 100%);color:#0d0805;font-weight:900;font-size:13px;font-family:'Cairo',sans-serif;box-shadow:0 6px 16px rgba(212,160,23,.4)}
+.splash-card.rest .splash-card-cta{background:linear-gradient(135deg,#ef4444 0%,#991b1b 100%);color:#fff}
 
-@keyframes goldShine {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
-}
-.text-gold-gradient {
-    background: linear-gradient(to right, #D4A017, #FFF8DC, #D4A017);
-    background-size: 200% auto;
-    -webkit-background-clip: text; color: transparent;
-    animation: goldShine 4s linear infinite;
-}
-.text-blood-gradient {
-    background: linear-gradient(to right, #ef4444, #fca5a5, #ef4444);
-    background-size: 200% auto;
-    -webkit-background-clip: text; color: transparent;
-    animation: goldShine 4s linear infinite;
-}
-.magical-title { animation: titleZoomFloat 4s ease-in-out infinite; }
-@keyframes titleZoomFloat {
-    0%, 100% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1.03) translateY(-5px); }
+/* OFFERS BUTTONS ON SPLASH */
+.offers-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:540px;margin:22px auto 0;padding:0 4px}
+@media(max-width:520px){.offers-row{grid-template-columns:1fr;gap:10px}}
+.offer-trigger{position:relative;padding:1.5px;border-radius:16px;background:linear-gradient(135deg,#FADB5F,#dc2626,#ca8a04,#FADB5F);background-size:300% 300%;animation:hexBorder 5s linear infinite;cursor:pointer;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px)}
+.offer-trigger.gold-only{background:linear-gradient(135deg,#D4A017,#FADB5F,#8B6508,#D4A017);background-size:300% 300%}
+@keyframes hexBorder{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.offer-trigger-inner{background:linear-gradient(135deg,#7f1d1d 0%,#dc2626 50%,#ca8a04 100%);clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0 calc(100% - 11px),0 11px);padding:14px 16px;display:flex;align-items:center;justify-content:center;gap:10px;color:#fff;font-weight:900;transition:transform .2s}
+.offer-trigger.gold-only .offer-trigger-inner{background:linear-gradient(135deg,#1a1208 0%,#8B6508 50%,#D4A017 100%)}
+.offer-trigger:active .offer-trigger-inner{transform:scale(.98)}
+.offer-trigger-inner i{color:#fde68a;font-size:20px}
+.offer-trigger.gold-only .offer-trigger-inner i{color:#FADB5F}
+.offer-trigger-title{display:block;font-family:'Cairo',sans-serif;font-size:15px;line-height:1.2}
+.offer-trigger-sub{display:block;font-size:10.5px;font-weight:700;margin-top:3px;color:#ffe4a3;font-family:'Tajawal',sans-serif}
+
+/* CARDS */
+.led-border-wrapper{position:relative;margin-bottom:22px;padding:1.5px;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.05);box-shadow:0 15px 40px rgba(0,0,0,.5);isolation:isolate;transition:box-shadow .3s,transform .3s}
+.led-border-wrapper::before{content:"";position:absolute;width:180%;height:180%;left:-40%;top:-40%;background:conic-gradient(from 0deg,transparent 0deg,transparent 230deg,#D4A017 275deg,#fff8c7 300deg,#D4A017 325deg,transparent 350deg);animation:premiumSpin 6s linear infinite;z-index:-2}
+.theme-rest.led-border-wrapper::before{background:conic-gradient(from 0deg,transparent 0deg,transparent 230deg,#dc2626 275deg,#ffd1d1 300deg,#ef4444 325deg,transparent 350deg)}
+@keyframes premiumSpin{to{transform:rotate(360deg)}}
+.led-border-wrapper::after{content:"";position:absolute;inset:0;border-radius:20px;box-shadow:0 0 0 1px rgba(255,255,255,.05);pointer-events:none;z-index:5}
+.led-border-wrapper:hover{box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 25px rgba(212,160,23,.12);transform:translateY(-2px)}
+
+.card-inner-box{position:relative;z-index:2;overflow:hidden;background:linear-gradient(155deg,rgba(26,18,8,.96) 0%,rgba(13,8,5,.97) 45%,rgba(8,5,4,.98) 100%);border-radius:19px;height:100%}
+.card-header-img{position:relative;height:190px;overflow:hidden;cursor:pointer;transition:height .4s;background-color:#110b08}
+.led-border-wrapper.open .card-header-img{height:160px}
+.card-header-img-real{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0}
+.card-header-img::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.35) 50%,rgba(0,0,0,.9) 100%);z-index:1;pointer-events:none}
+.card-icon-badge{position:absolute;top:14px;right:14px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;z-index:5;background:rgba(8,5,3,.72);border:1px solid rgba(250,219,95,.45);box-shadow:0 8px 20px rgba(0,0,0,.45);pointer-events:none;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
+.card-icon-badge i{color:#FADB5F;font-size:18px}
+.theme-rest .card-icon-badge{border-color:rgba(239,68,68,.5)}
+.theme-rest .card-icon-badge i{color:#ef4444}
+.card-tap-hint{position:absolute;bottom:14px;left:14px;z-index:5;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:11px;font-weight:800;pointer-events:none}
+.card-tap-hint i{color:#FADB5F;font-size:11px}
+.theme-rest .card-tap-hint i{color:#ef4444}
+
+.card-info-bar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;background:linear-gradient(180deg,rgba(212,160,23,.06),transparent 70%);border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer}
+.card-info-bar::before{content:'';position:absolute;top:0;right:20px;width:50px;height:3px;background:linear-gradient(90deg,#FADB5F,transparent);border-radius:0 0 4px 4px}
+.theme-rest .card-info-bar::before{background:linear-gradient(90deg,#ef4444,transparent)}
+.theme-rest .card-info-bar{background:linear-gradient(180deg,rgba(220,38,38,.06),transparent 70%)}
+.card-title-main{min-width:0;flex:1}
+.card-title-main h2{margin:0 0 8px;font-family:'Amiri',serif;font-size:25px;line-height:1.15;font-weight:900;color:#fff}
+.card-count{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.25);color:#FADB5F;font-size:11px;font-weight:800}
+.card-count i{font-size:10px}
+.theme-rest .card-count{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.25);color:#f87171}
+
+.card-open-btn{flex:none;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;background:linear-gradient(135deg,#FADB5F 0%,#D4A017 100%);color:#0d0805;font-weight:900;font-size:12.5px;font-family:'Cairo',sans-serif;border:1px solid #FDE68A;box-shadow:0 6px 16px rgba(212,160,23,.35);cursor:pointer;white-space:nowrap}
+.card-open-btn i{transition:transform .4s;font-size:12px}
+.led-border-wrapper.open .card-open-btn i{transform:rotate(180deg)}
+.theme-rest .card-open-btn{background:linear-gradient(135deg,#ef4444 0%,#991b1b 100%);color:#fff;border-color:#dc2626;box-shadow:0 6px 16px rgba(220,38,38,.4)}
+
+.category-items-wrapper{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1);background:linear-gradient(180deg,rgba(13,8,5,.98),rgba(8,5,4,.99))}
+.led-border-wrapper.open .category-items-wrapper{grid-template-rows:1fr}
+.category-items-inner{overflow:hidden}
+.card-note{display:flex;align-items:flex-start;gap:10px;margin:14px 16px 6px;padding:12px 14px;background:linear-gradient(135deg,rgba(212,160,23,.1),rgba(212,160,23,.02));border-right:3px solid #D4A017;border-radius:12px;font-size:13px;font-weight:800;color:#f5d98b;line-height:1.6}
+.card-note i{color:#FADB5F;font-size:16px;margin-top:2px;flex:none}
+.theme-rest .card-note{background:linear-gradient(135deg,rgba(220,38,38,.1),rgba(220,38,38,.02));border-right-color:#ef4444;color:#fca5a5}
+.theme-rest .card-note i{color:#ef4444}
+
+.menu-item{position:relative;border-bottom:1px solid rgba(255,255,255,.04);padding:14px 10px;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:background .25s}
+.menu-item:last-child{border-bottom:none}
+.menu-item::before{content:"";position:absolute;right:0;top:20%;width:3px;height:60%;border-radius:10px;background:#D4A017;opacity:0;transition:.25s}
+.theme-rest .menu-item::before{background:#ef4444}
+.menu-item:hover{background:rgba(255,255,255,.025)}
+.menu-item:hover::before{opacity:1}
+.menu-item-name{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;color:#fff;font-family:'Cairo',sans-serif;line-height:1.4}
+.menu-item-name::before{content:"✦";color:#D4A017;font-size:10px;flex:none}
+.theme-rest .menu-item-name::before{color:#ef4444}
+.premium-price{min-width:72px;text-align:center;padding:7px 14px;border-radius:10px;background:linear-gradient(135deg,rgba(212,160,23,.14),rgba(212,160,23,.03));border:1px solid rgba(212,160,23,.28);color:#FADB5F;font-weight:900;font-family:'Tajawal',sans-serif;flex:none;font-size:.95rem}
+.theme-rest .premium-price{color:#ef4444;background:linear-gradient(135deg,rgba(220,38,38,.14),rgba(220,38,38,.03));border-color:rgba(220,38,38,.28)}
+.multi-price-container{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.multi-price-tag{padding:6px 12px;border-radius:8px;background:#110b08;border:1px solid rgba(255,255,255,.08);font-size:.85rem;color:#d1d5db;font-weight:700}
+.multi-price-tag span{color:#FADB5F;margin-right:4px}
+.theme-rest .multi-price-tag span{color:#ef4444}
+.premium-close-btn{width:calc(100% - 32px);margin:14px 16px;padding:12px 18px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);color:#aaa;font-weight:800;transition:.25s;cursor:pointer;font-family:'Cairo',sans-serif}
+.premium-close-btn:hover{color:#fff;background:rgba(255,255,255,.07);border-color:rgba(250,219,95,.3)}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,.88);display:none;justify-content:center;align-items:center;padding:15px;backdrop-filter:blur(4px)}
+.modal-overlay.active{display:flex}
+.modal-box{background:linear-gradient(165deg,#1a0f0a 0%,#0d0805 100%);border:2px solid #FADB5F;border-radius:22px;width:100%;max-width:1080px;max-height:92vh;overflow-y:auto;position:relative;box-shadow:0 0 60px rgba(220,38,38,.35),0 0 0 1px rgba(250,219,95,.2)}
+.offers-header{padding:18px 20px;border-bottom:1px solid rgba(153,27,27,.4);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to left,rgba(69,10,10,.5),rgba(127,29,29,.3),transparent);border-radius:22px 22px 0 0;position:sticky;top:0;z-index:10;backdrop-filter:blur(6px)}
+.offers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;padding:20px}
+@media(max-width:700px){.offers-grid{grid-template-columns:1fr;gap:14px;padding:16px}}
+
+.offer-card{position:relative;background:linear-gradient(165deg,#1a0f0a,#0d0805);border:1.5px solid rgba(250,219,95,.3);border-radius:18px;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;box-shadow:0 15px 40px rgba(0,0,0,.5);display:flex;flex-direction:column}
+.offer-card:hover{transform:translateY(-5px);border-color:#FADB5F;box-shadow:0 22px 50px rgba(0,0,0,.6),0 0 35px rgba(250,219,95,.35)}
+
+.offer-card-badge{position:absolute;top:0;right:0;background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;font-size:10px;font-weight:900;padding:6px 14px;border-radius:0 0 0 14px;z-index:4;font-family:'Cairo',sans-serif;box-shadow:0 4px 12px rgba(220,38,38,.4)}
+.offer-delivery-badge{position:absolute;top:14px;left:14px;z-index:5;display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-size:10px;font-weight:900;font-family:'Cairo',sans-serif;box-shadow:0 6px 16px rgba(37,211,102,.5)}
+.offer-img-wrap{position:relative;padding:18px 18px 6px;background:radial-gradient(circle at 50% 30%,rgba(250,219,95,.12),transparent 70%);z-index:2}
+.offer-img{width:100%;height:180px;object-fit:contain;border-radius:14px;background:rgba(0,0,0,.4);display:block;transition:transform .4s;filter:drop-shadow(0 8px 20px rgba(0,0,0,.5))}
+.offer-card:hover .offer-img{transform:scale(1.05)}
+.offer-card-body{padding:10px 16px 18px;text-align:center;position:relative;z-index:2;flex:1;display:flex;flex-direction:column}
+.offer-title{margin:6px 0 8px;font-family:'Amiri',serif;font-size:24px;font-weight:900;background:linear-gradient(135deg,#FADB5F,#D4A017,#FADB5F);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.2}
+.offer-desc{font-size:12.5px;color:#d1d5db;line-height:1.7;margin:0 0 10px;font-weight:700}
+.offer-desc strong{color:#ef4444;display:block;margin-top:8px;font-size:13px;font-weight:900}
+.offer-features{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:4px 0 14px}
+.offer-features span{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;background:rgba(250,219,95,.08);border:1px solid rgba(250,219,95,.22);color:#f5d98b;font-size:11px;font-weight:800}
+.offer-features span i{font-size:10px;color:#FADB5F}
+.offer-price{display:inline-block;padding:9px 24px;margin:4px auto 14px;border-radius:12px;background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;font-weight:900;font-size:18px;font-family:'Cairo',sans-serif;border:1px solid #ef4444;box-shadow:0 6px 18px rgba(220,38,38,.5)}
+.offer-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;margin-top:auto;border-radius:12px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:900;font-size:14px;font-family:'Cairo',sans-serif;border:none;cursor:pointer;box-shadow:0 6px 16px rgba(37,211,102,.4);transition:transform .25s,box-shadow .25s}
+.offer-btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(37,211,102,.55)}
+.offer-btn i{font-size:18px}
+.offers-footer{padding:14px 20px 20px;text-align:center;font-size:12px;font-weight:800;color:#c9b184;border-top:1px dashed rgba(250,219,95,.15);margin-top:4px}
+.offers-footer i{color:#FADB5F;margin-left:4px}
+
+/* OCTOBER SPECIFIC */
+.october-hero{position:relative;padding:18px 20px 16px;text-align:center;background:linear-gradient(135deg,rgba(127,29,29,.75),rgba(202,138,4,.4),rgba(127,29,29,.75));background-size:200% 100%;animation:octFlow 6s ease-in-out infinite;border-bottom:1px solid rgba(250,219,95,.25);overflow:hidden}
+@keyframes octFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.october-flags{font-size:24px;margin-bottom:4px;display:inline-block}
+.october-hero h3{margin:4px 0 6px;font-family:'Amiri',serif;font-size:26px;font-weight:900;background:linear-gradient(90deg,#FADB5F,#FFF8DC,#FADB5F);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:goldShine 3s linear infinite;filter:drop-shadow(0 0 18px rgba(250,219,95,.6))}
+.october-hero p{margin:0;font-size:12.5px;font-weight:800;color:#fca5a5}
+.oct-image-wrap{position:relative;padding:22px 18px 6px;background:radial-gradient(circle at 50% 40%,rgba(250,219,95,.22),transparent 65%);z-index:2}
+.oct-image-wrap .offer-img{position:relative;z-index:1;height:210px}
+.oct-free-badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.oct-free-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;font-size:12.5px;font-weight:900;font-family:'Cairo',sans-serif;box-shadow:0 6px 18px rgba(22,163,74,.5)}
+.oct-free-badge i{font-size:12px}
+.oct-badge{position:absolute;top:0;right:0;background:linear-gradient(135deg,#dc2626,#7f1d1d);color:#fff;font-size:11px;font-weight:900;padding:7px 16px;border-radius:0 0 0 14px;z-index:6;font-family:'Cairo',sans-serif;box-shadow:0 4px 14px rgba(220,38,38,.6);display:inline-flex;align-items:center;gap:5px}
+@media(max-width:640px){
+    .oct-image-wrap .offer-img{height:175px}
+    .october-hero h3{font-size:21px}
+    .oct-free-badge{font-size:11.5px;padding:7px 13px}
 }
 
-/* =========================================
-   🌸 SPLASH GEOMETRIC MAGIC (خرافي)
-   ========================================= */
-/* وردة/نجمة دوارة خلف العنوان */
-.geo-flower {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 480px;
-    height: 480px;
-    margin: -240px 0 0 -240px;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.35;
-    will-change: transform;
-}
-.geo-flower svg {
-    width: 100%;
-    height: 100%;
-    animation: geoSpin 40s linear infinite;
-}
-.geo-flower-inner svg {
-    animation: geoSpinRev 30s linear infinite;
-}
-.geo-flower-inner {
-    position: absolute;
-    inset: 60px;
-    opacity: 0.7;
-}
-@keyframes geoSpin { to { transform: rotate(360deg); } }
-@keyframes geoSpinRev { to { transform: rotate(-360deg); } }
+/* UI */
+.home-fab{position:fixed;top:14px;left:14px;z-index:60;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(13,8,5,.92),rgba(26,18,8,.92));border:1.5px solid rgba(250,219,95,.5);color:#FADB5F;font-weight:900;font-size:12.5px;font-family:'Cairo',sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.5);cursor:pointer;transition:transform .25s,border-color .25s;white-space:nowrap}
+.home-fab:hover{transform:translateY(-2px);border-color:#FADB5F;color:#fff}
+.home-fab i{font-size:14px}
+body[data-mode="restaurant"] .home-fab{border-color:rgba(220,38,38,.5);color:#ef4444}
+body[data-mode="restaurant"] .home-fab:hover{border-color:#ef4444;color:#fff}
+@media(max-width:480px){.home-fab span{display:none}.home-fab{padding:10px 12px}}
 
-/* مثلثات زاوية ديكورية */
-.geo-corner {
-    position: absolute;
-    width: 90px;
-    height: 90px;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.6;
-}
-.geo-corner.tl { top: 20px; left: 20px; }
-.geo-corner.tr { top: 20px; right: 20px; transform: scaleX(-1); }
-.geo-corner.bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
-.geo-corner.br { bottom: 20px; right: 20px; transform: scale(-1); }
+#scrollToTopBtn{transition:opacity .3s,transform .3s,visibility .3s}
+#scrollToTopBtn.visible{opacity:1;transform:translateY(0);visibility:visible}
+#scrollToTopBtn.hidden-btn{opacity:0;transform:translateY(15px);visibility:hidden}
 
-/* خط فاصل ماسي */
-.diamond-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin: 22px auto 26px;
-    max-width: 340px;
-    padding: 0 20px;
-}
-.diamond-divider .line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(250,219,95,.5), transparent);
-}
-.diamond-divider .diamond {
-    width: 10px;
-    height: 10px;
-    background: linear-gradient(135deg, #FADB5F, #D4A017);
-    transform: rotate(45deg);
-    box-shadow: 0 0 12px rgba(250,219,95,.7), inset 0 1px 0 rgba(255,255,255,.6);
-    flex: none;
-}
-.diamond-divider .diamond.small { width: 6px; height: 6px; opacity: 0.75; }
+.footer-socials{display:flex;justify-content:center;align-items:center;gap:12px;margin:22px auto 8px;flex-wrap:wrap;direction:ltr}
+.footer-social-btn{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:19px;color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(0,0,0,.5);transition:transform .25s;cursor:pointer;border:1px solid rgba(255,255,255,.12)}
+.footer-social-btn:hover{transform:translateY(-4px) scale(1.08)}
+.fs-wa{background:linear-gradient(135deg,#25D366,#128C7E)}
+.fs-fb{background:linear-gradient(135deg,#1877F2,#0e5fc0)}
+.fs-tt{background:linear-gradient(135deg,#2a2a2a,#000);border-color:rgba(250,219,95,.35)}
+.fs-ph{background:linear-gradient(135deg,#1a0f0a,#110b08);border:2px solid #D4A017;color:#FADB5F;box-shadow:0 0 15px rgba(250,219,95,.4),0 6px 16px rgba(0,0,0,.45)}
+body[data-mode="restaurant"] .fs-ph{border-color:#dc2626;color:#ef4444;box-shadow:0 0 15px rgba(220,38,38,.4),0 6px 16px rgba(0,0,0,.45)}
 
-/* بطاقة الواجهة الخرافية */
-.splash-choices {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    max-width: 540px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-}
-@media(max-width: 520px) { .splash-choices { gap: 12px; } }
-
-.splash-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 30px 16px 22px;
-    border-radius: 18px;
-    background: linear-gradient(165deg, rgba(26,18,8,.94) 0%, rgba(13,8,5,.97) 55%, rgba(8,5,4,.98) 100%);
-    border: 1.5px solid rgba(212,160,23,.28);
-    box-shadow: 0 15px 40px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
-    cursor: pointer;
-    overflow: hidden;
-    transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
-    font-family: 'Tajawal', sans-serif;
-    isolation: isolate;
-    clip-path: polygon(0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px));
-}
-/* خط مثلث علوي */
-.splash-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #FADB5F, transparent);
-    border-radius: 2px;
-    z-index: 3;
-}
-/* بريق يمر */
-.splash-card::after {
-    content: '';
-    position: absolute;
-    top: -60%; left: -30%;
-    width: 40%; height: 220%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
-    transform: rotate(25deg);
-    transition: left 1s ease;
-    pointer-events: none;
-}
-.splash-card:hover::after { left: 140%; }
-.splash-card:hover {
-    transform: translateY(-6px);
-    border-color: #FADB5F;
-    box-shadow: 0 22px 55px rgba(0,0,0,.65), 0 0 30px rgba(250,219,95,.3);
-}
-.splash-card.rest { border-color: rgba(220,38,38,.32); }
-.splash-card.rest::before { background: linear-gradient(90deg, transparent, #ef4444, transparent); }
-.splash-card.rest:hover {
-    border-color: #ef4444;
-    box-shadow: 0 22px 55px rgba(0,0,0,.65), 0 0 30px rgba(220,38,38,.35);
+.location-plaque{position:relative;display:inline-flex;align-items:center;gap:16px;padding:14px 24px;margin:22px auto 12px;border-radius:18px;background:linear-gradient(135deg,rgba(26,18,8,.95),rgba(13,8,5,.98),rgba(26,18,8,.95));border:1.5px solid rgba(250,219,95,.35);box-shadow:0 12px 30px rgba(0,0,0,.55)}
+.location-pin-icon{position:relative;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex:none}
+.location-pin-icon::before{content:"";position:absolute;inset:0;border-radius:50%;border:1.5px dashed rgba(250,219,95,.5);animation:spinDashed 14s linear infinite}
+@keyframes spinDashed{to{transform:rotate(360deg)}}
+.location-pin-core{position:relative;width:38px;height:38px;background:linear-gradient(135deg,#FADB5F 0%,#D4A017 100%);display:flex;align-items:center;justify-content:center;color:#0d0805;font-size:17px;box-shadow:0 8px 20px rgba(212,160,23,.5);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
+.pin-ripple{position:absolute;inset:50%;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:1.5px solid rgba(250,219,95,.55);pointer-events:none;animation:rippleOut 2.6s ease-out infinite}
+.pin-ripple.delay{animation-delay:1.3s}
+@keyframes rippleOut{0%{transform:scale(.5);opacity:1}100%{transform:scale(3.2);opacity:0}}
+.location-text-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.location-label{font-family:'Cairo',sans-serif;font-size:10.5px;font-weight:800;color:#b8860b;letter-spacing:1.8px}
+.location-address{font-family:'Cairo',sans-serif;font-size:19px;font-weight:900;background:linear-gradient(90deg,#D4A017 0%,#FADB5F 25%,#FFF8DC 50%,#FADB5F 75%,#D4A017 100%);background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:goldShine 4s linear infinite;line-height:1.15}
+@media(max-width:640px){
+    .location-plaque{padding:12px 18px;gap:12px;border-radius:16px}
+    .location-pin-icon{width:44px;height:44px}
+    .location-pin-core{width:32px;height:32px;font-size:14px}
+    .location-address{font-size:15.5px}
+    .location-label{font-size:9px}
 }
 
-.splash-card-icon {
-    width: 74px; height: 74px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
-    color: #0d0805;
-    font-size: 28px;
-    box-shadow: 0 10px 25px rgba(212,160,23,.4), inset 0 2px 0 rgba(255,255,255,.5), inset 0 -3px 8px rgba(0,0,0,.2);
-    position: relative;
-    transition: transform .35s cubic-bezier(.2,.8,.2,1);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-.splash-card.rest .splash-card-icon {
-    background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
-    color: #fff;
-    box-shadow: 0 10px 25px rgba(220,38,38,.45), inset 0 2px 0 rgba(255,255,255,.35);
-}
-.splash-card:hover .splash-card-icon { transform: scale(1.08) rotate(-4deg); }
+.btn-gold{background:linear-gradient(135deg,#FADB5F 0%,#D4A017 100%);color:#0d0805;box-shadow:0 4px 14px rgba(212,160,23,.35);border:1px solid #FDE68A}
+.btn-brown-red{background:linear-gradient(135deg,#dc2626 0%,#7f1d1d 100%);color:#fff;box-shadow:0 4px 14px rgba(153,27,27,.35);border:1px solid #ef4444}
 
-.splash-card-title {
-    margin: 0 0 10px;
-    font-family: 'Amiri', serif;
-    font-size: 22px;
-    font-weight: 900;
-    color: #fff;
-    letter-spacing: -0.3px;
-}
-.splash-card-hours {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: #c9b184;
-    padding: 5px 12px;
-    border-radius: 999px;
-    background: rgba(0,0,0,.45);
-    border: 1px solid rgba(250,219,95,.15);
-    margin-bottom: 16px;
-}
-.splash-card.rest .splash-card-hours { color: #fca5a5; border-color: rgba(239,68,68,.2); }
-.splash-card-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 22px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
-    color: #0d0805;
-    font-weight: 900;
-    font-size: 13px;
-    font-family: 'Cairo', sans-serif;
-    box-shadow: 0 6px 16px rgba(212,160,23,.4), inset 0 1px 0 rgba(255,255,255,.4);
-    transition: all .3s ease;
-}
-.splash-card-cta i { transition: transform .35s ease; }
-.splash-card:hover .splash-card-cta i { transform: translateX(-4px); }
-.splash-card.rest .splash-card-cta {
-    background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
-    color: #fff;
-    box-shadow: 0 6px 16px rgba(220,38,38,.45);
+.royal-badge{position:relative;display:inline-flex;padding:1.5px;border-radius:999px;overflow:hidden;isolation:isolate;margin-bottom:24px;filter:drop-shadow(0 12px 28px rgba(0,0,0,.6))}
+.royal-badge::before{content:"";position:absolute;width:220%;height:220%;left:-60%;top:-60%;background:conic-gradient(from 0deg,#8B6508 0deg,#D4A017 40deg,#FFF8DC 80deg,#FADB5F 120deg,#D4A017 160deg,#8B6508 200deg,#D4A017 240deg,#FFF8DC 280deg,#FADB5F 320deg,#D4A017 360deg);animation:royalSpin 6s linear infinite;z-index:-1}
+@keyframes royalSpin{to{transform:rotate(360deg)}}
+.royal-badge-inner{position:relative;display:inline-flex;align-items:center;gap:10px;padding:11px 26px;border-radius:999px;background:linear-gradient(135deg,#1a1208 0%,#0d0805 50%,#1a1208 100%);z-index:1}
+.royal-crown{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;color:#FADB5F;font-size:15px}
+.royal-text{font-weight:800;font-size:13.5px;background:linear-gradient(90deg,#D4A017 0%,#FADB5F 25%,#FFF8DC 50%,#FADB5F 75%,#D4A017 100%);background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:goldShine 3s linear infinite;white-space:nowrap}
+@media(max-width:640px){
+    .royal-badge-inner{padding:9px 18px;gap:7px}
+    .royal-text{font-size:11.5px}
+    .royal-crown{width:18px;height:18px;font-size:13px}
 }
 
-/* شعار العروض على شكل معين */
-.offers-hex {
-    position: relative;
-    padding: 1.5px;
-    background: linear-gradient(135deg, #FADB5F, #dc2626, #ca8a04, #FADB5F);
-    background-size: 300% 300%;
-    animation: hexBorder 4s linear infinite;
-    clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px), 0 14px);
-}
-@keyframes hexBorder {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 300% 50%; }
-}
-.offers-hex-inner {
-    background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 50%, #ca8a04 100%);
-    clip-path: polygon(13px 0, calc(100% - 13px) 0, 100% 13px, 100% calc(100% - 13px), calc(100% - 13px) 100%, 13px 100%, 0 calc(100% - 13px), 0 13px);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    color: #fff;
-    font-weight: 900;
-    cursor: pointer;
-    transition: transform .25s ease;
-}
-.offers-hex:active .offers-hex-inner { transform: scale(0.98); }
-.offers-hex-inner i { color: #fde68a; }
+.reveal-card{opacity:0;transform:translateY(30px);transition:opacity .5s ease,transform .5s ease}
+.reveal-card.revealed{opacity:1;transform:translateY(0)}
 
-/* =========================================
-   الكارد الفخم
-   ========================================= */
-.led-border-wrapper {
-    position: relative;
-    margin-bottom: 24px;
-    padding: 1.5px;
-    border-radius: 20px;
-    overflow: hidden;
-    background: rgba(255,255,255,.05);
-    box-shadow: 0 15px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
-    isolation: isolate;
-    transition: box-shadow .35s ease, transform .35s ease;
-    content-visibility: auto;
-    contain-intrinsic-size: auto 400px;
-}
-.led-border-wrapper::before {
-    content:"";
-    position:absolute;
-    width:180%; height:180%;
-    left:-40%; top:-40%;
-    background:conic-gradient(from 0deg, transparent 0deg, transparent 230deg, #D4A017 275deg, #fff8c7 300deg, #D4A017 325deg, transparent 350deg);
-    animation: premiumSpin 6s linear infinite;
-    z-index: -2;
-    will-change: transform;
-}
-.theme-rest.led-border-wrapper::before {
-    background:conic-gradient(from 0deg, transparent 0deg, transparent 230deg, #dc2626 275deg, #ffd1d1 300deg, #ef4444 325deg, transparent 350deg);
-}
-@keyframes premiumSpin { to { transform: rotate(360deg); } }
-
-.led-border-wrapper::after {
-    content:"";
-    position:absolute; inset:0;
-    border-radius:20px;
-    box-shadow: 0 0 0 1px rgba(255,255,255,.05);
-    pointer-events:none; z-index:5;
-}
-.led-border-wrapper:hover { 
-    box-shadow: 0 20px 50px rgba(0,0,0,.6), 0 0 25px rgba(212,160,23,.12); 
-    transform: translateY(-2px);
-}
-.theme-rest.led-border-wrapper:hover { 
-    box-shadow: 0 20px 50px rgba(0,0,0,.6), 0 0 25px rgba(220,38,38,.15); 
+@media(max-width:640px){
+    .led-border-wrapper{margin-bottom:18px;border-radius:18px}
+    .card-inner-box{border-radius:17px}
+    .card-header-img{height:165px}
+    .led-border-wrapper.open .card-header-img{height:145px}
+    .card-title-main h2{font-size:21px}
+    .card-icon-badge{width:40px;height:40px;top:12px;right:12px}
+    .card-icon-badge i{font-size:16px}
+    .card-info-bar{padding:14px 16px;gap:10px}
+    .card-open-btn{padding:9px 13px;font-size:12px}
+    .card-open-btn span{display:none}
+    .card-open-btn i{font-size:14px}
+    .menu-item{flex-direction:column;align-items:flex-start;gap:10px}
+    .multi-price-container{width:100%;justify-content:flex-start}
+    .splash-card{padding:22px 12px 18px}
+    .splash-card-icon{width:60px;height:60px;font-size:22px}
+    .splash-card-title{font-size:19px}
+    .splash-card-cta{font-size:12px;padding:8px 16px}
+    .footer-social-btn{width:42px;height:42px;font-size:17px;border-radius:12px}
+    .offer-img{height:155px}
+    .offer-title{font-size:22px}
+    .offer-price{font-size:16px;padding:8px 20px}
+    .loader-ring{width:80px;height:80px}
+    .loader-icon{font-size:32px}
+    .loader-title{font-size:20px}
+    .loader-progress{width:170px}
 }
 
-.card-inner-box {
-    position: relative;
-    z-index: 2;
-    overflow: hidden;
-    background: linear-gradient(155deg, rgba(26,18,8,.96) 0%, rgba(13,8,5,.97) 45%, rgba(8,5,4,.98) 100%);
-    border-radius: 19px;
-    height: 100%;
-}
-
-.card-header-img {
-    position: relative;
-    height: 200px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: height .45s ease;
-    background-color: #110b08;
-}
-.led-border-wrapper.open .card-header-img { height: 170px; }
-
-.card-header-img-real {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    z-index: 0;
-    transition: transform .7s ease;
-}
-.led-border-wrapper:hover .card-header-img-real { transform: scale(1.05); }
-
-.card-header-img::before {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.35) 50%, rgba(0,0,0,.9) 100%);
-    z-index: 1;
-    pointer-events: none;
-}
-.card-header-img::after {
-    content: "";
-    position: absolute;
-    top: -100%; left: -80%;
-    width: 45%; height: 300%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
-    transform: rotate(25deg);
-    transition: left .9s ease;
-    z-index: 3;
-    pointer-events: none;
-}
-.led-border-wrapper:hover .card-header-img::after { left: 140%; }
-
-.card-icon-badge {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 5;
-    background: rgba(8,5,3,.72);
-    border: 1px solid rgba(250,219,95,.45);
-    box-shadow: 0 8px 20px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);
-    transition: transform .35s ease;
-    pointer-events: none;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-.card-icon-badge i {
-    color: #FADB5F;
-    font-size: 18px;
-}
-.theme-rest .card-icon-badge { border-color: rgba(239,68,68,.5); }
-.theme-rest .card-icon-badge i { color: #ef4444; }
-
-.card-tap-hint {
-    position: absolute;
-    bottom: 14px;
-    left: 14px;
-    z-index: 5;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: rgba(0,0,0,.55);
-    border: 1px solid rgba(255,255,255,.12);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 800;
-    font-family: 'Tajawal', sans-serif;
-    pointer-events: none;
-    transition: opacity .25s ease;
-}
-.card-tap-hint i { color: #FADB5F; font-size: 11px; }
-.theme-rest .card-tap-hint i { color: #ef4444; }
-
-.card-info-bar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    padding: 16px 20px;
-    background: linear-gradient(180deg, rgba(212,160,23,.06), transparent 70%);
-    border-bottom: 1px solid rgba(255,255,255,.05);
-    cursor: pointer;
-}
-.card-info-bar::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 20px;
-    width: 50px; height: 3px;
-    background: linear-gradient(90deg, #FADB5F, transparent);
-    border-radius: 0 0 4px 4px;
-}
-.theme-rest .card-info-bar::before { background: linear-gradient(90deg, #ef4444, transparent); }
-.theme-rest .card-info-bar { background: linear-gradient(180deg, rgba(220,38,38,.06), transparent 70%); }
-
-.card-title-main { min-width: 0; flex: 1; }
-.card-title-main h2 {
-    margin: 0 0 8px;
-    font-family: 'Amiri', serif;
-    font-size: 26px;
-    line-height: 1.15;
-    font-weight: 900;
-    color: #fff;
-    letter-spacing: -0.5px;
-}
-.card-count {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 12px;
-    border-radius: 999px;
-    background: rgba(212,160,23,.1);
-    border: 1px solid rgba(212,160,23,.25);
-    color: #FADB5F;
-    font-size: 11px;
-    font-weight: 800;
-    font-family: 'Tajawal', sans-serif;
-}
-.card-count i { font-size: 10px; }
-.theme-rest .card-count {
-    background: rgba(220,38,38,.1);
-    border-color: rgba(220,38,38,.25);
-    color: #f87171;
-}
-
-.card-open-btn {
-    flex: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
-    color: #0d0805;
-    font-weight: 900;
-    font-size: 12.5px;
-    font-family: 'Cairo', sans-serif;
-    border: 1px solid #FDE68A;
-    box-shadow: 0 6px 16px rgba(212,160,23,.35), inset 0 1px 0 rgba(255,255,255,.4);
-    cursor: pointer;
-    transition: transform .25s ease, box-shadow .25s ease;
-    white-space: nowrap;
-}
-.card-open-btn i { transition: transform .4s ease; font-size: 12px; }
-.led-border-wrapper.open .card-open-btn i { transform: rotate(180deg); }
-.card-open-btn:active { transform: scale(0.96); }
-.theme-rest .card-open-btn {
-    background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
-    color: #fff;
-    border-color: #dc2626;
-    box-shadow: 0 6px 16px rgba(220,38,38,.4);
-}
-
-.category-items-wrapper {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows .5s cubic-bezier(.2,.8,.2,1);
-    background: linear-gradient(180deg, rgba(13,8,5,.98), rgba(8,5,4,.99));
-}
-.led-border-wrapper.open .category-items-wrapper { grid-template-rows: 1fr; }
-.category-items-inner { overflow: hidden; }
-
-.card-note {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin: 14px 16px 6px;
-    padding: 12px 14px;
-    background: linear-gradient(135deg, rgba(212,160,23,.1), rgba(212,160,23,.02));
-    border-right: 3px solid #D4A017;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 800;
-    color: #f5d98b;
-    font-family: 'Tajawal', sans-serif;
-    line-height: 1.6;
-}
-.card-note i {
-    color: #FADB5F;
-    font-size: 16px;
-    margin-top: 2px;
-    flex: none;
-}
-.theme-rest .card-note {
-    background: linear-gradient(135deg, rgba(220,38,38,.1), rgba(220,38,38,.02));
-    border-right-color: #ef4444;
-    color: #fca5a5;
-}
-.theme-rest .card-note i { color: #ef4444; }
-
-.menu-item {
-    position: relative;
-    border-bottom: 1px solid rgba(255,255,255,.04);
-    padding: 15px 10px !important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    transition: background .25s ease, transform .25s ease;
-}
-.menu-item:last-child { border-bottom: none; }
-.menu-item::before {
-    content: "";
-    position: absolute; right: 0;
-    top: 20%; width: 3px; height: 60%;
-    border-radius: 10px;
-    background: #D4A017;
-    opacity: 0; transform: scaleY(.4);
-    transition: .25s ease;
-}
-.theme-rest .menu-item::before { background: #ef4444; }
-.menu-item:hover { background: rgba(255,255,255,.025); transform: translateX(-3px); }
-.menu-item:hover::before { opacity: 1; transform: scaleY(1); }
-
-.menu-item-name {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 1.075rem;
-    color: #fff;
-    font-family: 'Cairo', sans-serif;
-    line-height: 1.4;
-}
-.menu-item-name::before {
-    content: "✦";
-    color: #D4A017;
-    font-size: 10px;
-    flex: none;
-}
-.theme-rest .menu-item-name::before { color: #ef4444; }
-
-.premium-price {
-    position: relative;
-    min-width: 72px;
-    text-align: center;
-    padding: 7px 14px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, rgba(212,160,23,.14), rgba(212,160,23,.03));
-    border: 1px solid rgba(212,160,23,.28);
-    color: #FADB5F;
-    font-weight: 900;
-    font-family: 'Tajawal', sans-serif;
-    flex: none;
-    font-size: 0.95rem;
-}
-.theme-rest .premium-price {
-    color: #ef4444;
-    background: linear-gradient(135deg, rgba(220,38,38,.14), rgba(220,38,38,.03));
-    border-color: rgba(220,38,38,.28);
-}
-
-.multi-price-container {
-    display: flex; gap: 8px; flex-wrap: wrap;
-    justify-content: flex-end;
-}
-.multi-price-tag {
-    padding: 6px 12px;
-    border-radius: 8px;
-    background: #110b08;
-    border: 1px solid rgba(255,255,255,0.08);
-    font-size: 0.85rem;
-    color: #d1d5db;
-    font-weight: 700;
-    font-family: 'Tajawal', sans-serif;
-}
-.multi-price-tag span { color: #FADB5F; margin-right: 4px; }
-.theme-rest .multi-price-tag span { color: #ef4444; }
-
-.premium-close-btn {
-    width: calc(100% - 32px);
-    margin: 14px 16px;
-    padding: 12px 18px;
-    border-radius: 12px;
-    background: rgba(255,255,255,.035);
-    border: 1px solid rgba(255,255,255,.08);
-    color: #aaa;
-    font-weight: 800;
-    transition: .25s ease;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-}
-.premium-close-btn:hover {
-    color: #fff;
-    background: rgba(255,255,255,.07);
-    border-color: rgba(250,219,95,.3);
-}
-
-/* =========================================
-   المودال + العروض
-   ========================================= */
-.modal-overlay {
-    position: fixed; inset: 0; z-index: 999999;
-    background: rgba(0,0,0,0.88);
-    display: none; justify-content: center; align-items: center; padding: 15px;
-}
-.modal-overlay.active { display: flex; }
-.modal-box {
-    background: linear-gradient(165deg, #1a0f0a 0%, #0d0805 100%);
-    border: 2px solid #FADB5F;
-    border-radius: 22px;
-    width: 100%; max-width: 720px; max-height: 90vh;
-    overflow-y: auto; position: relative;
-    box-shadow: 0 0 60px rgba(220, 38, 38, 0.35), 0 0 0 1px rgba(250,219,95,.2);
-}
-.offers-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    padding: 20px;
-}
-@media(max-width: 640px) {
-    .offers-grid { grid-template-columns: 1fr; gap: 14px; padding: 16px; }
-}
-.offer-card {
-    position: relative;
-    background: linear-gradient(165deg, #1a0f0a, #0d0805);
-    border: 1.5px solid rgba(250,219,95,.3);
-    border-radius: 18px;
-    overflow: hidden;
-    transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
-    box-shadow: 0 15px 40px rgba(0,0,0,.5);
-}
-.offer-card:hover {
-    transform: translateY(-4px);
-    border-color: #FADB5F;
-    box-shadow: 0 22px 50px rgba(0,0,0,.6), 0 0 30px rgba(250,219,95,.3);
-}
-.offer-card-badge {
-    position: absolute;
-    top: 0; right: 0;
-    background: linear-gradient(135deg, #dc2626, #991b1b);
-    color: #fff;
-    font-size: 10px;
-    font-weight: 900;
-    padding: 5px 12px;
-    border-radius: 0 0 0 14px;
-    z-index: 3;
-    font-family: 'Cairo', sans-serif;
-    letter-spacing: 0.3px;
-}
-.offer-img-wrap {
-    position: relative;
-    padding: 16px 16px 0;
-    background: radial-gradient(circle at 50% 30%, rgba(250,219,95,.1), transparent 70%);
-}
-.offer-img {
-    width: 100%; height: 165px;
-    object-fit: contain;
-    border-radius: 14px;
-    background: rgba(0,0,0,.45);
-    display: block;
-}
-.offer-card-body { padding: 14px 16px 16px; text-align: center; }
-.offer-title {
-    margin: 0 0 8px;
-    font-family: 'Amiri', serif;
-    font-size: 24px;
-    font-weight: 900;
-    background: linear-gradient(135deg, #FADB5F, #D4A017, #FADB5F);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: -0.3px;
-}
-.offer-desc {
-    font-size: 12px;
-    color: #d1d5db;
-    line-height: 1.7;
-    margin: 0 0 10px;
-    font-weight: 700;
-    font-family: 'Tajawal', sans-serif;
-}
-.offer-desc strong {
-    color: #ef4444;
-    display: block;
-    margin-top: 6px;
-    font-size: 13px;
-    font-weight: 900;
-}
-.offer-price {
-    display: inline-block;
-    padding: 8px 22px;
-    margin: 6px 0 12px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #dc2626, #991b1b);
-    color: #fff;
-    font-weight: 900;
-    font-size: 17px;
-    font-family: 'Cairo', sans-serif;
-    border: 1px solid #ef4444;
-    box-shadow: 0 6px 18px rgba(220,38,38,.45);
-    letter-spacing: -0.3px;
-}
-.offer-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: #fff;
-    font-weight: 900;
-    font-size: 14px;
-    font-family: 'Cairo', sans-serif;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 6px 16px rgba(37,211,102,.4), inset 0 1px 0 rgba(255,255,255,.25);
-    transition: all .25s ease;
-}
-.offer-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(37,211,102,.5);
-}
-.offer-btn:active { transform: scale(0.97); }
-.offer-btn i { font-size: 18px; }
-
-/* زر الصفحة الرئيسية */
-.home-fab {
-    position: fixed;
-    top: 14px;
-    left: 14px;
-    z-index: 60;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 14px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(13,8,5,.92), rgba(26,18,8,.92));
-    border: 1.5px solid rgba(250,219,95,.5);
-    color: #FADB5F;
-    font-weight: 900;
-    font-size: 12.5px;
-    font-family: 'Cairo', sans-serif;
-    box-shadow: 0 6px 18px rgba(0,0,0,.5);
-    cursor: pointer;
-    transition: all .3s cubic-bezier(.2,.8,.2,1);
-    white-space: nowrap;
-}
-.home-fab:hover {
-    transform: translateY(-2px);
-    border-color: #FADB5F;
-    color: #fff;
-}
-.home-fab:active { transform: scale(0.95); }
-.home-fab i { font-size: 14px; }
-body[data-mode="restaurant"] .home-fab {
-    border-color: rgba(220,38,38,.5);
-    color: #ef4444;
-}
-body[data-mode="restaurant"] .home-fab:hover {
-    border-color: #ef4444;
-    color: #fff;
-}
-@media(max-width: 480px) {
-    .home-fab span { display: none; }
-    .home-fab { padding: 10px 12px; }
-}
-
-#scrollToTopBtn { transition: opacity 0.3s, transform 0.3s, visibility 0.3s; }
-#scrollToTopBtn.visible { opacity: 1; transform: translateY(0); visibility: visible; }
-#scrollToTopBtn.hidden-btn { opacity: 0; transform: translateY(15px); visibility: hidden; }
-
-/* =========================================
-   🔗 أيقونات التواصل
-   ========================================= */
-.footer-socials {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    margin: 22px auto 8px;
-    flex-wrap: wrap;
-    direction: ltr;
-}
-.footer-social-btn {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 19px;
-    color: #fff;
-    text-decoration: none;
-    box-shadow: 0 6px 16px rgba(0,0,0,.5);
-    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s;
-    cursor: pointer;
-    border: 1px solid rgba(255,255,255,.12);
-    position: relative;
-    overflow: hidden;
-}
-.footer-social-btn::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.28), transparent 60%);
-    pointer-events: none;
-}
-.footer-social-btn:hover {
-    transform: translateY(-4px) scale(1.08);
-}
-.footer-social-btn:active { transform: scale(.94); }
-
-.fs-wa { background: linear-gradient(135deg, #25D366, #128C7E); }
-.fs-fb { background: linear-gradient(135deg, #1877F2, #0e5fc0); }
-.fs-tt { background: linear-gradient(135deg, #2a2a2a, #000); border-color: rgba(250,219,95,.35); }
-.fs-ph {
-    background: linear-gradient(135deg, #1a0f0a, #110b08);
-    border: 2px solid #D4A017;
-    color: #FADB5F;
-    box-shadow: 0 0 15px rgba(250,219,95,.4), 0 6px 16px rgba(0,0,0,.45);
-}
-body[data-mode="restaurant"] .fs-ph {
-    border-color: #dc2626;
-    color: #ef4444;
-    box-shadow: 0 0 15px rgba(220,38,38,.4), 0 6px 16px rgba(0,0,0,.45);
-}
-
-/* =========================================
-   🏛️ LOCATION PLAQUE
-   ========================================= */
-.location-plaque {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    padding: 14px 24px;
-    margin: 22px auto 12px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, rgba(26,18,8,.95), rgba(13,8,5,.98), rgba(26,18,8,.95));
-    border: 1.5px solid rgba(250,219,95,.35);
-    box-shadow: 0 12px 30px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,248,220,.12);
-    isolation: isolate;
-    overflow: hidden;
-}
-.location-plaque::after {
-    content: "";
-    position: absolute;
-    top: 0; left: -60%;
-    width: 45%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,248,220,.28), transparent);
-    transform: skewX(-22deg);
-    animation: plaqueShine 4s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 2;
-}
-@keyframes plaqueShine {
-    0% { left: -60%; }
-    55%, 100% { left: 130%; }
-}
-.location-pin-icon {
-    position: relative;
-    width: 54px;
-    height: 54px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: none;
-    z-index: 3;
-}
-.location-pin-icon::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 1.5px dashed rgba(250,219,95,.5);
-    animation: spinDashed 14s linear infinite;
-}
-@keyframes spinDashed { to { transform: rotate(360deg); } }
-.location-pin-core {
-    position: relative;
-    width: 38px; height: 38px;
-    background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #0d0805;
-    font-size: 17px;
-    box-shadow: 0 8px 20px rgba(212,160,23,.5);
-    z-index: 2;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-.pin-ripple {
-    position: absolute;
-    inset: 50%;
-    width: 20px; height: 20px;
-    margin: -10px 0 0 -10px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(250,219,95,.55);
-    pointer-events: none;
-    animation: rippleOut 2.6s ease-out infinite;
-}
-.pin-ripple.delay { animation-delay: 1.3s; }
-@keyframes rippleOut {
-    0% { transform: scale(0.5); opacity: 1; }
-    100% { transform: scale(3.2); opacity: 0; }
-}
-.location-text-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-    z-index: 3;
-    position: relative;
-}
-.location-label {
-    font-family: 'Cairo', sans-serif;
-    font-size: 10.5px;
-    font-weight: 800;
-    color: #b8860b;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
-}
-.location-address {
-    font-family: 'Cairo', sans-serif;
-    font-size: 19px;
-    font-weight: 900;
-    background: linear-gradient(90deg, #D4A017 0%, #FADB5F 25%, #FFF8DC 50%, #FADB5F 75%, #D4A017 100%);
-    background-size: 250% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: goldShine 4s linear infinite;
-    letter-spacing: -0.3px;
-    line-height: 1.15;
-}
-
-/* =========================================
-   SCROLL REVEAL (مُبسّط للأداء)
-   ========================================= */
-.reveal-card {
-    opacity: 0;
-    transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1);
-    will-change: transform, opacity;
-}
-.reveal-from-right { transform: translateX(60px); }
-.reveal-from-right.revealed { opacity: 1; transform: translateX(0); }
-.reveal-from-left { transform: translateX(-60px); }
-.reveal-from-left.revealed { opacity: 1; transform: translateX(0); }
-.reveal-from-bottom { transform: translateY(60px); }
-.reveal-from-bottom.revealed { opacity: 1; transform: translateY(0); }
-.reveal-zoom-spin { transform: scale(0.6); }
-.reveal-zoom-spin.revealed { opacity: 1; transform: scale(1); }
-.reveal-diagonal { transform: translate(50px, 40px); }
-.reveal-diagonal.revealed { opacity: 1; transform: translate(0, 0); }
-.reveal-fold-down { transform: translateY(-30px); }
-.reveal-fold-down.revealed { opacity: 1; transform: translateY(0); }
-.reveal-bounce-in { transform: translateY(70px) scale(0.85); }
-.reveal-bounce-in.revealed { opacity: 1; transform: translateY(0) scale(1); transition: opacity .5s ease, transform .7s cubic-bezier(.34, 1.56, .64, 1); }
-.reveal-spin-in { transform: translateX(40px) scale(0.7); }
-.reveal-spin-in.revealed { opacity: 1; transform: translateX(0) scale(1); }
-
-/* =========================================
-   ✨ STAGGER MENU ITEMS
-   ========================================= */
-@keyframes itemSlideIn {
-    0% { opacity: 0; transform: translateX(20px); }
-    100% { opacity: 1; transform: translateX(0); }
-}
-.led-border-wrapper.open .menu-item {
-    animation: itemSlideIn .4s cubic-bezier(.2,.8,.2,1) backwards;
-}
-.led-border-wrapper.open .menu-item:nth-child(1) { animation-delay: 0.03s; }
-.led-border-wrapper.open .menu-item:nth-child(2) { animation-delay: 0.06s; }
-.led-border-wrapper.open .menu-item:nth-child(3) { animation-delay: 0.09s; }
-.led-border-wrapper.open .menu-item:nth-child(4) { animation-delay: 0.12s; }
-.led-border-wrapper.open .menu-item:nth-child(5) { animation-delay: 0.15s; }
-.led-border-wrapper.open .menu-item:nth-child(6) { animation-delay: 0.18s; }
-.led-border-wrapper.open .menu-item:nth-child(7) { animation-delay: 0.21s; }
-.led-border-wrapper.open .menu-item:nth-child(8) { animation-delay: 0.24s; }
-.led-border-wrapper.open .menu-item:nth-child(9) { animation-delay: 0.27s; }
-.led-border-wrapper.open .menu-item:nth-child(10) { animation-delay: 0.3s; }
-
-/* =========================================
-   أزرار الواجهة
-   ========================================= */
-.btn-gold {
-    background: linear-gradient(135deg, #FADB5F 0%, #D4A017 100%);
-    color: #0d0805;
-    box-shadow: 0 4px 14px rgba(212, 160, 23, 0.35), inset 0 1px 0 rgba(255,255,255,.4);
-    border: 1px solid #FDE68A;
-}
-.btn-brown-red {
-    background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%);
-    color: #fff;
-    box-shadow: 0 4px 14px rgba(153, 27, 27, 0.35);
-    border: 1px solid #ef4444;
-}
-
-/* =========================================
-   👑 ROYAL BADGE (احترافي)
-   ========================================= */
-.royal-badge {
-    position: relative;
-    display: inline-flex;
-    padding: 1.5px;
-    border-radius: 999px;
-    overflow: hidden;
-    isolation: isolate;
-    margin-bottom: 26px;
-    filter: drop-shadow(0 12px 28px rgba(0,0,0,.6));
-}
-.royal-badge::before {
-    content: "";
-    position: absolute;
-    width: 220%; height: 220%;
-    left: -60%; top: -60%;
-    background: conic-gradient(from 0deg,
-        #8B6508 0deg, #D4A017 40deg, #FFF8DC 80deg, #FADB5F 120deg,
-        #D4A017 160deg, #8B6508 200deg, #D4A017 240deg, #FFF8DC 280deg,
-        #FADB5F 320deg, #D4A017 360deg);
-    animation: royalSpin 6s linear infinite;
-    z-index: -1;
-}
-@keyframes royalSpin { to { transform: rotate(360deg); } }
-.royal-badge-inner {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px 26px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #1a1208 0%, #0d0805 50%, #1a1208 100%);
-    overflow: hidden;
-    z-index: 1;
-}
-.royal-crown {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px; height: 24px;
-    flex: none;
-    color: #FADB5F;
-    font-size: 15px;
-    animation: crownGlow 2.5s ease-in-out infinite;
-}
-@keyframes crownGlow {
-    0%, 100% { transform: scale(1); color: #FADB5F; }
-    50% { transform: scale(1.1); color: #FFF8DC; }
-}
-.royal-text {
-    font-family: 'Tajawal', sans-serif;
-    font-weight: 800;
-    font-size: 13.5px;
-    letter-spacing: 0.4px;
-    background: linear-gradient(90deg, #D4A017 0%, #FADB5F 25%, #FFF8DC 50%, #FADB5F 75%, #D4A017 100%);
-    background-size: 250% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: goldShine 3s linear infinite;
-    white-space: nowrap;
-}
-
-@media(max-width:640px) {
-    .led-border-wrapper { margin-bottom: 18px; border-radius: 18px; }
-    .card-inner-box { border-radius: 17px; }
-    .card-header-img { height: 175px; }
-    .led-border-wrapper.open .card-header-img { height: 150px; }
-    .card-title-main h2 { font-size: 22px; }
-    .card-icon-badge { width: 40px; height: 40px; top: 12px; right: 12px; }
-    .card-icon-badge i { font-size: 16px; }
-    .card-info-bar { padding: 14px 16px; gap: 10px; }
-    .card-open-btn { padding: 9px 13px; font-size: 12px; }
-    .card-open-btn span { display: none; }
-    .card-open-btn i { font-size: 14px; }
-    .menu-item { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .multi-price-container { width: 100%; justify-content: flex-start; }
-    .splash-card { padding: 24px 12px 18px; }
-    .splash-card-icon { width: 62px; height: 62px; font-size: 24px; }
-    .splash-card-title { font-size: 19px; }
-    .splash-card-cta { font-size: 12px; padding: 8px 16px; }
-    .footer-social-btn { width: 42px; height: 42px; font-size: 17px; border-radius: 12px; }
-
-    .geo-flower { width: 320px; height: 320px; margin: -160px 0 0 -160px; opacity: 0.28; }
-    .geo-corner { width: 60px; height: 60px; }
-
-    .location-plaque { padding: 12px 18px; gap: 12px; border-radius: 16px; }
-    .location-pin-icon { width: 44px; height: 44px; }
-    .location-pin-core { width: 32px; height: 32px; font-size: 14px; }
-    .location-address { font-size: 15.5px; }
-    .location-label { font-size: 9px; }
-
-    .royal-badge-inner { padding: 9px 18px; gap: 7px; }
-    .royal-text { font-size: 11.5px; }
-    .royal-crown { width: 18px; height: 18px; font-size: 13px; }
-
-    .loader-ring { width: 90px; height: 90px; }
-    .loader-icon { font-size: 34px; }
-    .loader-title { font-size: 22px; }
-    .loader-progress { width: 180px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
@@ -1383,91 +317,21 @@ body[data-mode="restaurant"] .fs-ph {
 
 <div id="bg-image-layer"></div>
 <div id="bg-overlay-layer"></div>
-<div id="particles-bg"></div>
 
-<!-- ⏳ شاشة التحميل -->
 <div id="menu-loader">
     <div class="loader-content">
-        <div class="loader-ring">
-            <i class="fas fa-coffee loader-icon" id="loader-icon"></i>
-        </div>
+        <div class="loader-ring"><i class="fas fa-coffee loader-icon" id="loader-icon"></i></div>
         <h3 class="loader-title" id="loader-title">جاري التحضير...</h3>
         <p class="loader-sub" id="loader-sub">نجهز لك المنيو بأفضل شكل</p>
-        <div class="loader-progress">
-            <div class="loader-bar" id="loader-bar"></div>
-        </div>
+        <div class="loader-progress"><div class="loader-bar" id="loader-bar"></div></div>
         <div class="loader-percent" id="loader-percent">0%</div>
     </div>
 </div>
 
-<!-- ✨ SPLASH SCREEN - تصميم خرافي -->
 <div id="splash-screen" class="fixed inset-0 z-[100] flex items-center justify-center p-5 overflow-y-auto">
     <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-[#0d0805]/70 to-[#080504]/90"></div>
 
-    <!-- 🌸 وردة/نجمة هندسية دوارة -->
-    <div class="geo-flower">
-        <svg viewBox="0 0 200 200" fill="none">
-            <defs>
-                <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#FADB5F"/>
-                    <stop offset="100%" stop-color="#8B6508"/>
-                </linearGradient>
-            </defs>
-            <circle cx="100" cy="100" r="95" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.6"/>
-            <circle cx="100" cy="100" r="75" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
-            <circle cx="100" cy="100" r="55" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.3"/>
-            <polygon points="100,10 173,55 173,145 100,190 27,145 27,55" stroke="url(#goldGrad)" stroke-width="0.8" fill="none" opacity="0.7"/>
-            <polygon points="100,30 155,65 155,135 100,170 45,135 45,65" stroke="url(#goldGrad)" stroke-width="0.6" fill="none" opacity="0.5"/>
-            <g stroke="url(#goldGrad)" stroke-width="0.7" opacity="0.6">
-                <line x1="100" y1="5" x2="100" y2="195"/>
-                <line x1="5" y1="100" x2="195" y2="100"/>
-                <line x1="30" y1="30" x2="170" y2="170"/>
-                <line x1="170" y1="30" x2="30" y2="170"/>
-                <line x1="65" y1="10" x2="135" y2="190"/>
-                <line x1="135" y1="10" x2="65" y2="190"/>
-                <line x1="10" y1="65" x2="190" y2="135"/>
-                <line x1="10" y1="135" x2="190" y2="65"/>
-            </g>
-        </svg>
-        <div class="geo-flower-inner">
-            <svg viewBox="0 0 200 200" fill="none">
-                <g stroke="url(#goldGrad)" stroke-width="1" opacity="0.8">
-                    <polygon points="100,20 165,100 100,180 35,100" fill="none"/>
-                    <polygon points="100,40 145,100 100,160 55,100" fill="none"/>
-                    <circle cx="100" cy="100" r="8" fill="url(#goldGrad)"/>
-                </g>
-            </svg>
-        </div>
-    </div>
-
-    <!-- مثلثات زاوية -->
-    <div class="geo-corner tl">
-        <svg viewBox="0 0 100 100" fill="none">
-            <polygon points="0,0 100,0 0,100" stroke="url(#goldGrad)" stroke-width="1.5" fill="none"/>
-            <polygon points="0,0 60,0 0,60" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.6"/>
-        </svg>
-    </div>
-    <div class="geo-corner tr">
-        <svg viewBox="0 0 100 100" fill="none">
-            <polygon points="0,0 100,0 0,100" stroke="url(#goldGrad)" stroke-width="1.5" fill="none"/>
-            <polygon points="0,0 60,0 0,60" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.6"/>
-        </svg>
-    </div>
-    <div class="geo-corner bl">
-        <svg viewBox="0 0 100 100" fill="none">
-            <polygon points="0,0 100,0 0,100" stroke="url(#goldGrad)" stroke-width="1.5" fill="none"/>
-            <polygon points="0,0 60,0 0,60" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.6"/>
-        </svg>
-    </div>
-    <div class="geo-corner br">
-        <svg viewBox="0 0 100 100" fill="none">
-            <polygon points="0,0 100,0 0,100" stroke="url(#goldGrad)" stroke-width="1.5" fill="none"/>
-            <polygon points="0,0 60,0 0,60" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.6"/>
-        </svg>
-    </div>
-
     <div class="relative z-10 w-full max-w-2xl text-center my-auto py-8">
-
         <div class="royal-badge">
             <div class="royal-badge-inner">
                 <span class="royal-crown"><i class="fas fa-crown"></i></span>
@@ -1475,11 +339,10 @@ body[data-mode="restaurant"] .fs-ph {
             </div>
         </div>
 
-        <h1 class="font-amiri text-5xl sm:text-7xl font-black text-gold-gradient leading-tight mb-4 magical-title relative z-10">
+        <h1 class="font-amiri text-5xl sm:text-7xl font-black text-gold-gradient leading-tight mb-4 relative z-10">
             مطعم وكافيه<br><span class="text-white text-4xl sm:text-6xl mt-2 block">الكورنيش</span>
         </h1>
 
-        <!-- خط فاصل ماسي -->
         <div class="diamond-divider">
             <span class="line"></span>
             <span class="diamond small"></span>
@@ -1504,24 +367,32 @@ body[data-mode="restaurant"] .fs-ph {
             </button>
         </div>
 
-        <div class="mt-6 max-w-md mx-auto">
-            <button onclick="openOffersModal()" class="offers-hex w-full interactive-btn" type="button">
-                <div class="offers-hex-inner">
-                    <i class="fas fa-fire text-2xl"></i>
+        <!-- OFFERS: 2 SEPARATE BUTTONS -->
+        <div class="offers-row">
+            <button onclick="openOctoberModal()" class="offer-trigger interactive-btn" type="button">
+                <div class="offer-trigger-inner">
+                    <i class="fas fa-fire"></i>
                     <div class="text-center">
-                        <span class="block text-lg font-bold font-cairo">عروووووض الافتتاح 🔥</span>
-                        <span class="block text-[11px] text-yellow-100 font-tajawal font-bold mt-0.5">اضغط هنا واكتشف المفاجأة</span>
+                        <span class="offer-trigger-title">🎉 عروض أكتوبر 🇪🇬</span>
+                        <span class="offer-trigger-sub">عروض حصرية بمناسبة الاحتفالات</span>
                     </div>
-                    <i class="fas fa-tags text-xl"></i>
+                </div>
+            </button>
+
+            <button onclick="openMainOffersModal()" class="offer-trigger gold-only interactive-btn" type="button">
+                <div class="offer-trigger-inner">
+                    <i class="fas fa-tags"></i>
+                    <div class="text-center">
+                        <span class="offer-trigger-title">عروض مطعم الكورنيش</span>
+                        <span class="offer-trigger-sub">( الافتتاح )</span>
+                    </div>
                 </div>
             </button>
         </div>
     </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="main-app-content" class="hidden relative">
-
     <button id="home-fab" onclick="goHome()" class="home-fab" type="button">
         <i class="fas fa-home"></i>
         <span>الصفحة الرئيسية</span>
@@ -1536,7 +407,7 @@ body[data-mode="restaurant"] .fs-ph {
                 <span class="text-gray-500">|</span>
                 <span class="font-bold">كورنيش النيل <i class="fas fa-map-marker-alt text-red-500"></i></span>
             </div>
-            <h1 id="header-title" class="font-amiri text-5xl sm:text-6xl font-black leading-tight drop-shadow-lg magical-title">
+            <h1 id="header-title" class="font-amiri text-5xl sm:text-6xl font-black leading-tight drop-shadow-lg">
                 <span class="text-white">كافيه</span><br><span class="text-gold-gradient">الكورنيش</span>
             </h1>
         </div>
@@ -1564,7 +435,7 @@ body[data-mode="restaurant"] .fs-ph {
             <div id="category-chips" class="flex items-center gap-2.5 overflow-x-auto hide-scrollbar py-1"></div>
         </div>
 
-        <div id="menu-container" class="relative z-20 opacity-100 translate-y-0"></div>
+        <div id="menu-container" class="relative z-20"></div>
 
         <div id="no-results" class="hidden text-center py-16 px-4 bg-[#110b08]/90 border border-yellow-900/30 rounded-2xl max-w-sm mx-auto my-6 relative z-30">
             <i class="fas fa-search text-yellow-600 text-5xl mb-4 opacity-50"></i>
@@ -1602,78 +473,165 @@ body[data-mode="restaurant"] .fs-ph {
         <p class="text-gray-500 font-bold font-cairo text-sm mt-4">© 2026 جميع الحقوق محفوظة.</p>
 
         <div class="footer-socials">
-            <a id="fab-wa" href="#" target="_blank" class="footer-social-btn fs-wa" onclick="playSound('click')" aria-label="WhatsApp">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-            <a id="fab-phone" href="#" class="footer-social-btn fs-ph" onclick="playSound('click')" aria-label="Phone">
-                <i class="fas fa-phone-alt"></i>
-            </a>
-            <a href="https://www.facebook.com/share/18DReHw4Fw/" target="_blank" rel="noopener" class="footer-social-btn fs-fb" onclick="playSound('click')" aria-label="Facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.tiktok.com/@elcornichevip?_r=1&_t=ZS-99kD4w6VUOa" target="_blank" rel="noopener" class="footer-social-btn fs-tt" onclick="playSound('click')" aria-label="TikTok">
-                <i class="fab fa-tiktok"></i>
-            </a>
+            <a id="fab-wa" href="#" target="_blank" class="footer-social-btn fs-wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a id="fab-phone" href="#" class="footer-social-btn fs-ph" aria-label="Phone"><i class="fas fa-phone-alt"></i></a>
+            <a href="https://www.facebook.com/share/18DReHw4Fw/" target="_blank" rel="noopener" class="footer-social-btn fs-fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.tiktok.com/@elcornichevip?_r=1&_t=ZS-99kD4w6VUOa" target="_blank" rel="noopener" class="footer-social-btn fs-tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
         </div>
     </footer>
 </div>
 
-<!-- OFFERS MODAL -->
-<div id="offers-modal" class="modal-overlay" onclick="closeOffersModal(event)">
+<!-- MODAL 1: OCTOBER OFFERS -->
+<div id="october-modal" class="modal-overlay" onclick="closeOctoberModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
-        <div class="p-5 border-b border-red-900/40 flex items-center justify-between bg-gradient-to-l from-red-950/50 via-red-900/30 to-transparent rounded-t-[22px] sticky top-0 z-10">
+        <div class="offers-header">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-900 border border-red-500 flex items-center justify-center">
                     <i class="fas fa-fire text-yellow-300"></i>
                 </div>
                 <div>
-                    <h2 class="font-amiri text-xl sm:text-2xl font-black text-yellow-400 leading-none">عروض الافتتاح</h2>
-                    <p class="text-[10px] text-red-300 font-bold font-tajawal mt-1">لفترة محدودة 🔥</p>
+                    <h2 class="font-amiri text-xl sm:text-2xl font-black text-yellow-400 leading-none">عروض احتفالات أكتوبر</h2>
+                    <p class="text-[10px] text-red-300 font-bold font-tajawal mt-1">🎉 بمناسبة نصر أكتوبر المجيد 🇪🇬</p>
                 </div>
             </div>
-            <button onclick="closeOffersModal()" class="w-9 h-9 rounded-lg bg-black/50 border border-yellow-500/30 text-yellow-200 hover:text-white hover:border-yellow-400 flex items-center justify-center cursor-pointer interactive-btn">
+            <button onclick="closeOctoberModal()" class="w-9 h-9 rounded-lg bg-black/50 border border-yellow-500/30 text-yellow-200 hover:text-white flex items-center justify-center cursor-pointer interactive-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="october-hero">
+            <div class="october-flags">🎉 🇪🇬 🎊</div>
+            <h3>كل عام ومصر بخير</h3>
+            <p>عروض حصرية بمناسبة احتفالات أكتوبر — لفترة محدودة</p>
+        </div>
+
+        <div class="offers-grid" style="grid-template-columns:1fr;max-width:660px;margin:0 auto;">
+            <!-- العرض الأول: احتفالات أكتوبر -->
+            <div class="offer-card">
+                <div class="oct-badge"><i class="fas fa-star"></i> عرض أكتوبر الأقوى</div>
+                <div class="offer-delivery-badge"><i class="fas fa-truck-fast"></i> توصيل مجاني</div>
+                <div class="oct-image-wrap">
+                    <img src="https://files.catbox.moe/cedq7f.png" alt="عرض احتفالات أكتوبر" class="offer-img" loading="eager" fetchpriority="high">
+                </div>
+                <div class="offer-card-body">
+                    <h3 class="offer-title">عرض احتفالات أكتوبر 🇪🇬</h3>
+                    <p class="offer-desc">أي طاجن تختاره من طواجن الكورنيش</p>
+                    <div class="offer-features">
+                        <span><i class="fas fa-drumstick-bite"></i> عجالي</span>
+                        <span><i class="fas fa-drumstick-bite"></i> ضاني</span>
+                        <span><i class="fas fa-drumstick-bite"></i> عكوة</span>
+                    </div>
+                    <div class="oct-free-badges">
+                        <div class="oct-free-badge"><i class="fas fa-gift"></i> الفخارة مجاناً</div>
+                        <div class="oct-free-badge"><i class="fas fa-truck-fast"></i> التوصيل مجاناً</div>
+                    </div>
+                    <div class="offer-price">170 جنيه فقط</div>
+                    <p class="offer-desc"><strong>اطلب طاجنك المفضل 🍲</strong></p>
+                    <button onclick="orderOfferWhatsApp('عرض احتفالات أكتوبر - طاجن', 170)" class="offer-btn">
+                        <i class="fab fa-whatsapp"></i> أطلب الآن
+                    </button>
+                </div>
+            </div>
+
+            <!-- العرض الثاني: وجبة تميم -->
+            <div class="offer-card">
+                <div class="offer-card-badge" style="background:linear-gradient(135deg,#ca8a04,#854d0e)">👑 عرض مميز</div>
+                <div class="offer-delivery-badge"><i class="fas fa-truck-fast"></i> توصيل مجاني</div>
+                <div class="offer-img-wrap">
+                    <img src="https://files.catbox.moe/fh1fed.png" alt="وجبة تميم" class="offer-img" loading="eager" fetchpriority="high">
+                </div>
+                <div class="offer-card-body">
+                    <h3 class="offer-title">وجبة تميم 👑</h3>
+                    <p class="offer-desc">وجبة كاملة ومشبعة على الفحم</p>
+                    <div class="offer-features">
+                        <span><i class="fas fa-drumstick-bite"></i> ربع فراخ على الفحم</span>
+                        <span><i class="fas fa-bowl-rice"></i> أرز</span>
+                        <span><i class="fas fa-leaf"></i> سلطات</span>
+                        <span><i class="fas fa-bread-slice"></i> عيش</span>
+                    </div>
+                    <div class="offer-price">99 جنيه فقط</div>
+                    <p class="offer-desc"><strong>التوصيل مجاناً 🚚</strong></p>
+                    <button onclick="orderOfferWhatsApp('وجبة تميم', 99)" class="offer-btn">
+                        <i class="fab fa-whatsapp"></i> أطلب الآن
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="offers-footer">
+            <i class="fas fa-clock"></i> العروض سارية بمناسبة احتفالات أكتوبر — اطلب الآن قبل انتهاء العرض 🇪🇬
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 2: MAIN OFFERS -->
+<div id="main-offers-modal" class="modal-overlay" onclick="closeMainOffersModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="offers-header">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-600 to-yellow-900 border border-yellow-500 flex items-center justify-center">
+                    <i class="fas fa-tags text-yellow-300"></i>
+                </div>
+                <div>
+                    <h2 class="font-amiri text-xl sm:text-2xl font-black text-yellow-400 leading-none">عروض مطعم الكورنيش</h2>
+                    <p class="text-[10px] text-yellow-200 font-bold font-tajawal mt-1">( الافتتاح )</p>
+                </div>
+            </div>
+            <button onclick="closeMainOffersModal()" class="w-9 h-9 rounded-lg bg-black/50 border border-yellow-500/30 text-yellow-200 hover:text-white flex items-center justify-center cursor-pointer interactive-btn">
                 <i class="fas fa-times"></i>
             </button>
         </div>
 
         <div class="offers-grid">
+            <!-- صينية البركة -->
             <div class="offer-card">
                 <div class="offer-card-badge">⭐ الأكثر طلباً</div>
                 <div class="offer-img-wrap">
-                    <img src="https://files.catbox.moe/ksbh31.png" alt="صينية البركه" class="offer-img" loading="eager" fetchpriority="high">
+                    <img src="https://files.catbox.moe/ksbh31.png" alt="صينية البركه" class="offer-img" loading="lazy">
                 </div>
                 <div class="offer-card-body">
                     <h3 class="offer-title">صينية البركه ✨</h3>
-                    <p class="offer-desc">
-                        نصف فرخة • ربع كفتة • ربع طرب<br>
-                        رغيف حواوشي مخصوص
-                        <strong>حلو الكورنيش علينا 🍮</strong>
-                    </p>
+                    <p class="offer-desc">وجبة متكاملة تكفي لمشاركة مميزة</p>
+                    <div class="offer-features">
+                        <span><i class="fas fa-drumstick-bite"></i> نصف فرخة</span>
+                        <span><i class="fas fa-utensils"></i> ربع كفتة</span>
+                        <span><i class="fas fa-fire"></i> ربع طرب</span>
+                        <span><i class="fas fa-bread-slice"></i> حواوشي مخصوص</span>
+                    </div>
                     <div class="offer-price">499 جنيه فقط</div>
+                    <p class="offer-desc"><strong>حلو الكورنيش علينا 🍮</strong></p>
                     <button onclick="orderOfferWhatsApp('صينية البركه', 499)" class="offer-btn">
                         <i class="fab fa-whatsapp"></i> أطلب الآن
                     </button>
                 </div>
             </div>
 
+            <!-- عرض الخميس -->
             <div class="offer-card">
                 <div class="offer-card-badge" style="background:linear-gradient(135deg,#ca8a04,#854d0e)">🌟 عرض مميز</div>
                 <div class="offer-img-wrap">
-                    <img src="https://files.catbox.moe/qzokka.png" alt="عرض الخميس" class="offer-img" loading="eager" fetchpriority="high">
+                    <img src="https://files.catbox.moe/qzokka.png" alt="عرض الخميس" class="offer-img" loading="lazy">
                 </div>
                 <div class="offer-card-body">
                     <h3 class="offer-title">عرض الخميس 🌟</h3>
-                    <p class="offer-desc">
-                        ربع كباب ضاني • ربع طرب<br>
-                        ٢ حواوشي ضاني • سلطات + مخلل
-                        <strong>حلو الكورنيش علينا 🍮</strong>
-                    </p>
+                    <p class="offer-desc">تشكيلة مشويات مميزة ليوم الخميس</p>
+                    <div class="offer-features">
+                        <span><i class="fas fa-fire"></i> ربع كباب ضاني</span>
+                        <span><i class="fas fa-utensils"></i> ربع طرب</span>
+                        <span><i class="fas fa-bread-slice"></i> ٢ حواوشي ضاني</span>
+                        <span><i class="fas fa-leaf"></i> سلطات + مخلل</span>
+                    </div>
                     <div class="offer-price">450 جنيه فقط</div>
+                    <p class="offer-desc"><strong>حلو الكورنيش علينا 🍮</strong></p>
                     <button onclick="orderOfferWhatsApp('عرض الخميس', 450)" class="offer-btn">
                         <i class="fab fa-whatsapp"></i> أطلب الآن
                     </button>
                 </div>
             </div>
+        </div>
+
+        <div class="offers-footer">
+            <i class="fas fa-clock"></i> العروض سارية لفترة محدودة — اطلب الآن قبل انتهاء العرض
         </div>
     </div>
 </div>
@@ -1688,59 +646,36 @@ const REST_PHONE_LINK = "201043843865";
 let currentMode = 'cafe';
 
 let audioCtx = null;
-function playSound(type = 'click') {
-    try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+function playSound(type='click'){
+    try{
+        if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+        if(audioCtx.state==='suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        if (type === 'click') {
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.03);
-            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.03);
-        } else if (type === 'open') {
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(500, audioCtx.currentTime + 0.05);
-            gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        if(type==='click'){
+            osc.type='sine';
+            osc.frequency.setValueAtTime(600,audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(300,audioCtx.currentTime+0.03);
+            gain.gain.setValueAtTime(0.15,audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.03);
+            osc.start(); osc.stop(audioCtx.currentTime+0.03);
+        }else if(type==='open'){
+            osc.type='sine';
+            osc.frequency.setValueAtTime(300,audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(500,audioCtx.currentTime+0.05);
+            gain.gain.setValueAtTime(0.18,audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.05);
+            osc.start(); osc.stop(audioCtx.currentTime+0.05);
         }
-    } catch(e) {}
-}
-
-function spawnGoldParticles() {
-    const container = document.getElementById('particles-bg');
-    if (!container) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const PARTICLE_COUNT = 10;
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const p = document.createElement('span');
-        p.className = 'gold-particle';
-        p.style.left = Math.random() * 100 + '%';
-        p.style.bottom = '-20px';
-        const dur = 10 + Math.random() * 12;
-        p.style.animationDuration = dur + 's';
-        p.style.animationDelay = (Math.random() * 10) + 's';
-        const size = 2 + Math.random() * 2;
-        p.style.width = size + 'px';
-        p.style.height = size + 'px';
-        frag.appendChild(p);
-    }
-    container.appendChild(frag);
+    }catch(e){}
 }
 
 /* ================== البيانات ================== */
 const cafeData = [
     { id:'hot-drinks', title:'المشروبات الساخنة', icon:'fa-mug-hot', img:'https://i.pinimg.com/736x/33/7e/c0/337ec0bb236800d4153acbf975ff6810.jpg', items:[ ['قهوة تركي',20], ['قهوة فرنساوي',25], ['قهوة بندق',25], ['نسكافيه بلاك',20], ['نسكافيه حليب',25], ['إسبريسو',25], ['أمريكانو',20], ['كابتشينو',30], ['لاتيه',35], ['باور',30], ['مشروب أوريو ساخن',30], ['هوت شوكليت',30], ['كاكاو سادة',30], ['كاكاو بالحليب',30], ['شاي مغلي',10], ['شاي باكيت',15], ['شاي بالحليب',20], ['ينسون',15], ['زنجبيل سادة',15], ['زنجبيل بالحليب',20], ['قرفة سادة',15], ['قرفة بالحليب',20], ['كركديه ساخن',15], ['هوت سيدر',25], ['ليمون ساخن',15] ] },
     { id:'sahlab', title:'السحلب', icon:'fa-mug-hot', img:'https://i.pinimg.com/736x/a4/7a/8d/a47a8d0248193210063e9da35480d16b.jpg', items:[ ['سحلب سادة',25], ['سحلب مكسرات',30], ['سحلب فواكه',40] ] },
-    { id:'fresh-juices', title:'عصائر فريش', icon:'fa-glass-water', img:'https://i.pinimg.com/736x/9a/6a/fb/9a6afb2d0b80febb7ce9d744e1f0c6f3.jpg', items:[ ['موز',30], ['بلح',30], ['كيوي',50], ['تفاح',35], ['مانجا',35], ['جوافة',30], ['جوافة ',35], ['بطيخ',30], ['فراولة',35], ['كانتالوب',30], ['عصير كوكتيل',40], ['ليمون نعناع مثلج',25], ['دوم',25], ['فرابتشينو موكا',35], ['براوة',25], ['موهيتو',30], ['كركديه مثلج',25] ] },
+    { id:'fresh-juices', title:'عصائر فريش', icon:'fa-glass-water', img:'https://i.pinimg.com/736x/9a/6a/fb/9a6afb2d0b80febb7ce9d744e1f0c6f3.jpg', items:[ ['موز',30], ['بلح',30], ['كيوي',50], ['تفاح',35], ['مانجا',35], ['جوافة',30], ['بطيخ',30], ['فراولة',35], ['كانتالوب',30], ['عصير كوكتيل',40], ['ليمون نعناع مثلج',25], ['دوم',25], ['فرابتشينو موكا',35], ['براوة',25], ['موهيتو',30], ['كركديه مثلج',25] ] },
     { id:'soda', title:'المشروبات الغازية', icon:'fa-bottle-water', img:'https://i.pinimg.com/736x/8e/c8/b6/8ec8b622d6d7135bc9c53e3065e5af08.jpg', items:[ ['كوكاكولا',20], ['فانتا',20], ['سفن أب',20], ['ستينج',20], ['بريل',25], ['فيروز',25], ['كانز صودا',20], ['مياه صغيرة',10], ['مياه كبيرة',15] ] },
     { id:'milkshake', title:'ميلك شيك', icon:'fa-blender', img:'https://i.pinimg.com/736x/28/b4/c1/28b4c1c8effe5d8d086b3288441e1a90.jpg', note:'إضافة أي نوع آيس كريم: زيادة 5 جنيه', items:[ ['ميلك شيك فانيليا',35], ['ميلك شيك مانجا',50], ['ميلك شيك فراولة',50], ['ميلك شيك لوتس',50], ['آيس أوريو',60] ] },
     { id:'cocktails', title:'كوكتيلات الكورنيش', icon:'fa-martini-glass-citrus', img:'https://i.pinimg.com/736x/7f/a9/63/7fa9637a00bf54f1b48edf67ca5e78f0.jpg', items:[ ['كوكتيل الكورنيش',60], ['قنبلة',60], ['سلطة فواكه',50], ['فخفخينا',35], ['كشري الكورنيش',60], ['بامبوظة',60], ['المتدلعة',40] ] },
@@ -1751,80 +686,72 @@ const cafeData = [
 
 const restaurantData = [
     { id:'grills', title:'المشويات', icon:'fa-fire-burner', img:'https://files.catbox.moe/bkjsfk.png', note:'الطلبات تقدم مع: طحينة + سلطة + خبز طازج', items:[ ['كباب ضاني','نصف: 450 | ربع: 225'], ['كباب عجالي','كيلو: 799 | نصف: 400 | ربع: 200'], ['كفتة الحاتي','كيلو: 600 | نصف: 300 | ربع: 160'], ['طرب بلدي','كيلو: 700 | نصف: 350 | ربع: 180'], ['مشكل كباب وكفته','كيلو: 700 | نصف: 350 | ربع: 180'], ['دجاج مشوي','فرخة: 320 | نصف: 160 | ربع: 85'], ['شيش طاووق','كيلو: 400 | نصف: 200 | ربع: 110'], ['سجق بلدي مشوي','كيلو: 450 | نصف: 230 | ربع: 120'] ] },
+    { id:'tagen', title:'الطواجن', icon:'fa-bowl-food', img:'https://files.catbox.moe/cedq7f.png', note:'يقدم بخضار اليوم وأرز أبيض وسلطات وعيش ومخلل', items:[ ['طاجن لحمة عجالي',170], ['طاجن لحمة ضاني',199], ['طاجن عكوة عجالي',160], ['طاجن عكوة ضاني (بالحجز المسبق)',200] ] },
+    { id:'mahshi', title:'المحاشي', icon:'fa-leaf', img:'https://files.catbox.moe/p0mlfx.png', note:'يقدم مع سلطات وعيش', items:[ ['طلب ممبار',90], ['طلب ممبار بالكبدة',115], ['طبق خضار محشي',30] ] },
     { id:'meals', title:'الوجبات', icon:'fa-drumstick-bite', img:'https://files.catbox.moe/vffc15.png', note:'تقدم مع: أرز بسمتي + سلطات + خبز', items:[ ['وجبة التوفير (ربع دجاجة + ثُمن كفتة)',160], ['وجبة الأكيلة (ثُمن كفتة + ثُمن سجق + 2 رغيف حواوشي)',199], ['وجبة الميكس (ربع كفتة + ربع دجاجة)',240], ['وجبة الكورنيش (نصف دجاجة + ربع كباب)',360], ['وجبة السوبر (ربع شيش + ربع سجق + طرب + بيبسي)',399] ] },
     { id:'trays', title:'الصواني', icon:'fa-bell-concierge', img:'https://files.catbox.moe/cwnmsi.png', items:[ ['صينية المزاجنجية',450], ['صينية الكبار',550], ['صينية المغفلقين',559], ['صينية المقاول',1199], ['صينية العريس',1599] ] },
     { id:'rizo', title:'الريزو', icon:'fa-bowl-rice', img:'https://files.catbox.moe/lcz9gs.png', items:[ ['أرز بسمتي بالكبدة',60], ['أرز بسمتي بالسجق',60], ['أرز بسمتي بكفتة جريل',70] ] },
     { id:'grill-pan', title:'الجريل', icon:'fa-fire', img:'https://files.catbox.moe/l1z9vv.png', note:'تقدم مع سلطات الحاتي + عيش', items:[ ['طلب كبدة إسكندراني',75], ['طلب سجق بلدي',80], ['طلب كفتة جريل',90], ['طبق ميكس جريل',100] ] },
-    { id:'sandwiches', title:'السندوتشات', icon:'fa-burger', img:'https://files.catbox.moe/1pxo9i.png', items:[ ['كبدة اسكندراني',25], ['سجق اسكندرانى',25], ['سوبر الكورنيش',35], ['حواوشي بلدى',30], ['حواوشي فراخ',40], ['حواوشي ضانى',45], ['بانيه',20], ['استربس',35], ['كفتة جريل',35], ['كفته بلدى ع الفحم',50], ['سجق ع الفحم',35] ] },
+    { id:'sandwiches', title:'السندوتشات', icon:'fa-burger', img:'https://files.catbox.moe/1pxo9i.png', items:[ ['كبدة اسكندراني',25], ['سجق اسكندرانى',25], ['سوبر الكورنيش',35], ['حواوشي بلدى',30], ['حواوشي فراخ',40], ['حواوشي ضانى',45], ['بانيه',20], ['استربس',35], ['كفتة جريل',35], ['كفته بلدى ع الفحم',50], ['سجق ع الفحم',35], ['سندوتش كبدة ضاني',60], ['سندوتش ممبار',30] ] },
     { id:'desserts-rest', title:'الحلو', icon:'fa-ice-cream', img:'https://files.catbox.moe/lsoigf.png', items:[ ['رز بلبن',25], ['رز بلبن بسبوسه',35], ['كشرى الكورنيش',60], ['قنبلة',60], ['سلطة فواكه',50], ['ام علي',35] ] },
     { id:'additions', title:'الاضافات', icon:'fa-plus-circle', img:'https://files.catbox.moe/fep5l4.png', items:[ ['مخلل',10], ['طحينة الحاتى',15], ['سلطة الحاتى',10], ['عيش',5] ] }
 ];
 
-/* ============================================
-   🚀 PRELOAD + TRACK PROGRESS
-   ============================================ */
+/* ================== PRELOAD ================== */
 const preloadStatus = new Map();
-
-function preloadImage(url) {
-    if (preloadStatus.has(url)) return;
-    preloadStatus.set(url, 'loading');
+function preloadImage(url){
+    if(preloadStatus.has(url)) return;
+    preloadStatus.set(url,'loading');
     const img = new Image();
     img.decoding = 'async';
-    img.onload = () => preloadStatus.set(url, 'loaded');
-    img.onerror = () => preloadStatus.set(url, 'error');
+    img.onload = () => preloadStatus.set(url,'loaded');
+    img.onerror = () => preloadStatus.set(url,'error');
     img.src = url;
 }
-
-(function preloadAllAtStart() {
+(function(){
     const allUrls = new Set();
     cafeData.forEach(c => c.img && allUrls.add(c.img));
     restaurantData.forEach(c => c.img && allUrls.add(c.img));
-    ['https://files.catbox.moe/ksbh31.png', 'https://files.catbox.moe/qzokka.png'].forEach(u => allUrls.add(u));
+    ['https://files.catbox.moe/ksbh31.png','https://files.catbox.moe/fh1fed.png','https://files.catbox.moe/qzokka.png','https://files.catbox.moe/cedq7f.png','https://files.catbox.moe/p0mlfx.png'].forEach(u => allUrls.add(u));
     allUrls.forEach(preloadImage);
 })();
 
-function waitForImages(urls, onProgress) {
-    return new Promise((resolve) => {
-        if (!urls.length) { resolve(); return; }
+function waitForImages(urls,onProgress){
+    return new Promise(resolve => {
+        if(!urls.length){resolve();return;}
         let done = 0;
         const total = urls.length;
         urls.forEach(url => {
-            if (preloadStatus.get(url) === 'loaded' || preloadStatus.get(url) === 'error') {
-                done++;
-                onProgress && onProgress(Math.round((done/total)*100));
-                if (done === total) resolve();
-                return;
+            if(preloadStatus.get(url)==='loaded'||preloadStatus.get(url)==='error'){
+                done++; onProgress && onProgress(Math.round((done/total)*100));
+                if(done===total) resolve(); return;
             }
             const img = new Image();
             const finish = () => {
-                preloadStatus.set(url, 'loaded');
-                done++;
-                onProgress && onProgress(Math.round((done/total)*100));
-                if (done === total) resolve();
+                preloadStatus.set(url,'loaded');
+                done++; onProgress && onProgress(Math.round((done/total)*100));
+                if(done===total) resolve();
             };
             img.onload = finish;
-            img.onerror = () => { preloadStatus.set(url, 'error'); finish(); };
+            img.onerror = () => { preloadStatus.set(url,'error'); finish(); };
             img.src = url;
         });
     });
 }
 
-/* ============================================
-   ⏳ LOADER
-   ============================================ */
-function showLoader(mode) {
+/* ================== LOADER ================== */
+function showLoader(mode){
     const loader = document.getElementById('menu-loader');
     const icon = document.getElementById('loader-icon');
     const title = document.getElementById('loader-title');
     const sub = document.getElementById('loader-sub');
     const bar = document.getElementById('loader-bar');
     const percent = document.getElementById('loader-percent');
-
-    if (mode === 'cafe') {
+    if(mode==='cafe'){
         icon.className = 'fas fa-coffee loader-icon';
         title.textContent = 'جاري تحضير الكافيه...';
         sub.textContent = '☕ نجهز لك المشروبات والحلويات';
-    } else {
+    }else{
         icon.className = 'fas fa-utensils loader-icon';
         title.textContent = 'جاري تحضير المطعم...';
         sub.textContent = '🔥 نجهز لك المشويات والصواني';
@@ -1834,126 +761,106 @@ function showLoader(mode) {
     percent.textContent = '0%';
     loader.classList.add('active');
 }
-
-function updateLoaderProgress(p) {
+function updateLoaderProgress(p){
     const bar = document.getElementById('loader-bar');
     const percent = document.getElementById('loader-percent');
-    if (bar) bar.style.width = p + '%';
-    if (percent) percent.textContent = p + '%';
+    if(bar) bar.style.width = p+'%';
+    if(percent) percent.textContent = p+'%';
 }
+function hideLoader(){ document.getElementById('menu-loader').classList.remove('active'); }
 
-function hideLoader() {
-    document.getElementById('menu-loader').classList.remove('active');
-}
-
-/* ============================================
-   🚀 ENTER MENU
-   ============================================ */
-async function enterMenu(mode) {
+/* ================== NAV ================== */
+async function enterMenu(mode){
     playSound('click');
-    const data = mode === 'cafe' ? cafeData : restaurantData;
-    const urls = data.map(c => c.img).filter(Boolean);
-    const notReady = urls.filter(u => preloadStatus.get(u) !== 'loaded' && preloadStatus.get(u) !== 'error');
-
-    if (notReady.length === 0) {
-        history.pushState({page: 'menu', mode: mode}, '', '#' + mode);
-        showMenuApp(mode, true);
-    } else {
+    const data = mode==='cafe' ? cafeData : restaurantData;
+    const urls = data.map(c=>c.img).filter(Boolean);
+    const notReady = urls.filter(u => preloadStatus.get(u)!=='loaded' && preloadStatus.get(u)!=='error');
+    if(notReady.length===0){
+        history.pushState({page:'menu',mode:mode},'','#'+mode);
+        showMenuApp(mode,true);
+    }else{
         showLoader(mode);
         await waitForImages(urls, updateLoaderProgress);
-        setTimeout(() => {
+        setTimeout(()=>{
             hideLoader();
-            history.pushState({page: 'menu', mode: mode}, '', '#' + mode);
-            showMenuApp(mode, true);
-        }, 300);
+            history.pushState({page:'menu',mode:mode},'','#'+mode);
+            showMenuApp(mode,true);
+        },300);
     }
 }
-
-async function switchMenu(mode) {
-    if(currentMode === mode) return;
+async function switchMenu(mode){
+    if(currentMode===mode) return;
     playSound('click');
-    const data = mode === 'cafe' ? cafeData : restaurantData;
-    const urls = data.map(c => c.img).filter(Boolean);
-    const notReady = urls.filter(u => preloadStatus.get(u) !== 'loaded' && preloadStatus.get(u) !== 'error');
-
-    if (notReady.length === 0) {
-        history.pushState({page: 'menu', mode: mode}, '', '#' + mode);
-        showMenuApp(mode, false);
-    } else {
+    const data = mode==='cafe' ? cafeData : restaurantData;
+    const urls = data.map(c=>c.img).filter(Boolean);
+    const notReady = urls.filter(u => preloadStatus.get(u)!=='loaded' && preloadStatus.get(u)!=='error');
+    if(notReady.length===0){
+        history.pushState({page:'menu',mode:mode},'','#'+mode);
+        showMenuApp(mode,false);
+    }else{
         showLoader(mode);
         await waitForImages(urls, updateLoaderProgress);
-        setTimeout(() => {
+        setTimeout(()=>{
             hideLoader();
-            history.pushState({page: 'menu', mode: mode}, '', '#' + mode);
-            showMenuApp(mode, false);
-        }, 300);
+            history.pushState({page:'menu',mode:mode},'','#'+mode);
+            showMenuApp(mode,false);
+        },300);
     }
 }
-
-function goHome() {
+function goHome(){
     playSound('click');
-    history.pushState({page: 'splash'}, '', location.pathname);
+    history.pushState({page:'splash'},'',location.pathname);
     showSplash();
 }
-
-window.addEventListener('popstate', (e) => {
-    if (e.state && e.state.page === 'menu') {
-        showMenuApp(e.state.mode, false);
-    } else {
+window.addEventListener('popstate', e => {
+    if(e.state && e.state.page==='menu'){
+        showMenuApp(e.state.mode,false);
+    }else{
         showSplash();
     }
 });
-
-function showMenuApp(mode, fromSplash) {
+function showMenuApp(mode, fromSplash){
     currentMode = mode;
     document.body.dataset.mode = mode;
     document.body.classList.add('in-menu');
-
-    if (fromSplash) {
+    if(fromSplash){
         document.getElementById('splash-screen').style.display = 'none';
         const appContent = document.getElementById('main-app-content');
         appContent.classList.remove('hidden');
         appContent.style.opacity = 0;
-        setTimeout(() => { appContent.style.transition = 'opacity 0.35s ease'; appContent.style.opacity = 1; }, 30);
+        setTimeout(()=>{ appContent.style.transition='opacity 0.3s ease'; appContent.style.opacity=1; },30);
         document.body.classList.remove('no-scroll');
         updateMenuUI();
-    } else {
+    }else{
         const container = document.getElementById('menu-container');
         container.style.opacity = 0;
-        container.style.transform = 'translateY(12px)';
-        setTimeout(() => {
-            updateMenuUI();
-            container.style.opacity = 1;
-            container.style.transform = 'translateY(0)';
-        }, 200);
+        setTimeout(()=>{ updateMenuUI(); container.style.transition='opacity .3s'; container.style.opacity=1; },180);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function showSplash() {
+function showSplash(){
     document.getElementById('splash-screen').style.display = 'flex';
     document.getElementById('main-app-content').classList.add('hidden');
     document.body.classList.remove('in-menu');
     document.body.classList.remove('no-scroll');
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    window.scrollTo({top:0,behavior:'auto'});
 }
 
-function updateContactLinks(mode) {
-    const linkPhone = mode === 'cafe' ? CAFE_PHONE_LINK : REST_PHONE_LINK;
+function updateContactLinks(mode){
+    const linkPhone = mode==='cafe' ? CAFE_PHONE_LINK : REST_PHONE_LINK;
     document.getElementById('fab-phone').href = `tel:${linkPhone}`;
     document.getElementById('fab-wa').href = `https://wa.me/${linkPhone}`;
 }
-
-function checkOpenStatus() {
+function checkOpenStatus(){
     const hours = new Date().getHours();
-    let isOpen = currentMode === 'cafe' ? (hours >= 9 || hours < 2) : (hours >= 14 || hours < 1);
+    let isOpen = currentMode==='cafe' ? (hours>=9 || hours<2) : (hours>=14 || hours<1);
     const dot = document.getElementById('status-dot');
     const text = document.getElementById('status-text');
-    if (isOpen) {
+    if(isOpen){
         dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400';
         text.className = 'font-bold text-sm font-cairo text-emerald-400';
         text.innerText = 'مفتوح الآن';
-    } else {
+    }else{
         dot.className = 'w-2.5 h-2.5 rounded-full bg-red-800/50';
         text.className = 'font-bold text-sm font-cairo text-red-700';
         text.innerText = 'مغلق الآن';
@@ -1961,25 +868,23 @@ function checkOpenStatus() {
 }
 setInterval(checkOpenStatus, 60000);
 
-function updateMenuUI() {
+function updateMenuUI(){
     const mode = currentMode;
     const tabCafe = document.getElementById('tab-cafe');
     const tabRest = document.getElementById('tab-restaurant');
     const title = document.getElementById('header-title');
     const searchBox = document.getElementById('search-box');
-
-    if (mode === 'cafe') {
+    if(mode==='cafe'){
         tabCafe.className = 'flex-1 btn-gold interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer font-cairo';
         tabRest.className = 'flex-1 text-gray-400 interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 hover:text-white cursor-pointer bg-transparent font-cairo transition-colors';
         title.innerHTML = '<span class="text-white">كافيه</span><br><span class="text-gold-gradient">الكورنيش</span>';
         searchBox.className = 'relative flex items-center bg-[#110b08]/90 border border-yellow-700/30 rounded-2xl p-1 shadow-lg focus-within:border-yellow-400 transition-colors';
-    } else {
+    }else{
         tabRest.className = 'flex-1 btn-brown-red interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer font-cairo';
         tabCafe.className = 'flex-1 text-gray-400 interactive-btn py-3 px-2 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 hover:text-white cursor-pointer bg-transparent font-cairo transition-colors';
         title.innerHTML = '<span class="text-white">مطعم</span><br><span class="text-blood-gradient">الكورنيش</span>';
         searchBox.className = 'relative flex items-center bg-[#110b08]/90 border border-red-800/40 rounded-2xl p-1 shadow-lg focus-within:border-red-500 transition-colors';
     }
-
     updateContactLinks(mode);
     checkOpenStatus();
     document.getElementById('search-input').value = '';
@@ -1988,126 +893,118 @@ function updateMenuUI() {
     renderMenu();
 }
 
-function openCard(cardId) {
+function openCard(cardId){
     const card = document.getElementById(cardId);
-    if (!card || card.classList.contains('open')) return;
+    if(!card || card.classList.contains('open')) return;
     document.querySelectorAll('.led-border-wrapper.open').forEach(c => {
-        if (c.id !== cardId) closeCard(c.id, true);
+        if(c.id!==cardId) closeCard(c.id, true);
     });
     card.classList.add('open');
     const span = card.querySelector('.card-open-btn span');
-    if (span) span.textContent = 'إخفاء';
+    if(span) span.textContent = 'إخفاء';
     const hint = card.querySelector('.card-tap-hint');
-    if (hint) hint.style.opacity = '0';
+    if(hint) hint.style.opacity = '0';
 }
-function closeCard(cardId, silent = false) {
+function closeCard(cardId, silent=false){
     const card = document.getElementById(cardId);
-    if (!card) return;
+    if(!card) return;
     card.classList.remove('open');
     const span = card.querySelector('.card-open-btn span');
-    if (span) span.textContent = 'عرض';
+    if(span) span.textContent = 'عرض';
     const hint = card.querySelector('.card-tap-hint');
-    if (hint) hint.style.opacity = '1';
-    if (!silent) playSound('click');
+    if(hint) hint.style.opacity = '1';
+    if(!silent) playSound('click');
 }
-function toggleCategory(cardId, forceOpen = false) {
+function toggleCategory(cardId, forceOpen=false){
     const card = document.getElementById(cardId);
-    if (!card) return;
+    if(!card) return;
     const isOpen = card.classList.contains('open');
-    if (!isOpen || forceOpen) {
+    if(!isOpen || forceOpen){
         playSound('open');
         openCard(cardId);
-        setTimeout(() => {
+        setTimeout(()=>{
             const stickyNavHeight = document.getElementById('sticky-nav').offsetHeight;
             const offsetPosition = card.getBoundingClientRect().top + window.pageYOffset - stickyNavHeight - 15;
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-        }, 350);
-    } else {
+            window.scrollTo({top:offsetPosition,behavior:'smooth'});
+        },350);
+    }else{
         closeCard(cardId);
     }
 }
 
-function setupMenuDelegation() {
+function setupMenuDelegation(){
     const container = document.getElementById('menu-container');
-    if (!container || container.dataset.delegation === '1') return;
+    if(!container || container.dataset.delegation==='1') return;
     container.dataset.delegation = '1';
-    container.addEventListener('click', (e) => {
+    container.addEventListener('click', e => {
         const wrapper = e.target.closest('.led-border-wrapper');
-        if (!wrapper) return;
-        if (e.target.closest('.menu-item')) { playSound('click'); return; }
-        if (e.target.closest('.premium-close-btn')) { e.preventDefault(); e.stopPropagation(); closeCard(wrapper.id); return; }
-        if (e.target.closest('.card-open-btn')) { e.preventDefault(); e.stopPropagation(); toggleCategory(wrapper.id); return; }
-        if (e.target.closest('.card-header-img') || e.target.closest('.card-info-bar')) { e.preventDefault(); e.stopPropagation(); toggleCategory(wrapper.id); return; }
+        if(!wrapper) return;
+        if(e.target.closest('.menu-item')){ playSound('click'); return; }
+        if(e.target.closest('.premium-close-btn')){ e.preventDefault(); e.stopPropagation(); closeCard(wrapper.id); return; }
+        if(e.target.closest('.card-open-btn')){ e.preventDefault(); e.stopPropagation(); toggleCategory(wrapper.id); return; }
+        if(e.target.closest('.card-header-img') || e.target.closest('.card-info-bar')){ e.preventDefault(); e.stopPropagation(); toggleCategory(wrapper.id); return; }
     }, true);
 }
 
 let cardRevealObserver = null;
-function setupCardRevealObserver() {
-    if (cardRevealObserver) cardRevealObserver.disconnect();
-    cardRevealObserver = new IntersectionObserver((entries) => {
+function setupCardRevealObserver(){
+    if(cardRevealObserver) cardRevealObserver.disconnect();
+    cardRevealObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if(entry.isIntersecting){
                 entry.target.classList.add('revealed');
                 cardRevealObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
     document.querySelectorAll('.reveal-card').forEach(el => cardRevealObserver.observe(el));
 }
 
-function renderChips() {
-    const data = currentMode === 'cafe' ? cafeData : restaurantData;
+function renderChips(){
+    const data = currentMode==='cafe' ? cafeData : restaurantData;
     const container = document.getElementById('category-chips');
     container.innerHTML = '';
-    const isRest = currentMode === 'restaurant';
+    const isRest = currentMode==='restaurant';
     const frag = document.createDocumentFragment();
     data.forEach(cat => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `interactive-btn flex-none px-4 py-2 rounded-full bg-[#1a0f0a]/90 border ${isRest ? 'border-red-900/40' : 'border-yellow-900/40'} text-gray-300 hover:text-white text-[13px] font-bold whitespace-nowrap cursor-pointer transition-all font-tajawal`;
-        btn.innerHTML = `<i class="fas ${cat.icon} ${isRest ? 'text-red-500' : 'text-yellow-500'} ml-1.5"></i> ${cat.title}`;
+        btn.className = `interactive-btn flex-none px-4 py-2 rounded-full bg-[#1a0f0a]/90 border ${isRest?'border-red-900/40':'border-yellow-900/40'} text-gray-300 hover:text-white text-[13px] font-bold whitespace-nowrap cursor-pointer transition-all font-tajawal`;
+        btn.innerHTML = `<i class="fas ${cat.icon} ${isRest?'text-red-500':'text-yellow-500'} ml-1.5"></i> ${cat.title}`;
         btn.onclick = () => toggleCategory(`cat-${cat.id}`, true);
         frag.appendChild(btn);
     });
     container.appendChild(frag);
 }
 
-const REVEAL_STYLES = [
-    'reveal-from-right', 'reveal-from-left', 'reveal-zoom-spin', 'reveal-from-bottom',
-    'reveal-diagonal', 'reveal-fold-down', 'reveal-bounce-in', 'reveal-spin-in'
-];
-
-function renderMenu(filter = '') {
-    const data = currentMode === 'cafe' ? cafeData : restaurantData;
+function renderMenu(filter=''){
+    const data = currentMode==='cafe' ? cafeData : restaurantData;
     const container = document.getElementById('menu-container');
     const noResults = document.getElementById('no-results');
     container.innerHTML = '';
     let matches = 0;
-    const isRest = currentMode === 'restaurant';
+    const isRest = currentMode==='restaurant';
     const themeClass = isRest ? 'theme-rest' : 'theme-cafe';
     const frag = document.createDocumentFragment();
 
     data.forEach((cat, index) => {
-        const filteredItems = cat.items.filter(item => {
-            return (item[0] + ' ' + (item[1] || '') + ' ' + cat.title).toLowerCase().includes(filter.toLowerCase());
-        });
-        if (filter && filteredItems.length === 0) return;
+        const filteredItems = cat.items.filter(item => (item[0] + ' ' + (item[1]||'') + ' ' + cat.title).toLowerCase().includes(filter.toLowerCase()));
+        if(filter && filteredItems.length===0) return;
         matches++;
-        const isOpenClass = filter !== '' ? 'open' : '';
+        const isOpenClass = filter!=='' ? 'open' : '';
         const cardId = `cat-${cat.id}`;
-        const revealStyle = REVEAL_STYLES[index % REVEAL_STYLES.length];
 
         const card = document.createElement('div');
         card.id = cardId;
-        card.className = `led-border-wrapper ${themeClass} ${isOpenClass} reveal-card ${revealStyle}`;
-        card.style.transitionDelay = ((index % 3) * 0.06) + 's';
+        card.className = `led-border-wrapper ${themeClass} ${isOpenClass} reveal-card`;
+        card.style.transitionDelay = ((index%3)*0.05)+'s';
 
         card.innerHTML = `
             <div class="card-inner-box">
                 <div class="card-header-img">
                     <img src="${cat.img}" alt="${cat.title}" class="card-header-img-real" loading="eager" decoding="async" fetchpriority="high" onerror="this.style.display='none'">
                     <div class="card-icon-badge"><i class="fas ${cat.icon}"></i></div>
-                    <div class="card-tap-hint" style="${isOpenClass ? 'opacity:0' : ''}">
+                    <div class="card-tap-hint" style="${isOpenClass?'opacity:0':''}">
                         <i class="fas fa-hand-pointer"></i> اضغط للعرض
                     </div>
                 </div>
@@ -2117,14 +1014,14 @@ function renderMenu(filter = '') {
                         <div class="card-count"><i class="fas fa-utensils"></i> ${filteredItems.length} صنف</div>
                     </div>
                     <button type="button" class="card-open-btn">
-                        <span>${isOpenClass ? 'إخفاء' : 'عرض'}</span>
+                        <span>${isOpenClass?'إخفاء':'عرض'}</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                 </div>
                 <div class="category-items-wrapper">
                     <div class="category-items-inner">
                         ${cat.note ? `<div class="card-note"><i class="fas fa-info-circle"></i><span>${cat.note}</span></div>` : ''}
-                        <div class="px-4 pt-1 space-y-0">
+                        <div class="px-4 pt-1">
                             ${filteredItems.map(item => {
                                 const name = item[0];
                                 const val = item[1];
@@ -2137,7 +1034,7 @@ function renderMenu(filter = '') {
                                                 ${val.split('|').map(p => {
                                                     const parts = p.split(':');
                                                     const num = parseInt(parts[1]);
-                                                    const price = isNaN(num) ? parts[1].trim() : num + ' ج';
+                                                    const price = isNaN(num) ? parts[1].trim() : num+' ج';
                                                     return `<div class="multi-price-tag">${parts[0]?.trim()}: <span>${price}</span></div>`;
                                                 }).join('')}
                                             </div>
@@ -2154,46 +1051,67 @@ function renderMenu(filter = '') {
         frag.appendChild(card);
     });
     container.appendChild(frag);
-    noResults.classList.toggle('hidden', matches > 0);
+    noResults.classList.toggle('hidden', matches>0);
     setupMenuDelegation();
     requestAnimationFrame(() => setupCardRevealObserver());
 }
 
-function handleSearch() {
+function handleSearch(){
     playSound('click');
     const val = document.getElementById('search-input').value.trim();
     document.getElementById('search-clear').classList.toggle('hidden', !val);
     renderMenu(val);
 }
-function clearSearch() {
+function clearSearch(){
     playSound('click');
     document.getElementById('search-input').value = '';
     document.getElementById('search-clear').classList.add('hidden');
     renderMenu();
 }
-function openOffersModal() { playSound('open'); document.getElementById('offers-modal').classList.add('active'); document.body.classList.add('no-scroll'); }
-function closeOffersModal(e) { if(e && e.target !== document.getElementById('offers-modal') && !e.target.closest('.fa-times')) return; playSound('click'); document.getElementById('offers-modal').classList.remove('active'); document.body.classList.remove('no-scroll'); }
-function orderOfferWhatsApp(title, price) {
+
+/* ============ OFFERS MODALS ============ */
+function openOctoberModal(){
+    playSound('open');
+    document.getElementById('october-modal').classList.add('active');
+    document.body.classList.add('no-scroll');
+}
+function closeOctoberModal(e){
+    if(e && e.target !== document.getElementById('october-modal') && !e.target.closest('.fa-times')) return;
     playSound('click');
-    const text = encodeURIComponent(`السلام عليكم، أرغب في طلب ${title} بسعر ${price} جنيه من عروض الافتتاح لمطعم وكافيه الكورنيش.`);
+    document.getElementById('october-modal').classList.remove('active');
+    document.body.classList.remove('no-scroll');
+}
+function openMainOffersModal(){
+    playSound('open');
+    document.getElementById('main-offers-modal').classList.add('active');
+    document.body.classList.add('no-scroll');
+}
+function closeMainOffersModal(e){
+    if(e && e.target !== document.getElementById('main-offers-modal') && !e.target.closest('.fa-times')) return;
+    playSound('click');
+    document.getElementById('main-offers-modal').classList.remove('active');
+    document.body.classList.remove('no-scroll');
+}
+function orderOfferWhatsApp(title, price){
+    playSound('click');
+    const text = encodeURIComponent(`السلام عليكم، أرغب في طلب ${title} بسعر ${price} جنيه من مطعم وكافيه الكورنيش.`);
     window.open(`https://wa.me/${REST_PHONE_LINK}?text=${text}`, '_blank');
 }
 
 window.addEventListener('scroll', () => {
     const btn = document.getElementById('scrollToTopBtn');
-    if (window.scrollY > 400) { btn.classList.remove('hidden-btn'); btn.classList.add('visible'); }
-    else { btn.classList.add('hidden-btn'); btn.classList.remove('visible'); }
-}, { passive: true });
-function scrollToTop() { playSound('click'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    if(window.scrollY > 400){ btn.classList.remove('hidden-btn'); btn.classList.add('visible'); }
+    else{ btn.classList.add('hidden-btn'); btn.classList.remove('visible'); }
+}, {passive:true});
+function scrollToTop(){ playSound('click'); window.scrollTo({top:0,behavior:'smooth'}); }
 
 window.onload = () => {
-    spawnGoldParticles();
     document.body.classList.remove('in-menu');
     const hash = location.hash.replace('#','');
-    if (hash === 'cafe' || hash === 'restaurant') {
+    if(hash==='cafe' || hash==='restaurant'){
         enterMenu(hash);
-    } else {
-        history.replaceState({page:'splash'}, '', location.pathname);
+    }else{
+        history.replaceState({page:'splash'},'',location.pathname);
     }
     checkOpenStatus();
 };
